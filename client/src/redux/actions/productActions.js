@@ -8,6 +8,9 @@ import {
     LOADING_UI,
     STOP_LOADING_UI,
     SET_ERRORS,
+    ADD_REVIEW,
+    EDIT_REVIEW,
+    DELETE_REVIEW
 
   } from '../types';
   import axios from 'axios';
@@ -47,11 +50,11 @@ import {
   export const addProduct = (newProduct) => (dispatch) => {
     dispatch({ type: LOADING_UI });
     axios
-      .post('/admin/addproducts', newProduct)
+      .post('admin/addproducts', newProduct)
       .then((res) => {
         dispatch({
           type: POST_PRODUCT,
-          payload: res.data
+          // payload: res.data
         });
         // dispatch(clearErrors());
       })
@@ -60,6 +63,20 @@ import {
           type: SET_ERRORS,
           payload: err.response.data
         });
+      });
+  };
+
+  export const addReview = ({prodId, text, rating}) => (dispatch) => {
+    axios
+      .post('shop/addReview', {prodId, text, rating})
+      .then((res) => {
+        dispatch({
+          type: ADD_REVIEW,
+          payload:res.data
+        });
+      })
+      .catch((err) => {
+        console.log(err)
       });
   };
   

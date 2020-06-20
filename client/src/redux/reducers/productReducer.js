@@ -5,6 +5,9 @@ import {
     DELETE_PRODUCT,
     POST_PRODUCT,
     SET_PRODUCT,
+    ADD_REVIEW,
+    EDIT_REVIEW,
+    DELETE_REVIEW
 
   } from '../types';
 
@@ -37,7 +40,14 @@ const initialState = {
       case SET_PRODUCT:
         return {
           ...state,
-          product: action.payload
+          product: action.payload,
+          loading: false
+        };
+
+      case ADD_REVIEW:
+        return {
+          ...state,
+          product: {...state.product, reviews:[action.payload,...state.product.reviews]}
         };
       // case DELETE_PRODUCT:
       //   index = state.products.findIndex(
@@ -47,11 +57,11 @@ const initialState = {
       //   return {
       //     ...state
       //   };
-      case POST_PRODUCT:
-        return {
-          ...state,
-          products: [action.payload, ...state.products]
-        };
+      // case POST_PRODUCT:
+      //   return {
+      //     ...state,
+      //     products: [action.payload, ...state.products]
+      //   };
 
       default:
         return state;

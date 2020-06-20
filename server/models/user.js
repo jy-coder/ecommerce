@@ -12,22 +12,23 @@ const User = sequelize.define('user', {
   },
   name: Sequelize.STRING,
   email: Sequelize.STRING,
-  // password: Sequelize.STRING,
+  password: Sequelize.STRING
   
 }, 
-// {
-//   hooks: {
-//     beforeCreate: async () => {
-//       user.password = await bcrypt.hash(this.password, 12);
-//     }
-//   },
-//   instanceMethods: {
-//     validPassword: async function(candidatePassword,userPassword) {
-//       return await bcrypt.compare(candidatePassword, userPassword);
-//     }
-//   }    
-// }
+{
+  hooks: {
+    beforeCreate: async (user) => {
+       user.password = await bcrypt.hash(user.password, 12);
+    }
+  }  
+}
 );
+
+
+
+User.prototype.correctPassword = async function(candidatePassword,userPassword) {
+  return await bcrypt.compare(candidatePassword, userPassword);
+};
 
 
 

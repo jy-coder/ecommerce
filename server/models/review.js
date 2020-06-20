@@ -11,6 +11,15 @@ const Review = sequelize.define('review', {
     // omitNull:true
   },
   text: Sequelize.STRING,
+  rating: {
+    type:Sequelize.INTEGER,
+    allowNull: false,
+    validate:{
+      min: 0,
+      max:5
+    }
+
+  }
 
 },
 {

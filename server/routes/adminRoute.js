@@ -1,6 +1,6 @@
 const express = require('express');
 const adminController = require('../controllers/adminController')
-// const authController = require('../controllers/authController')
+const authController = require('../controllers/authController')
 
 const router = express.Router();
 
@@ -11,8 +11,8 @@ const router = express.Router();
 
 
 //below route should be protected
-
-router.post('/addproducts', adminController.addProduct );
+router.use(authController.protect)
+router.post('/addproducts', adminController.uploadPostPhoto, adminController.resizePostPhoto, adminController.addProduct );
 router.delete('/deleteproduct', adminController.deleteProduct );
 router.get('/edit/:id', adminController.getEditProduct );
 router.get('/edit', adminController.getAdminProducts);

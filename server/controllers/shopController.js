@@ -7,9 +7,25 @@ const Op = Sequelize.Op
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/AppError')
 
+
 exports.getProducts = catchAsync (async (req, res, next) => {
     products  = await Product.findAll({
-        include: [ { all: true } ]
+
+        attributes: { 
+            include: [[Sequelize.fn("AVG", Sequelize.col("rating")), "ratingAvg"],
+            [Sequelize.fn("COUNT", Sequelize.col("reviews.id")), "reviewCount"]
+        ] ,
+          
+            group: ['reviews.id']
+        },
+        include: [
+        { model:User },    
+        {
+            model: Review, attributes: [],
+        }],
+        group: ['product.id','user.id']
+        
+        // include: [ { all: true } ]
         // include: [ {
         //     model: Review,
         //     include: {
@@ -27,7 +43,27 @@ exports.getProducts = catchAsync (async (req, res, next) => {
 
 exports.getProduct = catchAsync (async (req, res, next)  => {
     //   console.log(req.params.id)
-    product  = await Product.findOne({where: {id: req.params.id}})
+    product  = await Product.findOne({
+        where: {id: req.params.id},
+        attributes: { 
+            include: [[Sequelize.fn("AVG", Sequelize.col("rating")), "ratingAvg"],
+            [Sequelize.fn("COUNT", Sequelize.col("reviews.id")), "reviewCount"]], 
+            
+        },
+        include: [{
+            model: Review,
+            include:[{
+                model:User,
+                attributes:['name']
+            }]
+        }],
+            group: ['product.id','reviews.id','reviews.user.id'],
+            order:[[Review,'updatedAt','desc']]
+          
+        
+       
+        })
+    
 
     if(!product)
         return next(new AppError('No product found', 404));
@@ -35,6 +71,8 @@ exports.getProduct = catchAsync (async (req, res, next)  => {
     return res.status(200).json(product)
      
   })
+
+
 
 
 exports.getCart =catchAsync( async (req, res, next) => {
@@ -115,18 +153,18 @@ exports.addOrder =catchAsync( async (req, res, next) => {
     const cart = await req.user.getCart()
  
 
-    const cartItemsNotSelected = await cart.getProducts({ where: { id:  {[Op.notIn] : req.body.prodIdList} }});
+    // const cartItemsNotSelected = await cart.getProducts({ where: { id:  {[Op.notIn] : req.body.prodIdList} }});
     
-    const itemToBeAddedToOrder = req.body.orders
-    await cart.setProducts([])
+    // const itemToBeAddedToOrder = req.body.orders
+    // await cart.setProducts([])
 
-   await Promise.all(itemToBeAddedToOrder.map(async(item) => {
-        const newProduct = await Product.findByPk(item.productId)
-        await cart.addProduct(newProduct,{
-            through:{quantity: item.quantity}
+//    await Promise.all(itemToBeAddedToOrder.map(async(item) => {
+//         const newProduct = await Product.findByPk(item.productId)
+//         await cart.addProduct(newProduct,{
+//             through:{quantity: item.quantity}
            
-        })
-    }));
+//         })
+//     }));
 
 
         const products = await cart.getProducts() 
@@ -140,7 +178,11 @@ exports.addOrder =catchAsync( async (req, res, next) => {
 
 
   
-      await cart.setProducts(cartItemsNotSelected,{through:{quantity:1}})
+    //   await cart.setProducts(cartItemsNotSelected,{through:{quantity:1}})
+
+
+
+      await cart.setProducts([])
   
 
 
@@ -177,11 +219,12 @@ if(reviewExist.length !== 0)
 
 
 
-const review = await req.user.createReview({text:req.body.text, productId:req.body.prodId})
-   
-  
+const reviewAdded = await req.user.createReview({text:req.body.text, productId:req.body.prodId, rating:req.body.rating})
 
-res.status(200).json({review})
+   
+const review = await Review.findOne({where: {id:reviewAdded.id}, include:[{model:User, attributes:['name']}]})
+
+res.status(200).json(review)
 });
 
 

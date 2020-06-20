@@ -14,6 +14,10 @@ const router = express.Router();
 
 router.get('/', shopController.getProducts);
 router.get('/product/:id',shopController.getProduct);
+
+
+
+router.use(authController.protect)
 router.get('/cart',shopController.getCart);
 router.post('/addcart',shopController.addToCart);
 router.delete('/deleteCartItem/:prodId',shopController.deleteFromCart);

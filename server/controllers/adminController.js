@@ -1,15 +1,51 @@
 const Product = require('../models/product')
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/AppError')
+const multer = require('multer');
+const sharp = require('sharp');
+const path = require('path');
+
+
+const multerStorage = multer.memoryStorage();
+
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image')) {
+    cb(null, true);
+  } else {
+    cb(new AppError('Not an image! Please upload only images.', 400), false);
+  }
+};
+
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter
+});
+
+exports.uploadPostPhoto = upload.single('imageUrl');
+
+exports.resizePostPhoto = catchAsync(async (req, res, next) => {
+  if (!req.file) return next();
+
+  req.file.filename = `product-${req.user.id}-${Date.now()}.jpeg`;
+  filePath = path.join(__basedir ,`../client/public/${req.file.filename}`)
+  await sharp(req.file.buffer)
+    .resize(200 ,200)
+    .toFormat('jpeg')
+    .jpeg({ quality: 90 })
+    .toFile(filePath);
+
+  next();
+});
 
 
 
 
 exports.addProduct = catchAsync (async (req, res, next)  => {
-    const title = req.body.title;
-    const imageUrl = req.body.imageUrl;
-    const price = req.body.price;
-    const description = req.body.description;
+if(req.file)
+    req.body.imageUrl= req.file.filename
+
+    const {title,imageUrl,price,description} = req.body;
+
 
     const product =await req.user.createProduct({
         title: title,

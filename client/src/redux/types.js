@@ -33,3 +33,8 @@ export const STOP_LOADING_UI = 'STOP_LOADING_UI';
 export const ADD_ITEM_ORDER = 'ADD_ITEM_ORDER';
 export const REMOVE_ITEM_ORDER = 'REMOVE_ITEM_ORDER';
 export const CONFIRM_ORDER = 'CONFIRM_ORDER';
+
+
+export const ADD_REVIEW = 'ADD_REVIEW'
+export const EDIT_REVIEW = 'EDIT_REVIEW'
+export const DELETE_REVIEW = 'DELETE_REVIEW'

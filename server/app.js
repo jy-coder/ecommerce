@@ -7,6 +7,7 @@ const dotenv = require('dotenv');
 const sequelize = require('./utils/database');
 const adminRoute = require('./routes/adminRoute')
 const shopRoute = require('./routes/shopRoute')
+const userRoute = require('./routes/userRoute')
 const Product = require('./models/product');
 const User = require('./models/user');
 const globalErrorHandler = require('./controllers/errorController')
@@ -15,7 +16,7 @@ const CartItem = require('./models/cart-item');
 const Order = require('./models/order');
 const OrderItem = require('./models/order-item');
 const Review = require('./models/review');
-
+global.__basedir = __dirname;
 
 dotenv.config({ path: './config.env' });
 
@@ -40,18 +41,10 @@ app.use(express.json())
 
 const port = process.env.PORT || 1337;
 
-//dummy user
-app.use((req, res, next) => {
-  User.findByPk(1)
-    .then(user => {
-      req.user = user;
-      next();
-    })
-    .catch(err => console.log(err));
-});
 
 app.use('/api/shop', shopRoute)
 app.use('/api/admin', adminRoute)
+app.use('/api/user', userRoute)
 
 
 
@@ -87,23 +80,6 @@ Review.belongsTo(User);
 sequelize
   // .sync({ force: true })
   .sync()
-  .then(result => {
-    return User.findByPk(1);
-    // console.log(result);
-  })
-  .then(user => {
-    if (!user) {
-      return User.create({ name: 'Max', email: 'test@test.com' });
-    }
-    return user;
-  }).then(async user => {
-    c = await user.getCart()
-    if(!c){
-      return user.createCart();
-    }
-    return user.getCart()
-
-  })
   .then(user => {
     // console.log(user);
     app.listen(port);

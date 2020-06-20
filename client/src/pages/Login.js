@@ -1,9 +1,12 @@
 import React, {useState} from 'react';
+import {  loginUser,signupUser } from './../redux/actions/userActions';
 import {Button, Box, Input} from '@material-ui/core';
+import { connect } from 'react-redux';
 
 
-export const Login = () =>{
+const Login = ({loginUser, errorData}) =>{
     const [state, setState]= useState({email:'',password:''})
+    const {error} = errorData
 
   
     const inputChangeHandler  = e  => {
@@ -16,8 +19,8 @@ export const Login = () =>{
   
   
     const submitHandler = (e) =>{
-      console.log(state)
       e.preventDefault();
+      loginUser(state)
 
 
     
@@ -26,9 +29,10 @@ export const Login = () =>{
     return (
     <section className="auth-form">
     <form onSubmit ={(e) => submitHandler(e)}>
+      {error.message ? error.message : null}
     <Box flexDirection="column" height="100%" width="50%" p={1} id="formInput" >
     <Box height="25%">
-      <Input type="email" style = {{fontSize: 20}}  id="email" placeholder="Enter email" h={300} onChange={inputChangeHandler} />
+      <Input type="email" style = {{fontSize: 20}}  id="email" placeholder="Enter email"  onChange={inputChangeHandler} />
     </Box>
 
   <Box height="25%">
@@ -43,4 +47,10 @@ export const Login = () =>{
       
     );
   }
+  const mapStateToProps = (state) => ({
+    data: state.data,
+    errorData: state.error
+  });
 
+
+export default connect(mapStateToProps, {signupUser,loginUser})(Login);
