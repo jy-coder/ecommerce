@@ -13,26 +13,23 @@ const OrderCard = ({item}) => {
 
 
     return (
-        
   
         <Grid container spacing={2}>
           <Grid item>
             <ButtonBase >
-              <img alt="complex" src="/static/images/grid/complex.jpg" />
+              <img alt="complex" src={`/${item.imageUrl}`} style={{height:'50px', width:'50px'}}/>
             </ButtonBase>
           </Grid>
           <Grid item xs={12} sm container>
             <Grid item xs container direction="column" spacing={0}>
-              <Grid item xs>
-              <Typography gutterBottom variant="subtitle1">
-              {item.title}
+              <Grid item xs style={{}}>
+                <Typography variant="subtitle1" >
+                {item.title}
                 </Typography>
-                <Typography gutterBottom variant="subtitle1">
-                 Qty: {item.quantity}
-                </Typography>
-                <Typography gutterBottom variant="subtitle1">
-                ${item.price * item.quantity}
-                </Typography>
+                  <Typography variant="caption">
+                  Qty:{item.quantity} &nbsp; &nbsp; Price:${item.price * item.quantity}
+                  </Typography>
+         
               </Grid>
 
             </Grid>

@@ -24,10 +24,6 @@ const AddProd = ({addProduct}) =>{
 
       addProduct(form)
       
-     
- 
-  
-      
     }
   
   

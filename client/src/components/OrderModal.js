@@ -1,5 +1,5 @@
 import React,{useEffect} from 'react'
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText,DialogTitle} from '@material-ui/core';
+import {Button, Dialog, DialogActions, DialogContent, DialogContentText,DialogTitle,Box,Grid} from '@material-ui/core';
 import { connect } from 'react-redux';
 import { Spin } from './Spin';
 import OrderCard from './OrderCard'
@@ -25,23 +25,34 @@ const OrderModal = ({orderData, confirmOrder}) => {
 
 
   const getProdIdList = (orders, list) =>{
+    
     orders.map(order => list.push(order.productId))
 
   }
 
-
-
-  getProdIdList(orders,list)
-
-  let displayOrder = orders ? (
-    orders.map((order,index) => <OrderCard key={index} item={order} />)
-  ) : (
-    null
-  );
-    let sum = 0
+const renderSum = () => {
+  let sum = 0;
   orders.map((order) => {sum += order.price * order.quantity})
+  return sum
+
+}
+
+
+const renderOrders = () =>{
+  getProdIdList(orders,list)
+  let displayOrder;
+  if(orders){
+    displayOrder = orders.map((order,index) => <OrderCard key={index} item={order} />)
+
+  }
+  return displayOrder
+
+
+}
+
+  
   return (
-    <div>
+    <div >
     <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Place Order
       </Button>
@@ -53,11 +64,11 @@ const OrderModal = ({orderData, confirmOrder}) => {
       >
         <DialogContent>
           
-             {displayOrder}
+             {renderOrders()}
          
         </DialogContent>
         <DialogActions>
-            Total: {sum}
+          Total Price: ${renderSum()}
           <Button onClick={(e) => handleConfirm(e)} color="primary">
             Confirm
           </Button>

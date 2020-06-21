@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 
 const Login = ({loginUser, errorData}) =>{
+console.log(errorData)
     const [state, setState]= useState({email:'',password:''})
     const {error} = errorData
 
@@ -29,7 +30,7 @@ const Login = ({loginUser, errorData}) =>{
     return (
     <section className="auth-form">
     <form onSubmit ={(e) => submitHandler(e)}>
-      {error.message ? error.message : null}
+      {error ? error : null}
     <Box flexDirection="column" height="100%" width="50%" p={1} id="formInput" >
     <Box height="25%">
       <Input type="email" style = {{fontSize: 20}}  id="email" placeholder="Enter email"  onChange={inputChangeHandler} />

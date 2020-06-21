@@ -7,7 +7,8 @@ import {
     SET_PRODUCT,
     ADD_REVIEW,
     EDIT_REVIEW,
-    DELETE_REVIEW
+    DELETE_REVIEW,
+    CHECK_REVIEW
 
   } from '../types';
 
@@ -49,6 +50,8 @@ const initialState = {
           ...state,
           product: {...state.product, reviews:[action.payload,...state.product.reviews]}
         };
+
+
       // case DELETE_PRODUCT:
       //   index = state.products.findIndex(
       //     (product) => product.productId === action.payload

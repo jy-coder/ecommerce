@@ -13,7 +13,7 @@ import {
 
   } from '../types';
   import history from './../../utils/history'
-  import axios from 'axios';
+  import axios from '../../utils/axios-handler';
 
 
   export const getCart = () => (dispatch) => {

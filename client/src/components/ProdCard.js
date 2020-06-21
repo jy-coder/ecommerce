@@ -20,14 +20,10 @@ export const ProdCard = (props) =>{
             ratingAvg,
             reviewCount
         }
-        // user: {
-        //   authenticated,
-        //   credentials: { handle }
-        // }
       } = props;
  
   return (
-    <Grid item xs={3}>
+    <Grid item xs={3} style={{ display:'flex', justifyContent:'center' }}>
       <Card variant="outlined">
       <Typography variant="body2" color="textSecondary" component="p">
            Sell by: {user.name}

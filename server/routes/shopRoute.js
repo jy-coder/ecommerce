@@ -23,5 +23,7 @@ router.post('/addcart',shopController.addToCart);
 router.delete('/deleteCartItem/:prodId',shopController.deleteFromCart);
 router.post('/addOrder',shopController.addOrder);
 router.get('/getOrders',shopController.getOrders);
+
+router.post('/checkReview',shopController.enableReview);
 router.post('/addReview',shopController.addReview);
 module.exports = router;

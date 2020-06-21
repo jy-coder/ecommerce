@@ -153,18 +153,18 @@ exports.addOrder =catchAsync( async (req, res, next) => {
     const cart = await req.user.getCart()
  
 
-    // const cartItemsNotSelected = await cart.getProducts({ where: { id:  {[Op.notIn] : req.body.prodIdList} }});
+    const cartItemsNotSelected = await cart.getProducts({ where: { id:  {[Op.notIn] : req.body.prodIdList} }});
     
-    // const itemToBeAddedToOrder = req.body.orders
-    // await cart.setProducts([])
+    const itemToBeAddedToOrder = req.body.orders
+    await cart.setProducts([])
 
-//    await Promise.all(itemToBeAddedToOrder.map(async(item) => {
-//         const newProduct = await Product.findByPk(item.productId)
-//         await cart.addProduct(newProduct,{
-//             through:{quantity: item.quantity}
+   await Promise.all(itemToBeAddedToOrder.map(async(item) => {
+        const newProduct = await Product.findByPk(item.productId)
+        await cart.addProduct(newProduct,{
+            through:{quantity: item.quantity}
            
-//         })
-//     }));
+        })
+    }));
 
 
         const products = await cart.getProducts() 
@@ -172,17 +172,18 @@ exports.addOrder =catchAsync( async (req, res, next) => {
         const order = await req.user.createOrder()
         await order.addProduct( 
             products.map(product => {
+            // console.log(product.cartItem.quantity)
             product.orderItem = { quantity: product.cartItem.quantity };
             return product
         }))
 
 
   
-    //   await cart.setProducts(cartItemsNotSelected,{through:{quantity:1}})
+      await cart.setProducts(cartItemsNotSelected,{through:{quantity:1}})
 
 
 
-      await cart.setProducts([])
+    //   await cart.setProducts([])
   
 
 
@@ -201,6 +202,24 @@ exports.getOrders = catchAsync( async (req, res, next) => {
     res.status(200).json(orders)
   });
 
+exports.enableReview= catchAsync( async (req, res, next) => { 
+    const productExist = await Product.findOne({id: req.body.prodId})
+    if(!productExist)
+        return next(new AppError('No product found', 404));
+    const orderItemExist = await req.user.getOrders({include: ['products'],where:{'$products.orderItem.productId$':req.body.prodId}})
+    const reviewExist = await req.user.getReviews({ where: {productId: req.body.prodId, userId: req.user.id} })
+    if(orderItemExist.length === 0)
+        return res.status(200).json()
+    else if (reviewExist.length !== 0)
+        return res.status(200).json('edit') //Allow add review
+    else if(reviewExist.length === 0 )
+        return res.status(200).json('add') //Allow edit review
+
+
+
+})
+
+
 
 exports.addReview = catchAsync( async (req, res, next) => {
 
@@ -212,10 +231,10 @@ if(!productExist)
 const orderItemExist = await req.user.getOrders({include: ['products'],where:{'$products.orderItem.productId$':req.body.prodId}})
 const reviewExist = await req.user.getReviews({ where: {productId: req.body.prodId, userId: req.user.id} })
 if(orderItemExist.length === 0)
-    return res.status(400).json("You must make a purchase to review")
+    return next (new AppError("You must make a purchase to review", 400))
 
 if(reviewExist.length !== 0)
-    return res.status(400).json("You have alr reviewed (Edit review?)")
+    return next (new AppError("You have alr reviewed (Edit review?)", 400))
 
 
 

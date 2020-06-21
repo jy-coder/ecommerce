@@ -10,7 +10,7 @@ function ReviewCard({review}) {
     return (
         <div>
         <Paper>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} style={{margin:'15px'}}>
             <Grid item xs={12} sm container>
               <Grid item xs container direction="column" spacing={2}>
                 <Grid item xs>

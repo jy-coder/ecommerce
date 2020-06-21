@@ -17,17 +17,10 @@ import { addToOrder, removeFromOrder } from './../redux/actions/orderActions'
 
   const {orders} = orderData
 
-
-
-  function checkExist(orders, prodId) {
-    let check = orders.some(order => order.productId === prodId);
-    console.log(check)
-    return check
-}
   
     const handleChange = (e) =>{
         if(e.target.checked ){
-        let itemToAdd = {productId: item.cartItem.productId, title:item.title, quantity:quantityRef.current.value, price:item.price}
+        let itemToAdd = {productId: item.cartItem.productId, title:item.title, quantity:quantityRef.current.value, price:item.price, imageUrl:item.imageUrl}
         addToOrder(itemToAdd)
         }
 
@@ -49,32 +42,34 @@ const unChecked = (e) =>{
 
 
     return (
-    
         <div >
       <Paper >
-      <input type="checkbox" id={item.cartItem.productId} onChange={handleChange} ref={checkRef}/>
-        <Grid container spacing={2}>
-          <Grid item>
-            <ButtonBase >
-              <img alt="complex" src="/static/images/grid/complex.jpg" />
-            </ButtonBase>
+        <Grid container item xs={12} sm container>
+          <Grid container item xs >
+            <input type="checkbox" id={item.cartItem.productId} onChange={handleChange} ref={checkRef}/>
           </Grid>
-          <Grid item xs={12} sm container>
-            <Grid item xs container direction="column" spacing={2}>
-              <Grid item xs>
-              <Typography gutterBottom variant="subtitle1">
-              <span ref={nameRef} id={`${item.title}-${item.cartItem.productId}`}>{item.title}</span>
-                </Typography>
+
+          <Grid container spacing={2} xs={11}>
+            <Grid item xs={3}>
+                <img src={`/${item.imageUrl}`} style={{height:'125px', width:'125px'}}/>
+            </Grid>
+            <Grid item xs={9} sm container>
+              <Grid item xs container direction="column" spacing={2}>
+                <Grid item xs>
                 <Typography gutterBottom variant="subtitle1">
-                <input type="number" defaultValue={item.cartItem.quantity} ref={quantityRef} onChange={(e) => unChecked(e)}/>
-                </Typography>
+                <span ref={nameRef} id={`${item.title}-${item.cartItem.productId}`}>{item.title}</span>
+                  </Typography>
+                  <Typography gutterBottom variant="subtitle1">
+                  <input type="number" defaultValue={item.cartItem.quantity} ref={quantityRef} onChange={(e) => unChecked(e)}/>
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Button onClick={() =>removeFromCart(item.cartItem.productId) }>Remove</Button>
+                </Grid>
               </Grid>
               <Grid item>
-                <Button onClick={() =>removeFromCart(item.cartItem.productId) }>Remove</Button>
+          <Typography variant="subtitle1">${item.price}</Typography>
               </Grid>
-            </Grid>
-            <Grid item>
-        <Typography variant="subtitle1">${item.price}</Typography>
             </Grid>
           </Grid>
         </Grid>

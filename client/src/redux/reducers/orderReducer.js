@@ -2,17 +2,36 @@
 import {
     ADD_ITEM_ORDER,
     REMOVE_ITEM_ORDER,
-    CONFIRM_ORDER
+    CONFIRM_ORDER,
+    SET_ORDERS_HISTORY,
+    LOADING_ORDERS_HISTORY
 
   } from '../types';
 
 const initialState = {
-    orders:[]
+    orders:[],
+    loading: false,
+    ordersHistory:[]
    };
 
 
    export default function(state = initialState, action) {
     switch (action.type) {
+      case LOADING_ORDERS_HISTORY:
+        return{
+          ...state,
+          loading: true
+        };
+
+
+      case SET_ORDERS_HISTORY:
+        return{
+          ...state,
+          ordersHistory: action.payload,
+          loading: false
+        };
+
+
       case ADD_ITEM_ORDER:
           
         return {
@@ -27,10 +46,11 @@ const initialState = {
             };
 
 
+      case CONFIRM_ORDER:
+        return initialState
+          
 
-
-
-        default:
+      default:
         return state;
     }
     

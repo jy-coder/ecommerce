@@ -1,7 +1,8 @@
 import React from 'react'
 import {Grid} from '@material-ui/core';
+import './Wrapper.css'
 
-export const Wrapper = (props) => {
+const Wrapper = (props) => {
     return (
         <Grid container spacing={1} className="Wrapper">
             {props.children}
@@ -9,4 +10,5 @@ export const Wrapper = (props) => {
     )
 }
 
+export default Wrapper 
 

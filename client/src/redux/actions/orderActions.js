@@ -1,8 +1,11 @@
-import axios from 'axios';
+import axios from '../../utils/axios-handler';
+import history from '../../utils/history';
 import {
     ADD_ITEM_ORDER,
     REMOVE_ITEM_ORDER,
-    CONFIRM_ORDER
+    CONFIRM_ORDER,
+    SET_ORDERS_HISTORY,
+    LOADING_ORDERS_HISTORY
 
   } from '../types';
 
@@ -25,8 +28,23 @@ export const confirmOrder = (orders,prodIdList) => (dispatch) => {
       .post('shop/addOrder', {orders,prodIdList})
       .then((res) => {
         dispatch({type: CONFIRM_ORDER});
+        history.push('/stripe')
       })
       .catch((err) => {
-        console.log(err)
+        
+      });
+  };
+
+
+  export const getOrders = () => (dispatch) => {
+    dispatch({type: LOADING_ORDERS_HISTORY});
+    axios
+      .get('shop/getOrders')
+      .then((res) => {
+        dispatch({type: SET_ORDERS_HISTORY, payload:res.data});
+        
+      })
+      .catch((err) => {
+       
       });
   };

@@ -5,6 +5,7 @@ import cartReducer from './reducers/cartReducer'
 import orderReducer from './reducers/orderReducer'
 import userReducer from './reducers/userReducer'
 import errorReducer from './reducers/errorReducer'
+import reviewReducer from './reducers/reviewReducer'
 const initialState = {};
 
 const middleware = [thunk];
@@ -15,7 +16,8 @@ const reducers = combineReducers({
     cartData:cartReducer,
     orderData: orderReducer,
     user: userReducer,
-    error: errorReducer
+    error: errorReducer,
+    review: reviewReducer
 
   
   });

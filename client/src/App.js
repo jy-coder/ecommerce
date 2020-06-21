@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 // import history from "./utils/history"
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
-import { Provider } from 'react-redux';
+// import { Provider } from 'react-redux';
 // import store from './redux/store';
-import axios from 'axios';
+import axios from './utils/axios-handler';
 import Nav from './components/Nav'
 import SingleProd from './pages/SingleProd'
 import Cart from './pages/Cart'
@@ -12,18 +12,14 @@ import Login from './pages/Login'
 import Signup from './pages/Signup'
 import jwtDecode from 'jwt-decode';
 import { logoutUser, getUserData } from './redux/actions/userActions';
-import { SET_AUTHENTICATED } from './redux/types';
+import { setError } from './redux/actions/errorActions';
+import { SET_AUTHENTICATED,SET_ERRORS, CLEAR_ERRORS } from './redux/types';
 import {connect} from 'react-redux'
 import AddProd from './pages/AddProd'
 import store from './redux/store';
-
-
-
-
-axios.defaults.baseURL =
-  'http://127.0.0.1:1337/api';
-
-
+import ErrorBoundary from './components/ErrorBoundary'
+import My404Page from './pages/My404Page'
+import OrderHistory from './pages/OrderHistory'
 
 
 
@@ -40,30 +36,59 @@ if (token) {
   }
 }
 
+
+
+axios.interceptors.request.use(req => {
+  store.dispatch({ type: CLEAR_ERRORS });
+  return req;
+});
+axios.interceptors.response.use(res => res, error => {
+
+  if(error.response)
+    store.dispatch(setError(error.response.data.message));
+  else
+    store.dispatch(setError("Network error"))
+});
+
 class App extends Component {
   render() {
-    const {authenticated} = this.props
+    const {authenticated} = this.props.user
     let routes;
     if(authenticated){
       routes = (
-     <Switch>
-          <Route exact path="/" component={Shop} />
-          <Route exact path="/cart" component={Cart} />
-          <Route exact path="/addproduct" component={AddProd} />
-          <Route exact path="/product/:id" component={SingleProd} />
-          <Redirect to="/" />
-     </Switch>
+    
+       <ErrorBoundary>
+            <Switch>
+            <Route exact path="/" component={Shop} />
+            <Route exact path="/cart" component={Cart} />
+            <Route exact path="/product/:id" component={SingleProd} />
+            <Route exact path="/addproduct" component={AddProd} />
+            <Route exact path="/orderhistory" component={OrderHistory} />
+            <Route component={My404Page} />
+            <Redirect to="/" />
+          </Switch>
+        </ErrorBoundary>
+          
+     
      )}
  
      else{
        routes = (
-       <Switch>
-            <Route exact path="/" component={Shop} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/signup" component={Signup} />
-            <Route exact path="/product/:id" component={SingleProd} />
-            <Redirect to="/" />
-       </Switch>
+       
+            
+            <ErrorBoundary>
+              <Switch>
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/signup" component={Signup} />
+                <Route exact path="/" component={Shop} />
+                <Route exact path="/product/:id" component={SingleProd} />
+                <Route component={My404Page} />
+              <Redirect to="/" />
+              </Switch>
+            </ErrorBoundary>
+            
+            
+          
  
      )
  
@@ -72,9 +97,9 @@ class App extends Component {
  
         <div>
             <Nav />
-            <div className="container">
+           
               {routes}
-            </div>
+          
           </div>
 
     );

@@ -8,8 +8,12 @@ import {logoutUser} from './../redux/actions/userActions'
 
 
 const useStyles = makeStyles((theme) => ({
+  container:{
+    width:"100%"
+  },
   root: {
     flexGrow: 1,
+    width:'100%'
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -19,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Nav({user}) {
+function Nav({user,logoutUser}) {
   const {authenticated} = user
   const classes = useStyles();
   // useEffect(() => {
@@ -34,7 +38,7 @@ function Nav({user}) {
         <Button color="inherit" href="/">Shop</Button>
         <Button color="inherit" href="/addproduct">Add</Button>
       </Typography>
-      <Button color="inherit">Orders</Button>
+      <Button color="inherit" href="/orderhistory">Orders</Button>
       <Button color="inherit" href="/cart">Cart</Button>
       <Button color="inherit"onClick={() => logoutUser()}>Logout</Button>
     </Fragment>
@@ -58,7 +62,7 @@ function Nav({user}) {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="relative">
         <Toolbar>
          {routes}
         </Toolbar>

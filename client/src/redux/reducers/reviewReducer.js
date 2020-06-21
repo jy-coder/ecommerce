@@ -1,23 +1,23 @@
 import {
-    SET_ERRORS,
-    CLEAR_ERRORS
+   CHECK_REVIEW,
+   CLEAR_PERMISSION
 }from '../types';
 
 
 const initialState = {
-    error:'',
+    mode:'',
 };
 
 
 export default function(state = initialState, action) {
     switch (action.type) {
-      case SET_ERRORS:
+      case CHECK_REVIEW:
         return {
           ...state,
-           error: action.payload
+           mode: action.payload
         };
-        case CLEAR_ERRORS:
-            return initialState
+        case CLEAR_PERMISSION:
+            return initialState;
 
         default:
             return state;

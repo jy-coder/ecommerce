@@ -7,7 +7,7 @@ import {
     SET_UNAUTHENTICATED,
   } from '../types';
   import history from '../../utils/history'
-  import axios from 'axios';
+  import axios from '../../utils/axios-handler';
   
   export const loginUser = ({ email, password }) => (dispatch) => {
     dispatch({ type: LOADING_UI });
@@ -20,10 +20,7 @@ import {
         history.push('/');
       })
       .catch((err) => {
-        dispatch({
-          type: SET_ERRORS,
-          payload: err.response.data
-        });
+
       });
   };
   
@@ -36,10 +33,7 @@ import {
         history.push('/login');
       })
       .catch((err) => {
-        dispatch({
-          type: SET_ERRORS,
-          payload: err.response.data
-        });
+
       });
   };
   
@@ -61,10 +55,7 @@ import {
         });
       })
       .catch((err) => {
-        dispatch({
-          type: SET_ERRORS,
-          payload: err.response.data
-        });
+
       });
   };
 

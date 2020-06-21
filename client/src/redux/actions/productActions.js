@@ -10,10 +10,11 @@ import {
     SET_ERRORS,
     ADD_REVIEW,
     EDIT_REVIEW,
-    DELETE_REVIEW
+    DELETE_REVIEW,
+    CHECK_REVIEW
 
   } from '../types';
-  import axios from 'axios';
+  import axios from '../../utils/axios-handler';
   
   // Get all screams
   export const getProducts = () => (dispatch) => {
@@ -27,10 +28,7 @@ import {
         });
       })
       .catch((err) => {
-        dispatch({
-          type: SET_PRODUCTS,
-          payload: []
-        });
+
       });
   };
   export const getProduct = (productId) => (dispatch) => {
@@ -38,13 +36,13 @@ import {
     axios
       .get(`shop/product/${productId}`)
       .then((res) => {
-        dispatch({
-          type: SET_PRODUCT,
-          payload: res.data
-        });
-        dispatch({ type: STOP_LOADING_UI });
+
+        dispatch({ type: SET_PRODUCT, payload: res.data })
+        
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+
+      });
   };
 
   export const addProduct = (newProduct) => (dispatch) => {
@@ -56,13 +54,9 @@ import {
           type: POST_PRODUCT,
           // payload: res.data
         });
-        // dispatch(clearErrors());
       })
       .catch((err) => {
-        dispatch({
-          type: SET_ERRORS,
-          payload: err.response.data
-        });
+       
       });
   };
 
@@ -76,9 +70,14 @@ import {
         });
       })
       .catch((err) => {
-        console.log(err)
+        
       });
   };
+
+
+
+
+
   
 
 
