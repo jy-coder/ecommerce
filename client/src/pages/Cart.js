@@ -18,7 +18,7 @@ const Cart = ({getCart,cartData, orderData}) => {
          return cartItems.map((item) => <ItemCard key={item.id} item={item} />)
         }
         else{
-          return "Your cart is empty"
+          return <Box display='flex' justifyContent='center' alignItems='center'>Your cart is empty</Box>
         }
       }
 
@@ -39,7 +39,7 @@ const Cart = ({getCart,cartData, orderData}) => {
             <Fragment>
             {renderCartItems()}
             {renderOrderBtn()}
-            </Fragment>:
+          </Fragment>:
             
             
             <Spin/>}

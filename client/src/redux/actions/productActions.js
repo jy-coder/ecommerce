@@ -11,10 +11,12 @@ import {
     ADD_REVIEW,
     EDIT_REVIEW,
     DELETE_REVIEW,
-    CHECK_REVIEW
+    CHECK_REVIEW,
+    UPDATE_PRODUCT
 
   } from '../types';
   import axios from '../../utils/axios-handler';
+  import history from '../../utils/history';
   
   // Get all screams
   export const getProducts = () => (dispatch) => {
@@ -31,6 +33,7 @@ import {
 
       });
   };
+
   export const getProduct = (productId) => (dispatch) => {
     dispatch({ type: LOADING_PRODUCT });
     axios
@@ -45,15 +48,65 @@ import {
       });
   };
 
+
+
+  export const deleteProduct = (productId) => (dispatch) => {
+    // dispatch({ type: LOADING_PRODUCT });
+    axios
+      .delete(`admin/deleteproduct/${productId}`)
+      .then((res) => {
+        dispatch({ type: DELETE_PRODUCT })
+        history.go(0)
+      })
+      .catch((err) => {
+
+      });
+  };
+
+
+
+  export const getAdminProducts = () => (dispatch) => {
+    dispatch({ type: LOADING_PRODUCTS });
+    axios
+      .get(`admin/edit`)
+       .then((res) => {
+        dispatch({
+          type: SET_PRODUCTS,
+          payload: res.data
+        });
+      })
+      .catch((err) => {
+
+      });
+  };
+
   export const addProduct = (newProduct) => (dispatch) => {
-    dispatch({ type: LOADING_UI });
+    // dispatch({ type: LOADING_UI });
     axios
       .post('admin/addproducts', newProduct)
       .then((res) => {
         dispatch({
           type: POST_PRODUCT,
-          // payload: res.data
+          
         });
+        
+      })
+      .catch((err) => {
+       
+      });
+  };
+
+
+
+
+  export const updateProduct = (productId,updatedProduct) => (dispatch) => {
+    axios
+      .patch(`admin/edit/${productId}`, updatedProduct)
+      .then((res) => {
+        dispatch({
+          type: UPDATE_PRODUCT,
+        });
+        
       })
       .catch((err) => {
        

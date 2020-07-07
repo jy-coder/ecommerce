@@ -1,16 +1,16 @@
-import React, { Component } from 'react'
+import React, { Component,Fragment } from 'react'
 import { connect } from 'react-redux';
-import { getProducts } from './../redux/actions/productActions'
+import { getAdminProducts } from './../redux/actions/productActions'
 import {Spin} from './../components/Spin'
 import ProdCard from '../components/ProdCard'
 import Wrapper from '../components/Wrapper'
 import {Card,CardActionArea, CardActions, CardContent,CardMedia,Button,Typography ,Grid } from '@material-ui/core';
 
- class Shop extends Component {
+ class MyProduct extends Component {
 
     componentDidMount(){
      
-      this.props.getProducts()
+      this.props.getAdminProducts()
         // console.log(this.props)
         
     }
@@ -18,10 +18,11 @@ import {Card,CardActionArea, CardActions, CardContent,CardMedia,Button,Typograph
 
   renderProducts (){
     const { products, loading } = this.props.data;
+    const {id} = this.props.user
 
-
+    
     let productLoading = !loading ? (
-      products.map((prod) => <ProdCard key={prod.id} prod={prod} />)
+      products.map((prod) => <ProdCard key={prod.id} prod={prod} userId={id} />)
     ) : <Spin />;
     return productLoading
 
@@ -32,11 +33,12 @@ import {Card,CardActionArea, CardActions, CardContent,CardMedia,Button,Typograph
     render() {
     
         return (
-            <Wrapper>
-         
-              {this.renderProducts()}
-           
-            </Wrapper>
+          <Fragment>
+            <Button variant="outlined" color="primary" href="/addproduct">Add</Button>
+              <Wrapper>
+                {this.renderProducts()}
+              </Wrapper>
+            </Fragment>
             
         )
     }
@@ -46,8 +48,9 @@ import {Card,CardActionArea, CardActions, CardContent,CardMedia,Button,Typograph
 
 const mapStateToProps = (state) => ({
     data: state.data,
-    errorData:state.error
+    errorData:state.error,
+    user:state.user
   });
 
 
-export default connect(mapStateToProps, {getProducts})(Shop);
+export default connect(mapStateToProps, {getAdminProducts})(MyProduct);

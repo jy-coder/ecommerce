@@ -2,10 +2,10 @@ import React,{useEffect, useState,useRef} from 'react'
 import {Grid, Paper, Typography, Button, ButtonBase} from '@material-ui/core';
 import { connect } from 'react-redux';
 import { removeFromCart } from './../redux/actions/cartActions'
-import { addToOrder, removeFromOrder } from './../redux/actions/orderActions'
+import { addToOrder, removeFromOrder,updateItemQuantity } from './../redux/actions/orderActions'
 
 
- const ItemCard = ({item, removeFromCart, addToOrder, removeFromOrder, orderData}) => {
+ const ItemCard = ({item, removeFromCart, addToOrder, removeFromOrder, orderData,updateItemQuantity}) => {
   const quantityRef = useRef()
   const nameRef = useRef()
   const checkRef = useRef()
@@ -15,7 +15,6 @@ import { addToOrder, removeFromOrder } from './../redux/actions/orderActions'
   },[item.cartItem]);
 
 
-  const {orders} = orderData
 
   
     const handleChange = (e) =>{
@@ -30,9 +29,15 @@ import { addToOrder, removeFromOrder } from './../redux/actions/orderActions'
 }
 
 
-const unChecked = (e) =>{
-  removeFromOrder(item.cartItem.productId)
- checkRef.current.checked = false
+const updateQuantity = (e) =>{
+  // console.log(quantityRef.current.value)
+  // console.log(item.cartItem.productId)
+  if(checkRef.current.checked === true){
+    updateItemQuantity(item.cartItem.productId,quantityRef.current.value)
+  }
+
+//   removeFromOrder(item.cartItem.productId)
+//  checkRef.current.checked = false
   // checkRef.current.value.checked = false
 }
 
@@ -60,7 +65,7 @@ const unChecked = (e) =>{
                 <span ref={nameRef} id={`${item.title}-${item.cartItem.productId}`}>{item.title}</span>
                   </Typography>
                   <Typography gutterBottom variant="subtitle1">
-                  <input type="number" defaultValue={item.cartItem.quantity} ref={quantityRef} onChange={(e) => unChecked(e)}/>
+                  <input type="number" defaultValue={item.cartItem.quantity} ref={quantityRef} onChange={(e) => updateQuantity(e)}/>
                   </Typography>
                 </Grid>
                 <Grid item>
@@ -86,5 +91,5 @@ const mapStateToProps = (state) => ({
   });
 
 
-export default connect(mapStateToProps, {removeFromCart, addToOrder,removeFromOrder})(ItemCard);
+export default connect(mapStateToProps, {removeFromCart, addToOrder,removeFromOrder,updateItemQuantity})(ItemCard);
 

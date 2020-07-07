@@ -10,7 +10,7 @@ const AppError = require('../utils/AppError')
 
 exports.getProducts = catchAsync (async (req, res, next) => {
     products  = await Product.findAll({
-
+        where: {userId: {[Op.not]: req.params.id}},
         attributes: { 
             include: [[Sequelize.fn("AVG", Sequelize.col("rating")), "ratingAvg"],
             [Sequelize.fn("COUNT", Sequelize.col("reviews.id")), "reviewCount"]
@@ -202,6 +202,8 @@ exports.getOrders = catchAsync( async (req, res, next) => {
     res.status(200).json(orders)
   });
 
+
+//can disable seller from reviewing their own product
 exports.enableReview= catchAsync( async (req, res, next) => { 
     const productExist = await Product.findOne({id: req.body.prodId})
     if(!productExist)

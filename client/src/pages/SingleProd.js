@@ -54,6 +54,10 @@ const SingleProd = ({getProduct,loading, data, match, addReview,user,getReviewPe
       
       }
 
+      const renderAddToCart = () =>{
+        return <Msg prodId={product.id}/>
+      }
+
       const renderProduct =() =>(
         
         <Grid item xs={12} container style={{marginLeft:'15px'}}>
@@ -67,7 +71,7 @@ const SingleProd = ({getProduct,loading, data, match, addReview,user,getReviewPe
               <Divider/>
               <Typography variant="body2" gutterBottom>{product.description}</Typography>
               <Typography variant="subtitle1">${product.price}</Typography>
-              <Msg prodId={product.id}/>
+              {renderAddToCart()}
           </Grid>
       </Grid>
       )

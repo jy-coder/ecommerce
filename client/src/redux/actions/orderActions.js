@@ -4,6 +4,7 @@ import {
     ADD_ITEM_ORDER,
     REMOVE_ITEM_ORDER,
     CONFIRM_ORDER,
+    UPDATE_ITEM_ORDER,
     SET_ORDERS_HISTORY,
     LOADING_ORDERS_HISTORY
 
@@ -47,4 +48,11 @@ export const confirmOrder = (orders,prodIdList) => (dispatch) => {
       .catch((err) => {
        
       });
+  };
+
+
+  export const updateItemQuantity = (id, quantity) => (dispatch) => {
+    dispatch({type: UPDATE_ITEM_ORDER, id:id, quantity:quantity });
+    
+
   };

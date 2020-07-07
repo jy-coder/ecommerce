@@ -14,7 +14,7 @@ function OrderHistoryCard({item}) {
 
 
     return (
-        console.log(item.products),
+        // console.log(item.products),
         <div>
         <Paper>
           <Grid container spacing={2} style={{margin:'15px'}}>

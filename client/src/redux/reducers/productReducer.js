@@ -51,6 +51,13 @@ const initialState = {
           product: {...state.product, reviews:[action.payload,...state.product.reviews]}
         };
 
+        // case POST_PRODUCT:
+        // case DELETE_PRODUCT:
+        //   return{
+        //     loading: false
+        //   }
+          
+
 
       // case DELETE_PRODUCT:
       //   index = state.products.findIndex(

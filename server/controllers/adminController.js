@@ -1,4 +1,7 @@
 const Product = require('../models/product')
+const User= require('../models/user')
+const Review= require('../models/review')
+const Sequelize = require('sequelize');
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/AppError')
 const multer = require('multer');
@@ -64,18 +67,39 @@ if(req.file)
 
 
   exports.deleteProduct = catchAsync (async (req, res, next)  => {
-    product  = await Product.destroy({where: {id: req.body.productId}})
+
+    let checkUser =  req.user.getProducts({ where: { id: req.params.id}})
+
+    if(!checkUser)
+      return next(new AppError('You do not have permission to edit this product', 401));
+
+    product  = await Product.destroy({where: {id: req.params.id}})
 
     if(!product)
         return next(new AppError('No product found', 404));
 
-    return res.status(200).json("deleted!")
+    return res.status(200).json("Product successfully deleted!")
      
   })
 
 
   exports.getAdminProducts = catchAsync (async (req, res, next)  => {
-    const products =  await req.user.getProducts({})
+    const products =  await req.user.getProducts({
+      attributes: { 
+        include: [[Sequelize.fn("AVG", Sequelize.col("rating")), "ratingAvg"],
+        [Sequelize.fn("COUNT", Sequelize.col("reviews.id")), "reviewCount"]
+    ] ,
+      
+        group: ['reviews.id']
+    },
+    include: [
+    { model:User },    
+    {
+        model: Review, attributes: [],
+    }],
+    group: ['product.id','user.id']
+
+    })
 
 
     if(!products)
@@ -105,6 +129,15 @@ if(req.file)
 
   //not using req.user because have to get -> edit
   exports.postEditProduct = catchAsync (async (req, res, next)  => {
+    console.log(req.params.id)
+    let checkUser =  req.user.getProducts({ where: { id: req.params.id}})
+
+    if(!checkUser)
+      return next(new AppError('You do not have permission to edit this product', 401));
+
+    if(req.file)
+      req.body.imageUrl= req.file.filename
+
     let updateValues = { 
         title: req.body.title,
         price: req.body.price,
@@ -113,10 +146,10 @@ if(req.file)
 
     };
 
-    // const [count, product] =  req.user.getProducts({})
+    product = await Product.update(updateValues, { where: { id: req.params.id}})
 
-
-   const [count, product] = await Product.update(updateValues, { where: { id: req.params.id}, returning:'true'})
+  //   console.log(req.body)
+  //  const [count, product] = await Product.update(updateValues, { where: { id: req.params.id}, returning:'true'})
 
 
     if(!product)

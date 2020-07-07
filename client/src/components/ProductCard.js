@@ -20,6 +20,9 @@ function ProductCard({item}) {
                                 <Typography variant="body2">
                                 Qty: {item.orderItem.quantity}
                                 </Typography>
+                                <Typography variant="body2">
+                                Price: ${item.price}
+                                </Typography>
                             </Grid>
                         </Grid>
                     </Grid>

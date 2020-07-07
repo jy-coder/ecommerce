@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {  addProduct } from './../redux/actions/productActions';
 import {Button, Box, Input, TextField} from '@material-ui/core';
 import { connect } from 'react-redux';
+import history from '../utils/history';
 
 
 const AddProd = ({addProduct}) =>{
@@ -23,6 +24,9 @@ const AddProd = ({addProduct}) =>{
       form.append('imageUrl', image)
 
       addProduct(form)
+  
+      history.push('/manage')
+     
       
     }
   

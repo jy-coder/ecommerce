@@ -6,6 +6,7 @@ import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import axios from './utils/axios-handler';
 import Nav from './components/Nav'
 import SingleProd from './pages/SingleProd'
+import UpdateProd from './pages/UpdateProd'
 import Cart from './pages/Cart'
 import Shop from './pages/Shop'
 import Login from './pages/Login'
@@ -20,7 +21,7 @@ import store from './redux/store';
 import ErrorBoundary from './components/ErrorBoundary'
 import My404Page from './pages/My404Page'
 import OrderHistory from './pages/OrderHistory'
-
+import MyProduct from './pages/MyProduct'
 
 
   const token = localStorage.FBIdToken;
@@ -62,8 +63,10 @@ class App extends Component {
             <Route exact path="/" component={Shop} />
             <Route exact path="/cart" component={Cart} />
             <Route exact path="/product/:id" component={SingleProd} />
+            <Route exact path="/updateproduct/:id" component={UpdateProd} />
             <Route exact path="/addproduct" component={AddProd} />
             <Route exact path="/orderhistory" component={OrderHistory} />
+            <Route exact path="/manage" component={MyProduct} />
             <Route component={My404Page} />
             <Redirect to="/" />
           </Switch>

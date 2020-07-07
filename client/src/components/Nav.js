@@ -1,6 +1,6 @@
 import React, {useEffect, useState, Fragment} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import {AppBar, Toolbar,Typography,Button,IconButton} from '@material-ui/core';
+import {AppBar, Toolbar,Typography,Button,Popper,Paper,MenuList, MenuItem,ClickAwayListener,Grow} from '@material-ui/core';
 import {Link, Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {logoutUser} from './../redux/actions/userActions'
@@ -26,6 +26,27 @@ const useStyles = makeStyles((theme) => ({
 function Nav({user,logoutUser}) {
   const {authenticated} = user
   const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef(null);
+
+  function handleListKeyDown(event) {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      setOpen(false);
+    }
+  }
+
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setOpen(false);
+  };
   // useEffect(() => {
 
   // },[isAuth]);
@@ -36,11 +57,34 @@ function Nav({user,logoutUser}) {
     <Fragment>
       <Typography variant="h6" className={classes.title}>
         <Button color="inherit" href="/">Shop</Button>
-        <Button color="inherit" href="/addproduct">Add</Button>
       </Typography>
-      <Button color="inherit" href="/orderhistory">Orders</Button>
       <Button color="inherit" href="/cart">Cart</Button>
-      <Button color="inherit"onClick={() => logoutUser()}>Logout</Button>
+        <Button
+          ref={anchorRef}
+          aria-controls={open ? 'menu-list-grow' : undefined}
+          aria-haspopup="true"
+          onClick={handleToggle}
+        >
+          Account
+        </Button>
+        <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+          {({ TransitionProps, placement }) => (
+            <Grow
+              {...TransitionProps}
+              style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+            >
+              <Paper>
+                <ClickAwayListener onClickAway={handleClose}>
+                  <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+                    <MenuItem><Link to ="/manage">Manage My Orders</Link></MenuItem>
+                    <MenuItem><Link to ="/orderhistory">Order History</Link></MenuItem>
+                    <MenuItem onClick={() => logoutUser()}>Logout</MenuItem>
+                  </MenuList>
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          )}
+        </Popper>
     </Fragment>
     )}
 

@@ -23,7 +23,7 @@ export const SET_PRODUCTS = 'SET_PRODUCTS';
 export const SET_PRODUCT = 'SET_PRODUCT';
 export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 export const POST_PRODUCT = 'POST_PRODUCT';
-
+export const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 // UI reducer types
 
 export const LOADING_UI = 'LOADING_UI';
@@ -41,6 +41,9 @@ export const CLEAR_PERMISSION = 'CLEAR_PERMISSION'
 export const ADD_ITEM_ORDER = 'ADD_ITEM_ORDER';
 export const REMOVE_ITEM_ORDER = 'REMOVE_ITEM_ORDER';
 export const CONFIRM_ORDER = 'CONFIRM_ORDER';
+export const UPDATE_ITEM_ORDER = 'UPDATE_ITEM_ORDER';
+
+
 export const SET_ORDERS_HISTORY = 'SET_ORDERS_HISTORY';
 export const LOADING_ORDERS_HISTORY = 'LOADING_ORDERS_HISTORY';
 
