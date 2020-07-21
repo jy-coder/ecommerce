@@ -16,6 +16,8 @@ const CartItem = require('./models/cart-item');
 const Order = require('./models/order');
 const OrderItem = require('./models/order-item');
 const Review = require('./models/review');
+const Category = require('./models/category');
+
 global.__basedir = __dirname;
 
 dotenv.config({ path: './config.env' });
@@ -73,15 +75,16 @@ User.hasMany(Review);
 Review.belongsTo(User);
 
 
+Product.belongsTo(Category)
+
 
 
 
 
 sequelize
-  // .sync({ force: true })
-  .sync()
+  .sync({ force: true })
+  // .sync()
   .then(user => {
-    // console.log(user);
     app.listen(port);
   })
   .catch(err => {

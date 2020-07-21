@@ -28,8 +28,8 @@ const ProdCard = (props,{deleteProduct}) =>{
         if(userId === user.id){
           return(
             <Fragment>
-              <Button variant="contained" href={`/updateproduct/${id}`}>Edit</Button>
-              <Button variant="outlined" color="secondary" onClick={() => props.deleteProduct(id)}>Delete</Button>
+              <Button variant="contained" href={`/updateproduct/${id}` }>Edit</Button>
+              <Button variant="outlined" color="secondary" onClick={() => props.deleteProduct(id,imageUrl)}>Delete</Button>
             </Fragment>
           )
         }
@@ -42,13 +42,10 @@ const ProdCard = (props,{deleteProduct}) =>{
 
  
   return (
-    <Grid item xs={3} style={{ display:'flex', justifyContent:'center' }}>
+    <Grid item lg={3} md={3} sm={4} xs={12} className='product-card'>
       <Card variant="outlined">
-      <Typography variant="body2" color="textSecondary" component="p">
-           Sell by: {user.name}
-          </Typography>
       <CardActionArea>
-        <img src = {`/${imageUrl}`} />
+        <img src = {`https://fw-img-bucket.s3-ap-southeast-1.amazonaws.com/${imageUrl}`} style={{width:'200px', height:'200px'}}/>
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             <Link to={`/product/${id}`}>{title}</Link>

@@ -60,17 +60,17 @@ const SingleProd = ({getProduct,loading, data, match, addReview,user,getReviewPe
 
       const renderProduct =() =>(
         
-        <Grid item xs={12} container style={{marginLeft:'15px'}}>
+        <Grid item xs={12} container>
           <Grid item container direction="column" spacing={2} xs={12} sm={4} style={{marginRight:'15px'}}>
             <Grid item>
-              <img src={`/${product.imageUrl}`} />
+              <img className='single-product-img' src={`https://fw-img-bucket.s3-ap-southeast-1.amazonaws.com/${product.imageUrl}`} />
             </Grid>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Typography gutterBottom variant="subtitle1">{product.title}</Typography>
+            <Typography gutterBottom variant="h5" className='single-product-typo'>{product.title}</Typography>
               <Divider/>
-              <Typography variant="body2" gutterBottom>{product.description}</Typography>
-              <Typography variant="subtitle1">${product.price}</Typography>
+              <Typography variant="h5" className='single-product-typo'>${product.price}</Typography>
+              <Typography variant="body2" gutterBottom className='single-product-typo'>{product.description}</Typography>
               {renderAddToCart()}
           </Grid>
       </Grid>
@@ -111,7 +111,7 @@ const SingleProd = ({getProduct,loading, data, match, addReview,user,getReviewPe
      
          else if(review.mode === "edit"){
            form = (
-            <Button type="submit" variant="outlined" color="primary">Edit review</Button>
+            <Button type="submit" variant="outlined" fullWidth>Edit review</Button>
      
          )
      
@@ -127,10 +127,17 @@ const SingleProd = ({getProduct,loading, data, match, addReview,user,getReviewPe
         if(product.reviews && product.reviews.length>0)
           return product.reviews.map((review) => <ReviewCard key={review.id} review={review} />)
         else
-          return <Box display='flex' justifyContent='center'>
-            <Box>This product does not have review yet</Box>
-          </Box>
+          return <div className='center-text'>
+           This product does not have review yet
+          </div>
 
+      }
+
+
+      const renderRecommendation = () =>{
+        return <div className='center-text'>
+        dummies
+       </div>
       }
 
 
@@ -138,25 +145,38 @@ const SingleProd = ({getProduct,loading, data, match, addReview,user,getReviewPe
 
    
     return (
-        <div >
+      <Wrapper>
         {!loading ? 
-        <Wrapper>
-          <Paper>
-            <Grid container spacing={2} >
-              {renderProduct()}
-                <Grid item xs={12} style={{margin:'15px'}}>
-                  <Typography variant="subtitle1">Review</Typography>
-                  <Divider/>
-                    {renderForm()}
-                  </Grid>
-                <Grid item xs={12} >
-                  {renderReviews()}
+      
+            <Grid container spacing={2} style={{width:'100%', height:'100%'}}>
+              <Grid item xs={12} className='single-shop-product-section'>
+                <Paper className='single-product-paper'>
+                  {renderProduct()}
+                </Paper>
                 </Grid>
+                <Grid item xs={12} className='single-product-reco'>
+                  <Paper className='single-product-paper'>
+                    <Typography variant="h5" className='single-product-typo'>Recommendation</Typography>
+                    <Divider/>
+                    {renderRecommendation()}
+                  </Paper>
+                </Grid>
+  
+                <Grid item xs={12} className='single-product-review'>
+                  <Paper className='single-product-paper'>
+                    <Typography className='single-product-typo' variant="h5">Review</Typography>
+                    <Divider/>
+                      {renderForm()}
+                      {renderReviews()}
+                    </Paper>
+                  </Grid>
+              
+                  
+           
+          
             </Grid> 
-          </Paper>
-        </Wrapper>
         : <Spin/>}
-      </div>
+      </Wrapper>
     );
   }
 

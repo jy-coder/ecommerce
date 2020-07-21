@@ -4,6 +4,8 @@ import {AppBar, Toolbar,Typography,Button,Popper,Paper,MenuList, MenuItem,ClickA
 import {Link, Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {logoutUser} from './../redux/actions/userActions'
+import SearchBar from './../components/SearchBar'
+
 
 
 
@@ -58,6 +60,10 @@ function Nav({user,logoutUser}) {
       <Typography variant="h6" className={classes.title}>
         <Button color="inherit" href="/">Shop</Button>
       </Typography>
+      <Typography variant="h6" className={classes.title}>
+      <SearchBar/>
+      </Typography>
+     
       <Button color="inherit" href="/cart">Cart</Button>
         <Button
           ref={anchorRef}
@@ -85,6 +91,7 @@ function Nav({user,logoutUser}) {
             </Grow>
           )}
         </Popper>
+     
     </Fragment>
     )}
 

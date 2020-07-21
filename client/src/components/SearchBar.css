@@ -1,0 +1,7 @@
+.nav-searchbar{
+    border: 2px solid black;
+    width:75%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}

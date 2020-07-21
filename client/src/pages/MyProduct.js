@@ -34,7 +34,7 @@ import {Card,CardActionArea, CardActions, CardContent,CardMedia,Button,Typograph
     
         return (
           <Fragment>
-            <Button variant="outlined" color="primary" href="/addproduct">Add</Button>
+            <Button variant="outlined" color="primary" href="/addproduct" fullWidth>Add</Button>
               <Wrapper>
                 {this.renderProducts()}
               </Wrapper>

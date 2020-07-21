@@ -17,6 +17,7 @@ import { setError } from './redux/actions/errorActions';
 import { SET_AUTHENTICATED,SET_ERRORS, CLEAR_ERRORS } from './redux/types';
 import {connect} from 'react-redux'
 import AddProd from './pages/AddProd'
+import SearchResult from './pages/SearchResult'
 import store from './redux/store';
 import ErrorBoundary from './components/ErrorBoundary'
 import My404Page from './pages/My404Page'
@@ -31,9 +32,9 @@ if (token) {
     store.dispatch(logoutUser());
     window.location.href = '/login';
   } else {
-    store.dispatch({ type: SET_AUTHENTICATED });
     axios.defaults.headers.common['Authorization'] = token;
     store.dispatch(getUserData());
+    store.dispatch({ type: SET_AUTHENTICATED });
   }
 }
 
@@ -45,8 +46,10 @@ axios.interceptors.request.use(req => {
 });
 axios.interceptors.response.use(res => res, error => {
 
-  if(error.response)
-    store.dispatch(setError(error.response.data.message));
+  if(error.response){
+    // console.log(error.response.status)
+    store.dispatch(setError(error.response.data.message,error.response.status));
+  }
   else
     store.dispatch(setError("Network error"))
 });
@@ -67,6 +70,7 @@ class App extends Component {
             <Route exact path="/addproduct" component={AddProd} />
             <Route exact path="/orderhistory" component={OrderHistory} />
             <Route exact path="/manage" component={MyProduct} />
+            <Route exact path="/search/:searchQ" component={SearchResult} />
             <Route component={My404Page} />
             <Redirect to="/" />
           </Switch>
@@ -98,11 +102,9 @@ class App extends Component {
    }
     return (
  
-        <div>
+        <div style={{height:'100%'}}>
             <Nav />
-           
-              {routes}
-          
+            {routes}
           </div>
 
     );

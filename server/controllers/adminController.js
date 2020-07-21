@@ -7,45 +7,28 @@ const AppError = require('../utils/AppError')
 const multer = require('multer');
 const sharp = require('sharp');
 const path = require('path');
+const uploadAWS = require('../services/file-upload')
+const s3 = require('./../utils/aws-handler')
 
 
-const multerStorage = multer.memoryStorage();
 
-const multerFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith('image')) {
-    cb(null, true);
-  } else {
-    cb(new AppError('Not an image! Please upload only images.', 400), false);
-  }
-};
+exports.uploadAWSPhoto = uploadAWS.single('imageUrl')
 
-const upload = multer({
-  storage: multerStorage,
-  fileFilter: multerFilter
-});
+exports.uploadToAWS = catchAsync (async (req, res, next)  => {
+  if (!req.file.key)
+    return next(new AppError('You must upload an image file', 404));
 
-exports.uploadPostPhoto = upload.single('imageUrl');
-
-exports.resizePostPhoto = catchAsync(async (req, res, next) => {
-  if (!req.file) return next();
-
-  req.file.filename = `product-${req.user.id}-${Date.now()}.jpeg`;
-  filePath = path.join(__basedir ,`../client/public/${req.file.filename}`)
-  await sharp(req.file.buffer)
-    .resize(200 ,200)
-    .toFormat('jpeg')
-    .jpeg({ quality: 90 })
-    .toFile(filePath);
-
-  next();
-});
-
+  next()
+    //.key name of file
+    //.location = actual path in location
+  // return res.status(200).json({'imageUrl': req.file.key});
+})
+  
 
 
 
 exports.addProduct = catchAsync (async (req, res, next)  => {
-if(req.file)
-    req.body.imageUrl= req.file.filename
+    req.body.imageUrl= req.file.key
 
     const {title,imageUrl,price,description} = req.body;
 
@@ -129,14 +112,14 @@ if(req.file)
 
   //not using req.user because have to get -> edit
   exports.postEditProduct = catchAsync (async (req, res, next)  => {
-    console.log(req.params.id)
+    // console.log(req.params.id)
     let checkUser =  req.user.getProducts({ where: { id: req.params.id}})
 
     if(!checkUser)
       return next(new AppError('You do not have permission to edit this product', 401));
 
     if(req.file)
-      req.body.imageUrl= req.file.filename
+      req.body.imageUrl= req.file.key
 
     let updateValues = { 
         title: req.body.title,
@@ -158,3 +141,6 @@ if(req.file)
     return res.status(200).json(product) //updated value only
      
   })
+
+
+ 

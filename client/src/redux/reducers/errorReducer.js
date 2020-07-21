@@ -6,6 +6,7 @@ import {
 
 const initialState = {
     error:'',
+    code:0
 };
 
 
@@ -14,7 +15,8 @@ export default function(state = initialState, action) {
       case SET_ERRORS:
         return {
           ...state,
-           error: action.payload
+           error: action.payload,
+           code: action.code
         };
         case CLEAR_ERRORS:
             return initialState

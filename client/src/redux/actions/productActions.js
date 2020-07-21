@@ -12,17 +12,28 @@ import {
     EDIT_REVIEW,
     DELETE_REVIEW,
     CHECK_REVIEW,
-    UPDATE_PRODUCT
+    UPDATE_PRODUCT,
+    INCREASE_LIMIT,
+    LOAD_MORE_PRODUCTS,
+    SET_SORT_ORDER,SET_ORDERBY
 
   } from '../types';
   import axios from '../../utils/axios-handler';
   import history from '../../utils/history';
   
   // Get all screams
-  export const getProducts = () => (dispatch) => {
+  export const getProducts = (limit,search,sortBy,orderBy) => (dispatch) => {
+    let query = '';
+    if(limit && sortBy && orderBy)
+      query = `?limit=${limit}&sortBy=${sortBy}&orderBy=${orderBy}`
+    else if(limit && search)
+      query = `?limit=${limit}&search=${search}`
+    else if (limit)
+      query = `?limit=${limit}`
+
     dispatch({ type: LOADING_PRODUCTS });
     axios
-      .get('shop/')
+      .get(`shop${query}`)
       .then((res) => {
         dispatch({
           type: SET_PRODUCTS,
@@ -50,10 +61,10 @@ import {
 
 
 
-  export const deleteProduct = (productId) => (dispatch) => {
+  export const deleteProduct = (productId,imageUrl) => (dispatch) => {
     // dispatch({ type: LOADING_PRODUCT });
     axios
-      .delete(`admin/deleteproduct/${productId}`)
+      .delete(`admin/deleteproduct/${productId}`,{data: {oldImage: imageUrl}})
       .then((res) => {
         dispatch({ type: DELETE_PRODUCT })
         history.go(0)
@@ -125,6 +136,26 @@ import {
       .catch((err) => {
         
       });
+  };
+
+
+
+
+
+
+  export const loadMoreProducts = (limit) => (dispatch) => {
+    dispatch({type: INCREASE_LIMIT});
+
+  };
+
+  export const setSortOrder = (sortBy , orderBy) => (dispatch) => {
+    dispatch({
+      type: SET_SORT_ORDER,
+      sortBy: sortBy,
+      orderBy: orderBy
+    
+    });
+
   };
 
 

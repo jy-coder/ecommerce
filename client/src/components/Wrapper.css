@@ -6,9 +6,66 @@
 
 .Wrapper{
     position: relative;
-
-    top: 15px;
+    /* top: 15px; */
     padding:15px;
-    /* margin:auto */
+    height:100%;
+    max-width:100%;
+    border: 2px solid green
+    
     
 }
+
+.product-card{
+    display:flex;
+    justify-content:center;
+    position: relative;
+    height:45%;
+    border:solid pink 2px;
+  
+}
+
+
+.center-text{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100% 
+}
+
+
+.single-product-paper{
+    width:70%;
+    height:100%
+
+}
+.single-product-typo{
+    padding:10px;
+}
+
+
+.single-shop-product-section,.single-product-reco,.single-product-review {
+    position: relative;
+    display:flex;
+    justify-content:center;
+    height:30%
+    
+}
+
+.single-product-img{
+    position: relative;
+    height:200px;
+    width:200px
+}
+
+.form-wrapper{
+    position:relative;
+    margin: 0 auto;
+    width: 50%;
+}
+
+form{
+    width:100%;
+}
+
+
+

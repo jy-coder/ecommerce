@@ -21,7 +21,7 @@ function ReviewCard({review}) {
                   {dayjs(updatedAt).fromNow()}
                   </Typography>
                   <Typography variant="subtitle1">
-                  <Rating name="read-only" value={Math.round(rating * 10)/10} readOnly />
+                  <Rating  value={Math.round(rating * 10)/10} readOnly />
                   </Typography>
                   <Typography variant="subtitle1">
                     {text}

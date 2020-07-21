@@ -1,0 +1,37 @@
+.shop-loadmore-btn{
+    display:flex;
+    justify-content: center;
+    border: 2px solid pink;
+    width: 30%;
+    margin: 0 auto
+}
+
+
+.shop-select-option-box{
+    display:flex;
+    justify-content: flex-end;
+    
+}
+
+.shop-product-section{
+    position:relative;
+    top: 15px;
+    border: 2px solid blueviolet;
+    width: 90%;
+    margin: 0 auto
+}
+
+
+
+.image-big{
+    max-height:600px;
+    width: auto;
+  
+}
+
+
+.image-small{
+    max-height:300px;
+    width: auto;
+    
+}

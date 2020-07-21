@@ -21,7 +21,6 @@ function UpdateProd({match,data,getProduct,updateProduct}) {
 
     const submitHandler = (e) =>{
         e.preventDefault();
-        console.log(image)
         const form = new FormData();
     if(state.title)
         form.append('title', state.title);
@@ -29,12 +28,19 @@ function UpdateProd({match,data,getProduct,updateProduct}) {
         form.append('description', state.description);
     if(state.price)
         form.append('price', state.price);
-    if(image)
-        form.append('imageUrl', image)
+    if(image){
+        // console.log(imageUrl)
+        form.append('imageUrl', image) // new image
+        form.append('oldImage',imageUrl) //old image string
+
+    }
+    // console.log(image, imageUrl)
   
     updateProduct(match.params.id,form)
     
-    history.push('/manage')
+    setTimeout(() => {
+        history.push('/manage')
+      }, 3000);
        
         
       }
@@ -62,25 +68,26 @@ function UpdateProd({match,data,getProduct,updateProduct}) {
 
       const displayPreview = () =>{
           if(preview){
-            return <img src = {preview}  style={{width: "100px"}}/>
+            return <img src = {preview}  style={{width: "100px", marginTop:"10px", marginBottom:"10px"}}/>
           }
           else
-            return <img src={`/${imageUrl}`}  style={{width: "100px"}}/>
+            return <img src={`https://fw-img-bucket.s3-ap-southeast-1.amazonaws.com/${imageUrl}`}  style={{width: "100px", marginTop:"10px", marginBottom:"10px"}}/>
       }
 
       if(title)
       return (
+        <div className='form-wrapper'>
         <form onSubmit={(e) => submitHandler(e)}  >
         <Box flexDirection="column" p={1}>
             <Box>
-                <TextField  id="title" onChange={inputChangeHandler} label="Name" defaultValue={title}/>
+                <TextField  id="title" onChange={inputChangeHandler} label="Name" defaultValue={title} fullWidth/>
             </Box>
             <Box>
-                <TextField id="price" onChange={inputChangeHandler} label="Price" defaultValue={price}/>
+                <TextField id="price" onChange={inputChangeHandler} label="Price" defaultValue={price} fullWidth/>
             </Box>
-            <Box>
-                <input type="file" accept='photo/*' onChange={imageHandler}/>
-            </Box>
+            <Box style={{marginTop:'10px'}}>
+            <input type="file" accept='photo/*' onChange={imageHandler}/>
+          </Box>
             <Box>
                 {displayPreview()}
             </Box>
@@ -99,11 +106,12 @@ function UpdateProd({match,data,getProduct,updateProduct}) {
             </Box>
         </Box>
 
-            <Button autoFocus type="submit" color="primary" >
+            <Button autoFocus type="submit" color="primary" variant="contained" fullWidth >
              Update
             </Button>
       
         </form>
+        </div>
       )
       else
         return <Spin/>

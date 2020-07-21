@@ -2,12 +2,12 @@ import React from 'react'
 import {Grid, Paper, Typography, Button, ButtonBase} from '@material-ui/core';
 
 function ProductCard({item}) {
-    console.log(item)
+    // console.log(item)
     return (
         <div>
         <Paper>
             <Grid container item xs={12} sm container>
-                <Grid container spacing={2} xs={11}>
+                <Grid container item spacing={2} xs={11}>
                     <Grid item xs={2}>
                         <img src={`/${item.imageUrl}`} style={{height:'50px', width:'50px'}}/>
                     </Grid>

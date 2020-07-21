@@ -4,6 +4,6 @@ import {
 }from '../types';
 
 
-export const setError = (error) =>(dispatch) =>{
-    dispatch({ type: SET_ERRORS, payload: error});
+export const setError = (error,code) =>(dispatch) =>{
+    dispatch({ type: SET_ERRORS, payload: error, code:code});
 }

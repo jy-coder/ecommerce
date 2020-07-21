@@ -4,8 +4,8 @@ import {connect} from 'react-redux'
 class ErrorBoundary extends Component{
     
     render(){
-        const {error} = this.props.errorData
-        if(error)
+        const {error,code} = this.props.errorData
+        if(error && code !== 401)
             return <div> Something went wrong! Please try again later!</div>
         return this.props.children
         

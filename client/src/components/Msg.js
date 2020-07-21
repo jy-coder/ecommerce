@@ -32,7 +32,7 @@ const Msg = ({addToCart, prodId, cartData}) => {
       >
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {!cartData.loading ? cartData.message: <Spin/>}
+            {!cartData.loading ? cartData.message: null}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

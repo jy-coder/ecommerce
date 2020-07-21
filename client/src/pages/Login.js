@@ -28,7 +28,7 @@ console.log(errorData)
     }
   
     return (
-    <section className="auth-form">
+    <div className="form-wrapper">
     <form onSubmit ={(e) => submitHandler(e)}>
       {error ? error : null}
     <Box flexDirection="column" height="100%" width="50%" p={1} id="formInput" >
@@ -44,7 +44,7 @@ console.log(errorData)
   </Button>
   </Box>
 </form>
-    </section>
+    </div>
       
     );
   }

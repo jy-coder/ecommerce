@@ -8,7 +8,10 @@ import {
     ADD_REVIEW,
     EDIT_REVIEW,
     DELETE_REVIEW,
-    CHECK_REVIEW
+    CHECK_REVIEW,
+    INCREASE_LIMIT,
+    LOAD_MORE_PRODUCTS,
+    SET_SORT_ORDER
 
   } from '../types';
 
@@ -17,7 +20,10 @@ import {
 const initialState = {
     products: [],
     product: {},
-    loading: false
+    loading: false,
+    limit:2,
+    sortBy:'',
+    orderBy:''
   };
 
 
@@ -50,6 +56,27 @@ const initialState = {
           ...state,
           product: {...state.product, reviews:[action.payload,...state.product.reviews]}
         };
+
+      case LOAD_MORE_PRODUCTS:
+        return {
+          ...state,
+          products: [...state.products, ...action.payload]
+        };
+
+
+        case INCREASE_LIMIT:
+          return {
+            ...state,
+            limit: state.limit * 2
+          };
+
+        case SET_SORT_ORDER:
+          return {
+            ...state,
+            sortBy: action.sortBy,
+            orderBy: action.orderBy
+          };
+
 
         // case POST_PRODUCT:
         // case DELETE_PRODUCT:

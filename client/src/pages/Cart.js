@@ -18,7 +18,7 @@ const Cart = ({getCart,cartData, orderData}) => {
          return cartItems.map((item) => <ItemCard key={item.id} item={item} />)
         }
         else{
-          return <Box display='flex' justifyContent='center' alignItems='center'>Your cart is empty</Box>
+          return <Box className='center-text'>Your cart is empty</Box>
         }
       }
 
