@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux'
-import {Button, Box,Input} from '@material-ui/core';
+import {Button, Box,TextField} from '@material-ui/core';
 import {  loginUser,signupUser } from './../redux/actions/userActions';
 
 
@@ -30,25 +30,27 @@ const Signup = ({signupUser,errorData}) =>{
   
     <Box flexDirection="column" p={1}>
     <Box controlId="email">
-      <Input type="email" style = {{fontSize: 20}} placeholder="Enter email" id="email" onChange={inputChangeHandler} />
+      <TextField type="email" label="Email" id="email" onChange={inputChangeHandler} fullWidth required />
     </Box>
 
     <Box controlId="name">
-      <Input type="text" style = {{fontSize: 20}} placeholder="Enter name" id="name" onChange={inputChangeHandler} />
+      <TextField type="text" id="name" label="Name" onChange={inputChangeHandler} fullWidth required/>
     </Box>
 
   <Box controlId="password">
-    <Input type="password" style = {{fontSize: 20}} placeholder="Password" id="password" onChange={inputChangeHandler} />
+    <TextField type="password" id="password" label="Password" onChange={inputChangeHandler} fullWidth required/>
   </Box>
 
 
   <Box controlId="confirmPassword">
-    <Input type="password" style = {{fontSize: 20}} placeholder="Confirm password" id="confirmPassword" onChange={inputChangeHandler} />
-    </Box>
+    <TextField type="password" id="confirmPassword" label="Confirm Password" onChange={inputChangeHandler} fullWidth required/>
+  </Box>
 
-  <Button variant="primary" type="submit">
-    Submit
-  </Button>
+  <Box display="flex" justifyContent="center" style={{marginTop: '10px'}}>
+    <Button variant="outlined" type="submit">
+      Submit
+    </Button>
+  </Box>
   </Box>
 </form>
     </div>

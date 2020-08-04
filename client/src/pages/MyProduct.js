@@ -2,16 +2,15 @@ import React, { Component,Fragment } from 'react'
 import { connect } from 'react-redux';
 import { getAdminProducts } from './../redux/actions/productActions'
 import {Spin} from './../components/Spin'
-import ProdCard from '../components/ProdCard'
+import ProdCard from '../components/ProdCard' 
 import Wrapper from '../components/Wrapper'
-import {Card,CardActionArea, CardActions, CardContent,CardMedia,Button,Typography ,Grid } from '@material-ui/core';
+import {Button} from '@material-ui/core';
 
  class MyProduct extends Component {
 
     componentDidMount(){
      
       this.props.getAdminProducts()
-        // console.log(this.props)
         
     }
 

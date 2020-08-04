@@ -1,21 +1,22 @@
 import React, {useEffect,useState} from 'react'
-import {updateProduct,getProduct} from  './../redux/actions/productActions'
+import {updateProduct,getEditProduct, getCategories} from  './../redux/actions/productActions'
 import { connect } from 'react-redux';
-import {Button, Box, Input, TextField} from '@material-ui/core';
+import {Button, Box, Input, TextField,NativeSelect} from '@material-ui/core';
 import history from '../utils/history';
 import {Spin} from '../components/Spin'
 
-function UpdateProd({match,data,getProduct,updateProduct}) {
+function UpdateProd({match,data,getEditProduct,getCategories,updateProduct}) {
 
-    const {title,imageUrl,price,description} = data.product
+    const {title,imageUrl,price,description,category} = data.product
     const [image, setImage] = useState("")
-    const [state, setState]= useState({title:"", description:"", price:""})
+    const [state, setState]= useState({title:"", description:"", price:0,categoryId:""})
     const [preview, setPreview] = useState("")
     
 
     useEffect(() => {
-        getProduct(match.params.id)
-    },[getProduct])
+        getEditProduct(match.params.id)
+        getCategories()
+    },[getEditProduct])
 
 
 
@@ -28,19 +29,22 @@ function UpdateProd({match,data,getProduct,updateProduct}) {
         form.append('description', state.description);
     if(state.price)
         form.append('price', state.price);
+    if(state.categoryId)
+        form.append('categoryId', state.categoryId)
     if(image){
         // console.log(imageUrl)
         form.append('imageUrl', image) // new image
         form.append('oldImage',imageUrl) //old image string
 
     }
+
     // console.log(image, imageUrl)
   
     updateProduct(match.params.id,form)
     
     setTimeout(() => {
         history.push('/manage')
-      }, 3000);
+      }, 500);
        
         
       }
@@ -56,6 +60,16 @@ function UpdateProd({match,data,getProduct,updateProduct}) {
         let url = URL.createObjectURL(file);
         setPreview(url)
         }
+    }
+
+    const renderCategoriesOpt = () =>{
+      const { categories,loading } = data;
+      let filtered_categories = categories.filter((cat) => cat.id !== category.id)
+      let categoriesLoading = !loading ? (
+        filtered_categories.map((cat) =><option key={cat.id} value={cat.id} >{cat.name}</option>)
+      ) : <Spin />;
+      return categoriesLoading
+  
     }
     
     const inputChangeHandler  = e  => {
@@ -74,6 +88,7 @@ function UpdateProd({match,data,getProduct,updateProduct}) {
             return <img src={`https://fw-img-bucket.s3-ap-southeast-1.amazonaws.com/${imageUrl}`}  style={{width: "100px", marginTop:"10px", marginBottom:"10px"}}/>
       }
 
+
       if(title)
       return (
         <div className='form-wrapper'>
@@ -85,6 +100,12 @@ function UpdateProd({match,data,getProduct,updateProduct}) {
             <Box>
                 <TextField id="price" onChange={inputChangeHandler} label="Price" defaultValue={price} fullWidth/>
             </Box>
+            <Box style={{marginTop:'10px'}}>
+            <NativeSelect onChange={inputChangeHandler} id="categoryId" fullWidth required>
+              <option value="" defaultValue>{category.name}</option>
+              {renderCategoriesOpt()}
+            </NativeSelect>
+          </Box>
             <Box style={{marginTop:'10px'}}>
             <input type="file" accept='photo/*' onChange={imageHandler}/>
           </Box>
@@ -127,4 +148,4 @@ function UpdateProd({match,data,getProduct,updateProduct}) {
   
   })
   
-  export default connect(mapStateToProps,{getProduct,updateProduct})(UpdateProd)
+  export default connect(mapStateToProps,{getEditProduct,updateProduct, getCategories})(UpdateProd)

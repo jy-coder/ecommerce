@@ -15,7 +15,8 @@ function SearchResult({getProducts,match,data}) {
 
 
     useEffect(() => {
-        getProducts(data.limit,match.params.searchQ)
+        getProducts(data.limit,match.params.searchQ,
+          data.sortBy,data.orderBy)
         
     },[]);
 

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {  loginUser,signupUser } from './../redux/actions/userActions';
-import {Button, Box, Input} from '@material-ui/core';
+import {Button, Box, TextField} from '@material-ui/core';
 import { connect } from 'react-redux';
 
 
@@ -33,15 +33,17 @@ console.log(errorData)
       {error ? error : null}
     <Box flexDirection="column" height="100%" width="50%" p={1} id="formInput" >
     <Box height="25%">
-      <Input type="email" style = {{fontSize: 20}}  id="email" placeholder="Enter email"  onChange={inputChangeHandler} />
+      <TextField type="email" required  id="email"  onChange={inputChangeHandler} label='Email' fullWidth/>
     </Box>
 
   <Box height="25%">
-    <Input type="password" id="password" style = {{fontSize: 20}} placeholder="Password" onChange={inputChangeHandler} />
+    <TextField  type="password" id="password" required onChange={inputChangeHandler}  label='Password' fullWidth/>
   </Box>
-  <Button type="submit">
-    Submit
-  </Button>
+  <Box display="flex" justifyContent="center" style={{marginTop: '10px'}}>
+    <Button type="submit" variant="outlined">
+      Submit
+    </Button>
+  </Box>
   </Box>
 </form>
     </div>

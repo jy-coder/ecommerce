@@ -29,7 +29,7 @@ export const confirmOrder = (orders,prodIdList) => (dispatch) => {
       .post('shop/addOrder', {orders,prodIdList})
       .then((res) => {
         dispatch({type: CONFIRM_ORDER});
-        history.push('/stripe')
+        history.push('/')
       })
       .catch((err) => {
         

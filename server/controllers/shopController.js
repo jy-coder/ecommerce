@@ -5,7 +5,8 @@ const User= require('../models/user')
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op
 const catchAsync = require('../utils/catchAsync')
-const AppError = require('../utils/AppError')
+const AppError = require('../utils/AppError');
+const Category = require('../models/category');
 
 
 exports.getProducts = catchAsync (async (req, res, next) => {
@@ -31,6 +32,11 @@ exports.getProducts = catchAsync (async (req, res, next) => {
     }
     else{
         whereQuery ={title: {[Op.ne]: null}}
+    }
+
+    if(req.query.category){
+        // whereQuery = req.params
+        whereQuery = {categoryId: req.query.category}
     }
 
 
@@ -103,8 +109,10 @@ exports.getProduct = catchAsync (async (req, res, next)  => {
 exports.getCart =catchAsync( async (req, res, next) => {
     const cart = await req.user.getCart()
 
-    if(cart)
-        products = await cart.getProducts()
+    if(!cart)
+        return next(new AppError('No cart found', 404));
+
+    products = await cart.getProducts()
     // console.log(products)
     res.status(200).json(products)
 })
@@ -114,10 +122,13 @@ exports.getCart =catchAsync( async (req, res, next) => {
 exports.addToCart =catchAsync( async (req, res, next) => {
     let product
     const cart = await req.user.getCart()
+
+    if(!cart)
+        return next(new AppError('No cart found', 404));
    
     const newProduct = await Product.findByPk(req.body.prodId);
-    if(cart)
-        products = await cart.getProducts({where: {id:req.body.prodId}})
+    
+    products = await cart.getProducts({where: {id:req.body.prodId}})
    
     if(products.length > 0)
          product = products[0] //one product only
@@ -241,9 +252,35 @@ exports.enableReview= catchAsync( async (req, res, next) => {
         return res.status(200).json('edit') //Allow add review
     else if(reviewExist.length === 0 )
         return res.status(200).json('add') //Allow edit review
+})
 
 
+exports.getMyReview= catchAsync( async (req, res, next) => {
+    const review = await req.user.getReviews({where:{productId: req.params.prodId}})
+    if(review.length === 0)
+        return next(new AppError('You have not reviewed this product yet', 401));
+    
+    res.status(200).json(review[0])
 
+
+})
+
+exports.editMyReview = catchAsync( async (req, res, next) => {
+    const reviewToUpdate = await req.user.getReviews({where:{productId: req.params.prodId}})
+
+    if(reviewToUpdate.length === 0)
+        return next(new AppError('You have not reviewed this product yet', 401));
+
+    let updateValues = { 
+        text: req.body.text
+    };
+
+    review = await Review.update(updateValues,{where:{productId: req.params.prodId}})
+
+    if(!review)
+        return next(new AppError('No product found', 404));
+
+    return res.status(200).json("success")
 })
 
 
@@ -272,5 +309,16 @@ const review = await Review.findOne({where: {id:reviewAdded.id}, include:[{model
 
 res.status(200).json(review)
 });
+
+
+exports.getCategories = catchAsync (async (req, res, next)  => {
+    categories  = await Category.findAll()
+    
+    if(!categories )
+        return next(new AppError('No categories  found', 404));
+
+    return res.status(200).json(categories )
+     
+  })
 
 

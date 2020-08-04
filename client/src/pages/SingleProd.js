@@ -10,6 +10,7 @@ import {Rating} from '@material-ui/lab';
 import Wrapper from './../components/Wrapper'
 import store from './../redux/store'
 import {CLEAR_PERMISSION} from './../redux/types'
+import EditReviewBtn from './../components/EditReviewBtn'
 
 
 
@@ -55,18 +56,17 @@ const SingleProd = ({getProduct,loading, data, match, addReview,user,getReviewPe
       }
 
       const renderAddToCart = () =>{
+        // console.log(product.id)
         return <Msg prodId={product.id}/>
       }
 
       const renderProduct =() =>(
         
         <Grid item xs={12} container>
-          <Grid item container direction="column" spacing={2} xs={12} sm={4} style={{marginRight:'15px'}}>
-            <Grid item>
-              <img className='single-product-img' src={`https://fw-img-bucket.s3-ap-southeast-1.amazonaws.com/${product.imageUrl}`} />
-            </Grid>
+          <Grid item direction="column" spacing={2} xs={12} sm={4} style={{marginRight:'auto'}}>
+              <img className='single-product-img' src={`https://fw-img-bucket.s3-ap-southeast-1.amazonaws.com/${product.imageUrl}`}/>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={7} style={{textAlign:'center'}}>
             <Typography gutterBottom variant="h5" className='single-product-typo'>{product.title}</Typography>
               <Divider/>
               <Typography variant="h5" className='single-product-typo'>${product.price}</Typography>
@@ -91,7 +91,7 @@ const SingleProd = ({getProduct,loading, data, match, addReview,user,getReviewPe
           form  = (
             <Grid style={{marginTop:'5px'}}>
               <form onSubmit = {(e)=> submitHandler(e)}>
-              Your Rating: <Rating onChange={ratingChangeHandler}/>
+              Your Rating: <Rating onChange={ratingChangeHandler} required/>
               <TextField 
                 id="text"
                 label="Enter review"
@@ -101,9 +101,10 @@ const SingleProd = ({getProduct,loading, data, match, addReview,user,getReviewPe
                 variant="outlined"
                 fullWidth
                 onChange={inputChangeHandler}
+                required
               />
               <Grid item container style={{display:'flex',justifyContent:"flex-end"}}>
-                <Box ><Button type="submit" variant="outlined" color="primary">Add review</Button></Box>
+                <Button type="submit" variant="outlined" color="primary">Add review</Button>
               </Grid>
               </form>
             </Grid>
@@ -111,7 +112,7 @@ const SingleProd = ({getProduct,loading, data, match, addReview,user,getReviewPe
      
          else if(review.mode === "edit"){
            form = (
-            <Button type="submit" variant="outlined" fullWidth>Edit review</Button>
+            <EditReviewBtn prodId={match.params.id}/>
      
          )
      
@@ -136,7 +137,7 @@ const SingleProd = ({getProduct,loading, data, match, addReview,user,getReviewPe
 
       const renderRecommendation = () =>{
         return <div className='center-text'>
-        dummies
+        -
        </div>
       }
 

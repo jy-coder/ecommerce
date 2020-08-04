@@ -1,7 +1,6 @@
 import React,{useEffect} from 'react'
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText,DialogTitle,Box,Grid} from '@material-ui/core';
 import { connect } from 'react-redux';
-import { Spin } from './Spin';
 import OrderCard from './OrderCard'
 import{ confirmOrder} from './../redux/actions/orderActions'
 
@@ -33,7 +32,7 @@ const OrderModal = ({orderData, confirmOrder}) => {
 const renderSum = () => {
   let sum = 0;
   orders.map((order) => {sum += order.price * order.quantity})
-  return sum
+  return sum.toFixed(2)
 
 }
 
@@ -53,7 +52,7 @@ const renderOrders = () =>{
   
   return (
     <div >
-    <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Place Order
       </Button>
       <Dialog
@@ -62,16 +61,22 @@ const renderOrders = () =>{
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogContent>
+        <DialogContent className='test'>
           
              {renderOrders()}
          
         </DialogContent>
         <DialogActions>
-          Total Price: ${renderSum()}
-          <Button onClick={(e) => handleConfirm(e)} color="primary">
-            Confirm
-          </Button>
+          <Grid container>
+            <Grid item xs={12} style={{'display':'flex','justifyContent':'center'}}>
+              Total: ${renderSum()}
+            </Grid>
+            <Grid item xs={12} style={{'display':'flex','justifyContent':'flex-end'}}>
+              <Button onClick={(e) => handleConfirm(e)} variant="outlined">
+                Confirm
+              </Button>
+            </Grid>
+          </Grid>
         </DialogActions>
       </Dialog>
     </div>

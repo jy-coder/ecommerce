@@ -33,9 +33,10 @@ import {
 
 
   export const addToCart = (prodId) => (dispatch) => {
+    console.log(prodId)
     dispatch({type: ADD_TO_CART})
     axios
-      .post('shop/addCart', {prodId})
+      .post('shop/addcart', {prodId})
       .then((res) => {
         dispatch({
           type: ADD_CART_SUCCESS,

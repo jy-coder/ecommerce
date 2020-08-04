@@ -49,32 +49,33 @@ const updateQuantity = (e) =>{
     return (
         <div >
       <Paper >
-        <Grid container item xs={12} sm container>
-          <Grid container item xs >
+        <Grid container item xs={12}>
+          <Grid item xs>
             <input type="checkbox" id={item.cartItem.productId} onChange={handleChange} ref={checkRef}/>
           </Grid>
 
           <Grid container spacing={2} xs={11}>
-            <Grid item xs={3}>
-                <img src={`/${item.imageUrl}`} style={{height:'125px', width:'125px'}}/>
+            <Grid item xs={3} >
+                <img className='item-card-img'src={`https://fw-img-bucket.s3-ap-southeast-1.amazonaws.com/${item.imageUrl}`} />
             </Grid>
-            <Grid item xs={9} sm container>
-              <Grid item xs container direction="column" spacing={2}>
-                <Grid item xs>
-                <Typography gutterBottom variant="subtitle1">
-                <span ref={nameRef} id={`${item.title}-${item.cartItem.productId}`}>{item.title}</span>
+            <Grid item xs={7} container >
+                <Grid item xs={8}>
+                  <Typography variant="subtitle1">
+                      <span ref={nameRef} id={`${item.title}-${item.cartItem.productId}`}>{item.title}</span>
+                    </Typography>
+                  <Typography gutterBottom  variant="subtitle1">
+                      <input type="number" defaultValue={item.cartItem.quantity} ref={quantityRef} onChange={(e) => updateQuantity(e)}/>
                   </Typography>
                   <Typography gutterBottom variant="subtitle1">
-                  <input type="number" defaultValue={item.cartItem.quantity} ref={quantityRef} onChange={(e) => updateQuantity(e)}/>
+                    <Button variant="outlined" color="secondary"
+                    onClick={() =>removeFromCart(item.cartItem.productId) }>Remove</Button>
                   </Typography>
                 </Grid>
-                <Grid item>
-                  <Button onClick={() =>removeFromCart(item.cartItem.productId) }>Remove</Button>
+                <Grid item xs={4} direction='row' >
+                  <Typography variant="subtitle1">${item.price}</Typography>
                 </Grid>
-              </Grid>
-              <Grid item>
-          <Typography variant="subtitle1">${item.price}</Typography>
-              </Grid>
+             
+              
             </Grid>
           </Grid>
         </Grid>

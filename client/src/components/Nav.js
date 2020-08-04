@@ -5,6 +5,9 @@ import {Link, Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {logoutUser} from './../redux/actions/userActions'
 import SearchBar from './../components/SearchBar'
+import {MdShoppingCart} from 'react-icons/md'
+import MenuBtn from './../components/MenuBtn'
+import './Nav.css'
 
 
 
@@ -21,8 +24,28 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   title: {
+    [theme.breakpoints.down("xs")]: {
+      display: "none"
+    },
     flexGrow: 1,
   },
+  end:{
+    [theme.breakpoints.down("xs")]: {
+      display: "none"
+    },
+    alignContent:"flex-end"
+
+  },
+  search:{
+    flexGrow: 1,
+    justifyContent:"center",
+    
+  },
+  toggle: {
+    [theme.breakpoints.up("sm")]: {
+      display: "none"
+    },
+  }
 }));
 
 function Nav({user,logoutUser}) {
@@ -49,23 +72,28 @@ function Nav({user,logoutUser}) {
 
     setOpen(false);
   };
-  // useEffect(() => {
 
-  // },[isAuth]);
+
   let routes
   
     if(authenticated){
      routes = (
     <Fragment>
+      <Typography variant="h6" className={classes.toggle}>
+        <MenuBtn/>
+      </Typography>
       <Typography variant="h6" className={classes.title}>
         <Button color="inherit" href="/">Shop</Button>
       </Typography>
-      <Typography variant="h6" className={classes.title}>
-      <SearchBar/>
+      <Typography variant="h6" className={classes.search}>
+        <SearchBar/>
       </Typography>
+      
+
      
-      <Button color="inherit" href="/cart">Cart</Button>
-        <Button
+      <Button color="inherit" href="/cart"><MdShoppingCart size={32}/></Button>
+      <Typography variant="h6" className={classes.end}>
+        <Button color="inherit"
           ref={anchorRef}
           aria-controls={open ? 'menu-list-grow' : undefined}
           aria-haspopup="true"
@@ -73,7 +101,7 @@ function Nav({user,logoutUser}) {
         >
           Account
         </Button>
-        <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+        <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal className='nav-menu-account'>
           {({ TransitionProps, placement }) => (
             <Grow
               {...TransitionProps}
@@ -82,8 +110,8 @@ function Nav({user,logoutUser}) {
               <Paper>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                    <MenuItem><Link to ="/manage">Manage My Orders</Link></MenuItem>
-                    <MenuItem><Link to ="/orderhistory">Order History</Link></MenuItem>
+                    <MenuItem onClick={handleClose}><Link to ="/manage">Manage My Products</Link></MenuItem>
+                    <MenuItem onClick={handleClose}><Link to ="/orderhistory">Order History</Link></MenuItem>
                     <MenuItem onClick={() => logoutUser()}>Logout</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
@@ -91,7 +119,7 @@ function Nav({user,logoutUser}) {
             </Grow>
           )}
         </Popper>
-     
+        </Typography>
     </Fragment>
     )}
 

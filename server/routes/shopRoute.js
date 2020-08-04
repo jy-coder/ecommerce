@@ -26,4 +26,9 @@ router.get('/getOrders',shopController.getOrders);
 
 router.post('/checkReview',shopController.enableReview);
 router.post('/addReview',shopController.addReview);
+router.get('/getMyReview/:prodId', shopController.getMyReview)
+
+router.patch('/updateReview/:prodId', shopController.editMyReview)
+router.get('/getCategories',shopController.getCategories);
+
 module.exports = router;

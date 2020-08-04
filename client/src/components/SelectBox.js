@@ -6,13 +6,12 @@ import { connect } from 'react-redux';
 
 
 function SelectBox({getProducts,setSortOrder,data,search}) {
-
     const handleChange  = e  => {
         const splitValue  =e.target.value.split('|')
         const sortBy = splitValue[0]
         const orderBy = splitValue[1]
         setSortOrder(sortBy,orderBy)
-        getProducts(data.limit,search,sortBy,orderBy)
+        getProducts(data.limit,search,sortBy,orderBy,data.categoryId)
     }
 
 

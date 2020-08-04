@@ -15,21 +15,22 @@ import {
     UPDATE_PRODUCT,
     INCREASE_LIMIT,
     LOAD_MORE_PRODUCTS,
-    SET_SORT_ORDER,SET_ORDERBY
+    SET_SORT_ORDER,SET_ORDERBY,
+    SET_CATEGORIES,
+    SET_CATEGORY_OPT
 
   } from '../types';
   import axios from '../../utils/axios-handler';
   import history from '../../utils/history';
   
   // Get all screams
-  export const getProducts = (limit,search,sortBy,orderBy) => (dispatch) => {
+  export const getProducts = (limit,search,sortBy,orderBy,categoryId) => (dispatch) => {
     let query = '';
-    if(limit && sortBy && orderBy)
-      query = `?limit=${limit}&sortBy=${sortBy}&orderBy=${orderBy}`
-    else if(limit && search)
-      query = `?limit=${limit}&search=${search}`
-    else if (limit)
-      query = `?limit=${limit}`
+  
+    if( categoryId)
+      query = `?limit=${limit}&sortBy=${sortBy}&orderBy=${orderBy}&category=${categoryId}`
+    else if(search)
+      query = `?limit=${limit}&search=${search}&orderBy=${orderBy}&category=${categoryId}`
 
     dispatch({ type: LOADING_PRODUCTS });
     axios
@@ -156,6 +157,48 @@ import {
     
     });
 
+  };
+
+
+  export const setCategoryOpt = (categoryId) => (dispatch) => {
+    dispatch({
+      type: SET_CATEGORY_OPT,
+      payload:categoryId
+    
+    });
+
+  };
+
+  // SET_CATEGORY_OPT
+
+
+  export const getCategories = () => (dispatch) => {
+    dispatch({ type: LOADING_PRODUCTS });
+    axios
+      .get('shop/getCategories')
+      .then((res) => {
+        dispatch({
+          type: SET_CATEGORIES,
+          payload:res.data
+        });
+      })
+      .catch((err) => {
+        
+      });
+  };
+
+
+  export const getEditProduct = (productId) => (dispatch) => {
+    dispatch({ type: LOADING_PRODUCT });
+    axios
+      .get(`admin/edit/${productId}`)
+      .then((res) => {
+        dispatch({ type: SET_PRODUCT, payload: res.data })
+        
+      })
+      .catch((err) => {
+
+      });
   };
 
 

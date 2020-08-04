@@ -1,35 +1,39 @@
-import React, {useState} from 'react';
-import {  addProduct } from './../redux/actions/productActions';
+import React, {useState,useEffect} from 'react';
+import {  addProduct, getCategories} from './../redux/actions/productActions';
 import {Button, Box, Input, TextField,NativeSelect} from '@material-ui/core';
 import { connect } from 'react-redux';
 import history from '../utils/history';
+import {Spin} from './../components/Spin'
 
 
 
-const AddProd = ({addProduct}) =>{
+
+const AddProd = ({addProduct,getCategories,data}) =>{
     const [image, setImage] = useState("")
-    const [state, setState]= useState({title:"", description:"", price:""})
+    const [state, setState]= useState({title:"", description:"", price:0,categoryId:""})
     const [preview, setPreview] = useState("")
 
   
-  
+    useEffect(() => {
+      getCategories()
+    },[]);
   
   
     const submitHandler =(e) =>{
       e.preventDefault();
-      // console.log(state)
       const form = new FormData();
   
       form.append('title', state.title);
       form.append('description', state.description);
       form.append('price', state.price);
       form.append('imageUrl', image)
+      form.append('categoryId', state.categoryId)
 
-    addProduct(form)
+      addProduct(form)
 
       setTimeout(() => {
         history.push('/manage')
-      }, 3000);
+      }, 500);
      
       
     }
@@ -54,7 +58,14 @@ const AddProd = ({addProduct}) =>{
       });
     }
   
+    const renderCategoriesOpt = () =>{
+      const { categories,loading } = data;
+      let categoriesLoading = (
+        categories.map((cat) =><option key={cat.id} value={cat.id} >{cat.name}</option>)
+      );
+      return categoriesLoading
   
+    }
   
   
       return (
@@ -63,16 +74,16 @@ const AddProd = ({addProduct}) =>{
         
         <Box flexDirection="column" p={1}>
         <Box>
-            <TextField  id="title" onChange={inputChangeHandler} label="Name" fullWidth/>
+            <TextField  id="title" onChange={inputChangeHandler} label="Name" fullWidth required/>
           </Box>
           <Box>
-            <TextField id="price" onChange={inputChangeHandler} label="Price" fullWidth/>
+            <TextField id="price" onChange={inputChangeHandler} label="Price" fullWidth required/>
           </Box>
-          <NativeSelect onChange={inputChangeHandler} >
-                <option value=''>Default</option>
-                <option value={'price|asc'}>Price: Low To High</option>
-                <option value={'price|desc'}>Price: High To Low</option>
-            </NativeSelect>
+          <Box style={{marginTop:'10px'}}>
+            <NativeSelect onChange={inputChangeHandler} id="categoryId" fullWidth required>
+              {renderCategoriesOpt()}
+              </NativeSelect>
+          </Box>
           <Box style={{marginTop:'10px'}}>
             <input type="file" accept='photo/*' onChange={imageHandler}/>
           </Box>
@@ -87,13 +98,13 @@ const AddProd = ({addProduct}) =>{
             placeholder="Enter Content"
             multiline
             variant="outlined"
-            fullWidth
+            fullWidth required
             onChange={inputChangeHandler}
           />
         </Box>
         </Box>
 
-            <Button autoFocus type="submit" variant="contained" color="primary" fullWidth style={{marginTop:'5px'}}>
+            <Button type="submit" variant="contained" color="primary" fullWidth required style={{marginTop:'5px'}}>
              Add
             </Button>
       
@@ -106,4 +117,4 @@ const AddProd = ({addProduct}) =>{
   });
 
 
-export default connect(mapStateToProps,{addProduct})(AddProd);
+export default connect(mapStateToProps,{addProduct,getCategories})(AddProd);

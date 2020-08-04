@@ -1,6 +1,7 @@
 const Product = require('../models/product')
 const User= require('../models/user')
 const Review= require('../models/review')
+const Category= require('../models/category')
 const Sequelize = require('sequelize');
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/AppError')
@@ -15,8 +16,8 @@ const s3 = require('./../utils/aws-handler')
 exports.uploadAWSPhoto = uploadAWS.single('imageUrl')
 
 exports.uploadToAWS = catchAsync (async (req, res, next)  => {
-  if (!req.file.key)
-    return next(new AppError('You must upload an image file', 404));
+  // if (!req.file.key)
+  //   return next(new AppError('You must upload an image file', 404));
 
   next()
     //.key name of file
@@ -30,14 +31,15 @@ exports.uploadToAWS = catchAsync (async (req, res, next)  => {
 exports.addProduct = catchAsync (async (req, res, next)  => {
     req.body.imageUrl= req.file.key
 
-    const {title,imageUrl,price,description} = req.body;
+    const {title,imageUrl,price,description,categoryId} = req.body;
 
 
     const product =await req.user.createProduct({
         title: title,
         price: price,
         imageUrl: imageUrl,
-        description: description
+        description: description,
+        categoryId: categoryId
     });
 
 
@@ -97,7 +99,13 @@ exports.addProduct = catchAsync (async (req, res, next)  => {
    
     // product  = await Product.findOne({where: {id: req.params.id}})
     //userId in product table must belong to user
-    const product =  await req.user.getProducts({where: {id: req.params.id}})
+    const product =  await req.user.getProducts({
+      include: [{
+        model: Category
+      }],
+      where: {id: req.params.id}
+    
+    })
 
 
     if(!product)
@@ -125,7 +133,8 @@ exports.addProduct = catchAsync (async (req, res, next)  => {
         title: req.body.title,
         price: req.body.price,
         imageUrl: req.body.imageUrl,
-        description: req.body.description
+        description: req.body.description,
+        categoryId: req.body.categoryId
 
     };
 

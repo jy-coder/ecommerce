@@ -9,7 +9,6 @@ function ReviewCard({review}) {
     dayjs.extend(relativeTime);
     return (
         <div>
-        <Paper>
           <Grid container spacing={2} style={{margin:'15px'}}>
             <Grid item xs={12} sm container>
               <Grid item xs container direction="column" spacing={2}>
@@ -21,7 +20,7 @@ function ReviewCard({review}) {
                   {dayjs(updatedAt).fromNow()}
                   </Typography>
                   <Typography variant="subtitle1">
-                  <Rating  value={Math.round(rating * 10)/10} readOnly />
+                  <Rating size="small" value={Math.round(rating * 10)/10} readOnly />
                   </Typography>
                   <Typography variant="subtitle1">
                     {text}
@@ -30,7 +29,6 @@ function ReviewCard({review}) {
               </Grid>
             </Grid>
           </Grid>
-        </Paper>
       </div>
     )
 }

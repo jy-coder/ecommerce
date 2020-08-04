@@ -10,9 +10,14 @@ const Category= sequelize.define('category', {
     primaryKey: true
   },
   name: {
-    type: Sequelize.STRING,
-    allowNull: false
+    type:   Sequelize.ENUM,
+    allowNull: false,
+    values: ['Shirt', 'Pant','Dress','Jean','Skirt']
   }
-});
+},
+{
+  timestamps: false
+}
+);
 
 module.exports = Category;

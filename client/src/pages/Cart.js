@@ -23,8 +23,13 @@ const Cart = ({getCart,cartData, orderData}) => {
       }
 
      const renderOrderBtn = () => {
-        if(orderData.orders.length > 0)
-          return <Box display='flex' justifyContent='flex-end'><Box><OrderModal /></Box></Box>
+        if(orderData.orders.length > 0){
+          return (
+          <Box display='flex' justifyContent='center' style={{marginTop: '5px'}}>
+            <OrderModal />
+          </Box>
+          )
+        }
         else
           return null
      }
@@ -34,7 +39,7 @@ const Cart = ({getCart,cartData, orderData}) => {
  
     return (
       
-        <Fragment>
+        <div style={{marginTop: '10px'}}>
             {!loading ?
             <Fragment>
             {renderCartItems()}
@@ -44,7 +49,7 @@ const Cart = ({getCart,cartData, orderData}) => {
             
             <Spin/>}
         
-        </Fragment>
+        </div>
     )
 }
 

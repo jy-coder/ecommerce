@@ -11,19 +11,23 @@ import {
     CHECK_REVIEW,
     INCREASE_LIMIT,
     LOAD_MORE_PRODUCTS,
-    SET_SORT_ORDER
+    SET_SORT_ORDER,
+    SET_CATEGORIES,
+    SET_CATEGORY_OPT
 
   } from '../types';
 
 
 
 const initialState = {
+    categories: [],
     products: [],
     product: {},
     loading: false,
-    limit:2,
+    limit:6,
     sortBy:'',
-    orderBy:''
+    orderBy:'',
+    categoryId:0,
   };
 
 
@@ -76,6 +80,21 @@ const initialState = {
             sortBy: action.sortBy,
             orderBy: action.orderBy
           };
+
+
+          case SET_CATEGORIES:
+            return {
+              ...state,
+              categories: action.payload,
+              loading: false
+            };
+
+          case SET_CATEGORY_OPT:
+            return{
+              ...state,
+              categoryId:action.payload,
+              loading: false
+            };
 
 
         // case POST_PRODUCT:

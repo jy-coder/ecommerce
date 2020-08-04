@@ -41,6 +41,7 @@ import {
     localStorage.removeItem('FBIdToken');
     delete axios.defaults.headers.common['Authorization'];
     dispatch({ type: SET_UNAUTHENTICATED });
+    history.push('/')
   };
 
 

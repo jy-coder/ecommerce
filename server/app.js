@@ -18,6 +18,8 @@ const OrderItem = require('./models/order-item');
 const Review = require('./models/review');
 const Category = require('./models/category');
 
+
+
 global.__basedir = __dirname;
 
 dotenv.config({ path: './config.env' });
@@ -74,17 +76,25 @@ Product.hasMany(Review);
 User.hasMany(Review);
 Review.belongsTo(User);
 
-
 Product.belongsTo(Category)
 
 
 
 
 
+
 sequelize
-  .sync({ force: true })
-  // .sync()
+  // .sync({ force: true })
+  .sync()
   .then(user => {
+    // sequelize.drop()
+    // Category.create({name: 'Pant'})
+    // Category.create({name: 'Shirt'})
+    // Category.create({name: 'Jean'})
+    // Category.create({name: 'Skirt'})
+    // User.create({name: 'test',email:'test@test.com',password: 'test'})
+    // User.findOne({where:{email: 'test@test.com'}}).then(user =>user.createCart() )
+    // getUser.createCart()
     app.listen(port);
   })
   .catch(err => {
