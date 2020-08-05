@@ -23,6 +23,7 @@ const OrderItem = require('./models/order-item')
 const Review = require('./models/review')
 const Category = require('./models/category')
 const serveStatic = require('serve-static')
+const AppError = require('./utils/AppError');
 
 
 
