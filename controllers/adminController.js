@@ -1,15 +1,15 @@
 const multer = require('multer');
 const sharp = require('sharp');
 const path = require('path');
-const Product = require(path.join(__dirname,'../models/product'))
-const User= require(path.join(__dirname,'../models/user'))
-const Review= require(path.join(__dirname,'../models/review'))
-const Category= require(path.join(__dirname,'../models/category'))
+const Product = require('../models/product')
+const User= require('../models/user')
+const Review= require('../models/review')
+const Category= require('../models/category')
 const Sequelize = require('sequelize')
-const catchAsync = require(path.join(__dirname,'../utils/catchAsync'))
-const AppError = require(path.join(__dirname,'../utils/AppError'))
-const uploadAWS = require(path.join(__dirname,'../services/file-upload'))
-const s3 = require(path.join(__dirname,'./../utils/aws-handler'))
+const catchAsync = require('../utils/catchAsync')
+const AppError = require('../utils/AppError')
+const uploadAWS = require('../services/file-upload')
+const s3 = require('./../utils/aws-handler')
 
 
 
