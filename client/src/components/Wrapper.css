@@ -97,5 +97,8 @@ a{
     color:black
 }
 
+.remove-underline a{
+    text-decoration: none;
+}
 
 

@@ -1,16 +1,21 @@
 const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
+const path = require('path');
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
 const cors = require('cors');
-const mongoose = require('mongoose');
+const rateLimit = require('express-rate-limit');
+const hpp = require('hpp');
+const compression = require('compression');
 const dotenv = require('dotenv');
+const globalErrorHandler = require('./controllers/errorController')
 const sequelize = require('./utils/database');
 const adminRoute = require('./routes/adminRoute')
 const shopRoute = require('./routes/shopRoute')
 const userRoute = require('./routes/userRoute')
 const Product = require('./models/product');
 const User = require('./models/user');
-const globalErrorHandler = require('./controllers/errorController')
 const Cart = require('./models/cart');
 const CartItem = require('./models/cart-item');
 const Order = require('./models/order');
@@ -39,9 +44,34 @@ app.use(cors({
     
 }))
 
-app.use(express.json())
 
+// Limit requests from same API
+const limiter = rateLimit({
+  max: 100,
+  windowMs: 60 * 60 * 1000,
+  message: 'Too many requests from this IP, please try again in an hour!'
+});
+app.use('/api', limiter);
 
+app.use(express.json({ limit: '10kb' }))
+
+// Data sanitization against NoSQL query injection
+app.use(mongoSanitize());
+
+// Data sanitization against XSS
+app.use(xss());
+
+// Prevent parameter pollution
+app.use(
+  hpp({
+    whitelist: [
+      'limit',
+      'category',
+      'sortBy',
+      'orderBy'
+    ]
+  })
+);
 
 const port = process.env.PORT || 1337;
 
@@ -50,8 +80,10 @@ app.use('/api/shop', shopRoute)
 app.use('/api/admin', adminRoute)
 app.use('/api/user', userRoute)
 
-
-
+//Handing Unhandled Routes
+app.all('*', (req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
+});
 
 
 //HANDLING ERROR
@@ -59,7 +91,7 @@ app.use('/api/user', userRoute)
 app.use(globalErrorHandler)
 
 
-
+//Establish models r/s before syncing
 Product.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
 User.hasMany(Product);
 User.hasOne(Cart);
@@ -69,13 +101,9 @@ Product.belongsToMany(Cart, { through: CartItem });
 Order.belongsTo(User);
 User.hasMany(Order);
 Order.belongsToMany(Product, { through: OrderItem });
-
-
-
 Product.hasMany(Review);
 User.hasMany(Review);
 Review.belongsTo(User);
-
 Product.belongsTo(Category)
 
 

@@ -1,5 +1,13 @@
 const Sequelize = require('sequelize');
 
+
+// sequelize = new Sequelize(process.env.DATABASE_URL, {
+//   dialect: 'postgres',
+//   protocol: 'postgres',
+//   dialectOptions: {
+//       ssl: true
+//   }
+// });
 const sequelize = new Sequelize( 
     'ecommerce',
     'postgres',
@@ -8,6 +16,8 @@ const sequelize = new Sequelize(
       dialect: 'postgres',
     },
 );
+
+
 
 module.exports = sequelize;
 

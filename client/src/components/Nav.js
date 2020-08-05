@@ -110,8 +110,8 @@ function Nav({user,logoutUser}) {
               <Paper>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                    <MenuItem onClick={handleClose}><Link to ="/manage">Manage My Products</Link></MenuItem>
-                    <MenuItem onClick={handleClose}><Link to ="/orderhistory">Order History</Link></MenuItem>
+                    <MenuItem onClick={handleClose} className='remove-underline'><Link to ="/manage">Manage My Products</Link></MenuItem>
+                    <MenuItem onClick={handleClose} className='remove-underline'><Link to ="/orderhistory">Order History</Link></MenuItem>
                     <MenuItem onClick={() => logoutUser()}>Logout</MenuItem>
                   </MenuList>
                 </ClickAwayListener>

@@ -71,7 +71,7 @@ import './Shop.css'
     
                       <img src='https://fw-img-bucket.s3-ap-southeast-1.amazonaws.com/marcus-loke-xXJ6utyoSw0-unsplash.jpg' className='image-small-hidden' />
                       <img src='https://fw-img-bucket.s3-ap-southeast-1.amazonaws.com/janko-ferlic-oLctpwsuYBg-unsplash.jpg' className='image-small-hidden'/>
-                      <img src='https://fw-img-bucket.s3-ap-southeast-1.amazonaws.com/stil-D4jRahaUaIc-unsplash.jpg' className='image-small-hidden'/>
+                      {/* <img src='https://fw-img-bucket.s3-ap-southeast-1.amazonaws.com/stil-D4jRahaUaIc-unsplash.jpg' className='image-small-hidden'/> */}
                   </div>
               </div>
               {/* <div className='shop-gender'>
