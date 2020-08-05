@@ -25,7 +25,7 @@ import OrderHistory from './pages/OrderHistory'
 import MyProduct from './pages/MyProduct'
 
 
-  const token = localStorage.FBIdToken;
+const token = localStorage.FBIdToken;
 if (token) {
   const decodedToken = jwtDecode(token);
   if (decodedToken.exp * 1000 < Date.now()) {
@@ -41,14 +41,19 @@ if (token) {
 
 
 axios.interceptors.request.use(req => {
+  // const errorCode = store.getState().error.code
+  // console.log(errorCode)
   store.dispatch({ type: CLEAR_ERRORS });
+    
   return req;
 });
 axios.interceptors.response.use(res => res, error => {
-
   if(error.response){
-    // console.log(error.response.status)
     store.dispatch(setError(error.response.data.message,error.response.status));
+    if(error.response.status === 401){
+      store.dispatch(logoutUser())
+    }
+   
   }
   else
     store.dispatch(setError("Network error"))
@@ -116,6 +121,7 @@ const mapStateToProps = (state) => ({
   data: state.data,
   cartData: state.cartData,
   orderData: state.orderData,
+  error:state.error,
   user : state.user
 });
 export default connect(mapStateToProps)(App);

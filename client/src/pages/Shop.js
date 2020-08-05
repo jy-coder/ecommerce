@@ -50,10 +50,10 @@ import './Shop.css'
   renderCategories(){
     const { categories,loading } = this.props.data;
 
-    let categoriesLoading = !loading ? (
+    let categoriesLoading = (
       categories.map((cat) => <Box className='category-box' 
       onClick={(e) => this.handleClick(cat)} key={cat.id}>{cat.name}</Box >)
-    ) : <Spin />;
+    )
     return categoriesLoading
 
   }
@@ -74,10 +74,6 @@ import './Shop.css'
                       {/* <img src='https://fw-img-bucket.s3-ap-southeast-1.amazonaws.com/stil-D4jRahaUaIc-unsplash.jpg' className='image-small-hidden'/> */}
                   </div>
               </div>
-              {/* <div className='shop-gender'>
-                <div>Female</div>
-                <div>Male</div>
-              </div> */}
               <div className='shop-categories'>
                 <div className='category-box' onClick={()=> this.props.getProducts(this.props.data.limit,'',this.props.data.sortBy,this.props.data.orderBy)}>All</div>
                 {this.renderCategories()}

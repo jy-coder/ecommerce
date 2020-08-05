@@ -27,7 +27,7 @@ const Signup = ({signupUser,errorData}) =>{
     return (
     <div className="form-wrapper">
     <form onSubmit ={(e) => submitHandler(e)}>
-  
+    {error ? <span className="error-msg">** {error}</span> : null}
     <Box flexDirection="column" p={1}>
     <Box controlId="email">
       <TextField type="email" label="Email" id="email" onChange={inputChangeHandler} fullWidth required />

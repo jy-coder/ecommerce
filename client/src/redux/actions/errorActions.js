@@ -1,6 +1,5 @@
 import {
     SET_ERRORS,
-    CLEAR_ERRORS
 }from '../types';
 
 

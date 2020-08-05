@@ -1,7 +1,6 @@
 import {
     SET_USER,
     SET_ERRORS,
-    CLEAR_ERRORS,
     LOADING_UI,
     LOADING_USER,
     SET_UNAUTHENTICATED,
@@ -16,10 +15,10 @@ import {
       .then((res) => {
         setAuthorizationHeader(res.data.token);
         dispatch(getUserData());
-        dispatch({ type: CLEAR_ERRORS });
         history.push('/');
       })
       .catch((err) => {
+        
 
       });
   };
@@ -29,8 +28,8 @@ import {
     axios
       .post('user/signup', { name, email, password, confirmPassword })
       .then((res) => {
-        dispatch({ type: CLEAR_ERRORS });
-        history.push('/login');
+        if(res)
+          history.push('/login');
       })
       .catch((err) => {
 
@@ -50,6 +49,7 @@ import {
     axios
       .get('user/getUser')
       .then((res) => {
+        console.log(res)
         dispatch({
           type: SET_USER,
           payload: res.data

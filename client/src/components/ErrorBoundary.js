@@ -5,7 +5,7 @@ class ErrorBoundary extends Component{
     
     render(){
         const {error,code} = this.props.errorData
-        if(error && code !== 401)
+        if(error && (code !== 401 && code !==400))
             return <div> Something went wrong! Please try again later!</div>
         return this.props.children
         

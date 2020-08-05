@@ -30,7 +30,7 @@ console.log(errorData)
     return (
     <div className="form-wrapper">
     <form onSubmit ={(e) => submitHandler(e)}>
-      {error ? error : null}
+      {error ? <span className="error-msg">** {error}</span> : null}
     <Box flexDirection="column" height="100%" width="50%" p={1} id="formInput" >
     <Box height="25%">
       <TextField type="email" required  id="email"  onChange={inputChangeHandler} label='Email' fullWidth/>

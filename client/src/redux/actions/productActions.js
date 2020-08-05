@@ -42,6 +42,8 @@ import {
         });
       })
       .catch((err) => {
+        // dispatch({ type: SET_ERRORS,
+        //   payload: err.response.data.message, code: err.response.status});
 
       });
   };
@@ -56,7 +58,7 @@ import {
         
       })
       .catch((err) => {
-
+        
       });
   };
 
