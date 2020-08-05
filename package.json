@@ -5,8 +5,9 @@
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
     "start:dev": "NODE_ENV=development nodemon app.js",
-    "start": "NODE_ENV=production nodemon app.js",
+    "start:prod": "NODE_ENV=production nodemon app.js",
     "lint": "eslint src/"
   },
   "keywords": [],
@@ -37,6 +38,7 @@
     "pg-hstore": "^2.3.3",
     "promisify": "0.0.3",
     "sequelize": "^5.21.12",
+    "serve-static": "^1.14.1",
     "sharp": "^0.25.2",
     "validator": "^13.1.1",
     "xss-clean": "^0.1.1"
@@ -44,5 +46,8 @@
   "devDependencies": {
     "eslint": "^6.8.0",
     "nodemon": "^2.0.2"
+  },
+  "engines":{
+    "node": ">=10.0.0"
   }
 }

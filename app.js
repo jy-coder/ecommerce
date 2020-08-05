@@ -9,23 +9,24 @@ const rateLimit = require('express-rate-limit');
 const hpp = require('hpp');
 const compression = require('compression');
 const dotenv = require('dotenv');
-const globalErrorHandler = require('./controllers/errorController')
-const sequelize = require('./utils/database');
-const adminRoute = require('./routes/adminRoute')
-const shopRoute = require('./routes/shopRoute')
-const userRoute = require('./routes/userRoute')
-const Product = require('./models/product');
-const User = require('./models/user');
-const Cart = require('./models/cart');
-const CartItem = require('./models/cart-item');
-const Order = require('./models/order');
-const OrderItem = require('./models/order-item');
-const Review = require('./models/review');
-const Category = require('./models/category');
+const globalErrorHandler = require(path.join(__dirname,'./controllers/errorController'))
+const sequelize = require(path.join(__dirname,'./utils/database'))
+const adminRoute = require(path.join(__dirname,'./routes/adminRoute'))
+const shopRoute = require(path.join(__dirname,'./routes/shopRoute'))
+const userRoute = require(path.join(__dirname,'./routes/userRoute'))
+const Product = require(path.join(__dirname,'./models/product'))
+const User = require(path.join(__dirname,'./models/user'))
+const Cart = require(path.join(__dirname,'./models/cart'))
+const CartItem = require(path.join(__dirname,'./models/cart-item'))
+const Order = require(path.join(__dirname,'./models/order'))
+const OrderItem = require(path.join(__dirname,'./models/order-item'))
+const Review = require(path.join(__dirname,'./models/review'))
+const Category = require(path.join(__dirname,'./models/category'))
+const serveStatic = require('serve-static')
 
 
 
-global.__basedir = __dirname;
+// global.__basedir = __dirname;
 
 dotenv.config({ path: './config.env' });
 
@@ -44,6 +45,8 @@ app.use(cors({
     
 }))
 
+app.use(serveStatic(__dirname + '/client/public'))
+app.use(compression())
 
 // Limit requests from same API
 const limiter = rateLimit({
