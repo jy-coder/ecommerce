@@ -25,11 +25,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "client": "npm start --prefix client",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
