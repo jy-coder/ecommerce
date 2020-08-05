@@ -44,7 +44,7 @@ app.use(cors({
     
 }))
 
-app.use(serveStatic(__dirname + '/client/public'))
+app.use(serveStatic(__dirname + '/client/src/App.js'))
 app.use(compression())
 
 // Limit requests from same API
