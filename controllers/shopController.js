@@ -1,12 +1,12 @@
 const path = require('path');
-const Product = require('../models/product')
-const Review= require('../models/review')
-const User= require('../models/user')
+const Product = require(path.join(__dirname,'../models/product'))
+const Review= require(path.join(__dirname,'../models/review'))
+const User= require(path.join(__dirname,'../models/user'))
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
-const catchAsync = require('../utils/catchAsync')
-const AppError = require('../utils/AppError')
-const Category = require('../models/category')
+const catchAsync = require(path.join(__dirname,'../utils/catchAsync'))
+const AppError = require(path.join(__dirname,'../utils/AppError'))
+const Category = require(path.join(__dirname,'../models/category'))
 
 
 exports.getProducts = catchAsync (async (req, res, next) => {

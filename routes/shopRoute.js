@@ -1,6 +1,7 @@
 const express = require('express');
-const shopController = require('../controllers/shopController');
-const authController = require('../controllers/authController');
+const path = require('path');
+const shopController = require(path.join(__dirname,'../controllers/shopController'))
+const authController = require(path.join(__dirname,'../controllers/authController'))
 
 const router = express.Router();
 

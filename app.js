@@ -26,9 +26,8 @@ const serveStatic = require('serve-static')
 
 
 
-// global.__basedir = __dirname;
 
-dotenv.config({ path: './config.env' });
+// dotenv.config({ path: './config.env' });
 
 const app = express();
 
@@ -118,6 +117,8 @@ sequelize
   // .sync({ force: true })
   .sync()
   .then(user => {
+    // console.log(__dirname)
+
     // sequelize.drop()
     // Category.create({name: 'Pant'})
     // Category.create({name: 'Shirt'})

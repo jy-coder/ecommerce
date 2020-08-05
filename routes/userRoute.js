@@ -1,5 +1,6 @@
 const express = require('express');
-const authController = require('./../controllers/authController');
+const path = require('path');
+const authController = require(path.join(__dirname,'./../controllers/authController'))
 
 const router = express.Router();
 
