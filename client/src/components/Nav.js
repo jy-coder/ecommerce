@@ -14,11 +14,12 @@ import './Nav.css'
 
 const useStyles = makeStyles((theme) => ({
   container:{
-    width:"100%"
+    width:"100%",
   },
   root: {
     flexGrow: 1,
-    width:'100%'
+    width:'100%',
+    
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -48,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function Nav({user,logoutUser}) {
+function Nav({user,logoutUser,item}) {
   const {authenticated} = user
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -83,6 +84,7 @@ function Nav({user,logoutUser}) {
         <MenuBtn/>
       </Typography>
       <Typography variant="h6" className={classes.title}>
+        {item ? item: null}
         <Button color="inherit" href="/">Shop</Button>
       </Typography>
       <Typography variant="h6" className={classes.search}>
@@ -140,8 +142,8 @@ function Nav({user,logoutUser}) {
 
 
   return (
-    <div className={classes.root}>
-      <AppBar position="relative">
+    <div className={classes.root} >
+      <AppBar position="relative" style={{backgroundColor: 'black'}}>
         <Toolbar>
          {routes}
         </Toolbar>

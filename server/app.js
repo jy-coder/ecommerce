@@ -22,7 +22,7 @@ const Order = require('./models/order')
 const OrderItem = require('./models/order-item')
 const Review = require('./models/review')
 const Category = require('./models/category')
-const serveStatic = require('serve-static')
+const Subcategory = require('./models/subcategory')
 const AppError = require('./utils/AppError');
 
 
@@ -38,12 +38,12 @@ app.use(cors())
 app.use(compression())
 
 // Limit requests from same API
-const limiter = rateLimit({
-  max: 100,
-  windowMs: 60 * 60 * 1000,
-  message: 'Too many requests from this IP, please try again in an hour!'
-});
-app.use('/api', limiter);
+// const limiter = rateLimit({
+//   max: 100,
+//   windowMs: 60 * 60 * 1000,
+//   message: 'Too many requests from this IP, please try again in an hour!'
+// });
+// app.use('/api', limiter);
 
 app.use(express.json({ limit: '10kb' }))
 
@@ -108,7 +108,10 @@ Order.belongsToMany(Product, { through: OrderItem });
 Product.hasMany(Review);
 User.hasMany(Review);
 Review.belongsTo(User);
-Product.belongsTo(Category)
+
+Category.hasMany(Subcategory)
+Subcategory.belongsTo(Category,{ foreignKey: { allowNull: false }, onDelete: 'CASCADE' })
+Product.belongsTo(Subcategory,{ foreignKey: { allowNull: false }, onDelete: 'CASCADE' })
 
 
 
@@ -119,15 +122,29 @@ sequelize
   // .sync({ force: true })
   .sync()
   .then(user => {
-    // console.log(__dirname)
     // sequelize.drop()
-    // Category.create({name: 'Pant'})
-    // Category.create({name: 'Shirt'})
-    // Category.create({name: 'Jean'})
-    // Category.create({name: 'Skirt'})
-    // User.create({name: 'test',email:'test@test.com',password: 'test'})
-    // User.findOne({where:{email: 'test@test.com'}}).then(user =>user.createCart() )
-    // getUser.createCart()
+    // Category.create({name: 'Women\'s Fashion'})
+    // Category.create({name: 'Men\'s Fashion'})
+    // User.create({name: 'test',email:'test@test.com',password: 'test'}).then(user =>
+    //   {user.createCart()
+    //   return user})
+    // .then(user =>
+    //   user.createProduct({
+    //     title: "test1",
+    //     price: 30.20,
+    //     imageUrl: "a.PNG",
+    //     description: "test1",
+    //     subcategoryId: 1
+    //  })
+    // )
+    
+  
+    //  Subcategory.create({name:'Women Clothing', categoryId:1})
+    //  Subcategory.create({name:'Women Shoes', categoryId:1})
+    //  Subcategory.create({name:'Accessories', categoryId:1})
+    //  Subcategory.create({name:'Men Clothing', categoryId:2})
+    //  Subcategory.create({name:'Men Shoes', categoryId:2})
+    //  Subcategory.create({name:'Accessories', categoryId:2})
     app.listen(port);
   })
   .catch(err => {

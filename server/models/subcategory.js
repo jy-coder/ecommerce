@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 
 const sequelize = require('../utils/database');
 
-const Category= sequelize.define('category', {
+const Subcategory= sequelize.define('subcategory', {
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
@@ -10,15 +10,24 @@ const Category= sequelize.define('category', {
     primaryKey: true
   },
   name: {
-    unique: true,
-    type:  Sequelize.STRING,
+    type:   Sequelize.STRING,
     allowNull: false,
-    
   }
 },
 {
+    
+indexes: [
+    {
+        unique: true,
+        fields: ['name', 'categoryId'],
+        allowNull: false
+        
+    }
+],
+    
   timestamps: false
+  
 }
 );
 
-module.exports = Category;
+module.exports = Subcategory;

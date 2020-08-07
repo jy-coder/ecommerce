@@ -17,7 +17,8 @@ import {
     LOAD_MORE_PRODUCTS,
     SET_SORT_ORDER,SET_ORDERBY,
     SET_CATEGORIES,
-    SET_CATEGORY_OPT
+    SET_SUBCATEGORIES_OPT,
+    SET_SUBCATEGORIES
 
   } from '../types';
   import axios from '../../utils/axios-handler';
@@ -162,16 +163,16 @@ import {
   };
 
 
-  export const setCategoryOpt = (categoryId) => (dispatch) => {
+  export const setSubcategoriesOpt = (categoryId) => (dispatch) => {
     dispatch({
-      type: SET_CATEGORY_OPT,
+      type: SET_SUBCATEGORIES_OPT,
       payload:categoryId
     
     });
 
   };
 
-  // SET_CATEGORY_OPT
+  // SET_SUBCATEGORIES_OPT
 
 
   export const getCategories = () => (dispatch) => {
@@ -181,6 +182,23 @@ import {
       .then((res) => {
         dispatch({
           type: SET_CATEGORIES,
+          payload:res.data
+        });
+      })
+      .catch((err) => {
+        
+      });
+  };
+
+
+
+  export const getSubcategories = (categoryId) => (dispatch) => {
+    console.log('dispatch subcategories')
+    axios
+      .get(`shop/getSubcategories/${categoryId}`)
+      .then((res) => {
+        dispatch({
+          type: SET_SUBCATEGORIES,
           payload:res.data
         });
       })

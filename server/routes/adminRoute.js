@@ -2,7 +2,6 @@ const express = require('express');
 const path = require('path');
 const adminController = require(path.join(__dirname,'../controllers/adminController'))
 const authController = require(path.join(__dirname,'../controllers/authController'))
-const upload = require(path.join(__dirname,'../services/file-upload'))
 const router = express.Router()
 const deleteFile = require(path.join(__dirname,'../services/file-delete'))
 

@@ -11,6 +11,7 @@ import Wrapper from './../components/Wrapper'
 import store from './../redux/store'
 import {CLEAR_PERMISSION} from './../redux/types'
 import EditReviewBtn from './../components/EditReviewBtn'
+import Main from './../components/Main'
 
 
 
@@ -63,8 +64,8 @@ const SingleProd = ({getProduct,loading, data, match, addReview,user,getReviewPe
       const renderProduct =() =>(
         
         <Grid item xs={12} container>
-          <Grid item direction="column" spacing={2} xs={12} sm={4} style={{marginRight:'auto'}}>
-              <img className='single-product-img' src={`https://fw-img-bucket.s3-ap-southeast-1.amazonaws.com/${product.imageUrl}`}/>
+          <Grid item container direction="column" spacing={2} xs={12} sm={4} style={{marginRight:'auto'}}>
+              <img className='single-product-img' src={`https://fw-img-bucket.s3-ap-southeast-1.amazonaws.com/${product.imageUrl}`} style={{width: '200px', height:'200px'}}/>
           </Grid>
           <Grid item xs={12} sm={7} style={{textAlign:'center'}}>
             <Typography gutterBottom variant="h5" className='single-product-typo'>{product.title}</Typography>
@@ -82,10 +83,6 @@ const SingleProd = ({getProduct,loading, data, match, addReview,user,getReviewPe
 
       const renderForm = () =>{
         let form
-        // let checkReviewExist
-        // if(product.reviews){
-        //       checkReviewExist =product.reviews.some(r=> r.userId === user.id)
-        // }
 
         if(review.mode === "add"){
           form  = (
@@ -143,14 +140,12 @@ const SingleProd = ({getProduct,loading, data, match, addReview,user,getReviewPe
 
 
 
-
-   
-    return (
-      <Wrapper>
+      const renderItem = (
+        <Wrapper>
         {!loading ? 
       
             <Grid container spacing={2} style={{width:'100%', height:'100%'}}>
-              <Grid item xs={12} className='single-shop-product-section'>
+              <Grid item xs={12} className='single-shop-product-section' >
                 <Paper className='single-product-paper'>
                   {renderProduct()}
                 </Paper>
@@ -178,7 +173,15 @@ const SingleProd = ({getProduct,loading, data, match, addReview,user,getReviewPe
             </Grid> 
         : <Spin/>}
       </Wrapper>
-    );
+      )
+
+
+
+
+   
+    return (
+      <Main item={renderItem}/>
+    )
   }
 
 

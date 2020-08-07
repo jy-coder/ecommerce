@@ -13,7 +13,8 @@ import {
     LOAD_MORE_PRODUCTS,
     SET_SORT_ORDER,
     SET_CATEGORIES,
-    SET_CATEGORY_OPT
+    SET_SUBCATEGORIES_OPT,
+    SET_SUBCATEGORIES
 
   } from '../types';
 
@@ -28,6 +29,7 @@ const initialState = {
     sortBy:'',
     orderBy:'',
     categoryId:0,
+    subcategory:{}
   };
 
 
@@ -88,13 +90,15 @@ const initialState = {
               categories: action.payload,
               loading: false
             };
-
-          case SET_CATEGORY_OPT:
+          
+          case SET_SUBCATEGORIES_OPT:
             return{
               ...state,
-              categoryId:action.payload,
+              subcategory: state.categories.filter((cat) => cat.id === action.payload)[0],
               loading: false
             };
+        
+
 
 
         // case POST_PRODUCT:

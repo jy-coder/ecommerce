@@ -7,6 +7,7 @@ const Op = Sequelize.Op
 const catchAsync = require(path.join(__dirname,'../utils/catchAsync'))
 const AppError = require(path.join(__dirname,'../utils/AppError'))
 const Category = require(path.join(__dirname,'../models/category'))
+const Subcategory = require(path.join(__dirname,'../models/Subcategory'))
 
 
 exports.getProducts = catchAsync (async (req, res, next) => {
@@ -312,12 +313,28 @@ res.status(200).json(review)
 
 
 exports.getCategories = catchAsync (async (req, res, next)  => {
-    categories  = await Category.findAll()
+    categories  = await Category.findAll({
+        include: [{
+          model: Subcategory
+         }]
+      })
     
     if(!categories )
         return next(new AppError('No categories  found', 404));
 
-    return res.status(200).json(categories )
+    return res.status(200).json(categories)
+     
+  })
+
+
+
+  exports.getSubcategories = catchAsync (async (req, res, next)  => {
+    subcategories  = await Subcategory.findAll({where: {categoryId:req.params.categoryId}})
+    
+    if(!subcategories )
+        return next(new AppError('No subcategories  found', 404));
+
+    return res.status(200).json(subcategories)
      
   })
 

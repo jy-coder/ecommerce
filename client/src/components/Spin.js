@@ -7,7 +7,7 @@ export const Spin = () => {
 
   return (
    
-      <CircularProgress />
+      <CircularProgress style={{minHeight:'100vh', display:'flex', justifyContent:'center',alignItems:'center'}}/>
     
   );
 }

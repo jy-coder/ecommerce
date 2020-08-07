@@ -32,4 +32,6 @@ router.get('/getMyReview/:prodId', shopController.getMyReview)
 router.patch('/updateReview/:prodId', shopController.editMyReview)
 router.get('/getCategories',shopController.getCategories);
 
+router.get('/getSubcategories/:categoryId', shopController.getSubcategories)
+
 module.exports = router;
