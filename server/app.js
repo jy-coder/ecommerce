@@ -14,15 +14,6 @@ const sequelize = require('./utils/database')
 const adminRoute = require('./routes/adminRoute')
 const shopRoute = require('./routes/shopRoute')
 const userRoute = require('./routes/userRoute')
-const Product = require('./models/product')
-const User = require('./models/user')
-const Cart = require('./models/cart')
-const CartItem = require('./models/cart-item')
-const Order = require('./models/order')
-const OrderItem = require('./models/order-item')
-const Review = require('./models/review')
-const Category = require('./models/category')
-const Subcategory = require('./models/subcategory')
 const AppError = require('./utils/AppError');
 
 
@@ -89,87 +80,39 @@ app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
 });
 
+//execute function once to test using create method
+//before seeding database
+// require('./utils/initialize')()
+
+
+
+
+//sequelize migration:create --name create_products_table
+//sequelize db:migrate
+//sequelize db:migrate:undo:all
+
+
+
+
+
+
+
+
+
 
 //HANDLING ERROR
-
+app.listen(port,() =>{
+      console.log(`App running on port ${port}`)
+    });
 app.use(globalErrorHandler)
 
 
-//Establish models r/s before syncing
-Product.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
-User.hasMany(Product);
-User.hasOne(Cart);
-Cart.belongsTo(User);
-Cart.belongsToMany(Product, { through: CartItem });
-Product.belongsToMany(Cart, { through: CartItem });
-Order.belongsTo(User);
-User.hasMany(Order);
-Order.belongsToMany(Product, { through: OrderItem });
-Product.hasMany(Review);
-User.hasMany(Review);
-Review.belongsTo(User);
-Category.hasMany(Subcategory)
-Subcategory.belongsTo(Category)
-Subcategory.hasMany(Product)
-Product.belongsTo(Subcategory)
 
 
 
 
 
 
-sequelize
-  // .sync({ force: true })
-  .sync()
-  .then(user => {
-    // sequelize.drop()
-    // Category.create({name: 'Women\'s Fashion'})
-    // Category.create({name: 'Men\'s Fashion'})
-    // User.create({name: 'test',email:'test@test.com',password: 'test'}).then(user =>
-    //   {user.createCart()
-    //   return user})
-    // .then(user =>
-    //   {user.createProduct({
-    //     title: "test1",
-    //     price: 30.20,
-    //     imageUrl: "a.PNG",
-    //     description: "test1",
-    //     subcategoryId: 1
-    //  })
-    //  return user
-    // })
-    //  .then(user =>{
-    //   user.createProduct({
-    //     title: "test2",
-    //     price: 30.10,
-    //     imageUrl: "a.PNG",
-    //     description: "test2",
-    //     subcategoryId: 1
-    //  })
-    //   return user
-    //   }).then(user =>
-    //       user.createProduct({
-    //         title: "test2",
-    //         price: 30.10,
-    //         imageUrl: "a.PNG",
-    //         description: "test2",
-    //         subcategoryId: 3
-    //      })
-    //   )
 
-     
-    
-    
-  
-    //  Subcategory.create({name:'Women Clothing', categoryId:1})
-    //  Subcategory.create({name:'Women Shoes', categoryId:1})
-    //  Subcategory.create({name:'Accessories', categoryId:1})
-    //  Subcategory.create({name:'Men Clothing', categoryId:2})
-    //  Subcategory.create({name:'Men Shoes', categoryId:2})
-    //  Subcategory.create({name:'Accessories', categoryId:2})
-    app.listen(port);
-  })
-  .catch(err => {
-    console.log(err);
-  });
-//  app.listen(port,'localhost');
+
+

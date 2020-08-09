@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 
 const sequelize = require('../utils/database');
 
-const Product = sequelize.define('product', {
+const Product = sequelize.define('product',  {
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
@@ -24,7 +24,26 @@ const Product = sequelize.define('product', {
   description: {
     type: Sequelize.STRING,
     allowNull: false
-  }
+  },
+  userId:{
+     type: Sequelize.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'users',
+        key: 'id'
+      }
+  },
+  subcategoryId:{
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'subcategories',
+      key: 'id'
+    }
+
+  },
+  createdAt: Sequelize.DATE,
+  updatedAt: Sequelize.DATE
 });
 
 

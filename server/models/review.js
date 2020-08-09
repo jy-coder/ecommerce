@@ -6,11 +6,12 @@ const Review = sequelize.define('review', {
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
-    // allowNull: false,
     primaryKey: true,
-    // omitNull:true
   },
-  text: Sequelize.STRING,
+  text: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
   rating: {
     type:Sequelize.INTEGER,
     allowNull: false,
@@ -18,10 +19,26 @@ const Review = sequelize.define('review', {
       min: 0,
       max:5
     }
-
-  }
-
-},
+  },
+  productId: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'products',
+      key: 'id'
+    }
+  },
+  userId: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'users',
+      key: 'id'
+    },
+    createdAt: Sequelize.DATE,
+    updatedAt: Sequelize.DATE
+    
+}},
 {
     indexes: [
         {
