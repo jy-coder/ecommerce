@@ -108,10 +108,10 @@ Order.belongsToMany(Product, { through: OrderItem });
 Product.hasMany(Review);
 User.hasMany(Review);
 Review.belongsTo(User);
-
 Category.hasMany(Subcategory)
-Subcategory.belongsTo(Category,{ foreignKey: { allowNull: false }, onDelete: 'CASCADE' })
-Product.belongsTo(Subcategory,{ foreignKey: { allowNull: false }, onDelete: 'CASCADE' })
+Subcategory.belongsTo(Category)
+Subcategory.hasMany(Product)
+Product.belongsTo(Subcategory)
 
 
 
@@ -129,14 +129,36 @@ sequelize
     //   {user.createCart()
     //   return user})
     // .then(user =>
-    //   user.createProduct({
+    //   {user.createProduct({
     //     title: "test1",
     //     price: 30.20,
     //     imageUrl: "a.PNG",
     //     description: "test1",
     //     subcategoryId: 1
     //  })
-    // )
+    //  return user
+    // })
+    //  .then(user =>{
+    //   user.createProduct({
+    //     title: "test2",
+    //     price: 30.10,
+    //     imageUrl: "a.PNG",
+    //     description: "test2",
+    //     subcategoryId: 1
+    //  })
+    //   return user
+    //   }).then(user =>
+    //       user.createProduct({
+    //         title: "test2",
+    //         price: 30.10,
+    //         imageUrl: "a.PNG",
+    //         description: "test2",
+    //         subcategoryId: 3
+    //      })
+    //   )
+
+     
+    
     
   
     //  Subcategory.create({name:'Women Clothing', categoryId:1})

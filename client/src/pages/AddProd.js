@@ -10,7 +10,7 @@ import {Spin} from './../components/Spin'
 
 const AddProd = ({addProduct,getCategories,data}) =>{
     const [image, setImage] = useState("")
-    const [state, setState]= useState({title:"", description:"", price:0,categoryId:""})
+    const [state, setState]= useState({title:"", description:"", price:0,subcategoryId:""})
     const [preview, setPreview] = useState("")
 
   
@@ -27,7 +27,7 @@ const AddProd = ({addProduct,getCategories,data}) =>{
       form.append('description', state.description);
       form.append('price', state.price);
       form.append('imageUrl', image)
-      form.append('categoryId', state.categoryId)
+      form.append('subcategoryId', state.subcategoryId)
 
       addProduct(form)
 
@@ -59,11 +59,14 @@ const AddProd = ({addProduct,getCategories,data}) =>{
     }
   
     const renderCategoriesOpt = () =>{
-      const { categories,loading } = data;
-      let categoriesLoading = (
-        categories.map((cat) =><option key={cat.id} value={cat.id} >{cat.name}</option>)
-      );
+      const { categories } = data;
+      let categoriesLoading =  (
+        categories.map((cat) =><optgroup key={cat.id} label={cat.name}>
+          {cat.subcategories.map(subcat =><option key={subcat.id} value={subcat.id}>{subcat.name}</option> )}
+        </optgroup>)
+      ) 
       return categoriesLoading
+
   
     }
   
@@ -80,12 +83,12 @@ const AddProd = ({addProduct,getCategories,data}) =>{
             <TextField id="price" onChange={inputChangeHandler} label="Price" fullWidth required/>
           </Box>
           <Box style={{marginTop:'10px'}}>
-            <NativeSelect onChange={inputChangeHandler} id="categoryId" fullWidth required>
+            <NativeSelect onChange={inputChangeHandler} id="subcategoryId" fullWidth required>
               {renderCategoriesOpt()}
               </NativeSelect>
           </Box>
           <Box style={{marginTop:'10px'}}>
-            <input type="file" accept='photo/*' onChange={imageHandler}/>
+            <input type="file" accept='photo/*' onChange={imageHandler} required/>
           </Box>
         <Box>
           <img src={preview} alt="" style={{width: "100px", marginTop:"10px", marginBottom:"10px"}}/>

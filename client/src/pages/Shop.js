@@ -1,6 +1,6 @@
 import React, { Component,Fragment } from 'react'
 import { connect } from 'react-redux';
-import { getProducts, loadMoreProducts, getCategories,setSubcategoriesOpt} from './../redux/actions/productActions'
+import { getProducts, loadMoreProducts, getCategories,setCategoryOpt} from './../redux/actions/productActions'
 import {Spin} from './../components/Spin'
 import ProdCard from '../components/ProdCard'
 import Wrapper from '../components/Wrapper'
@@ -15,7 +15,7 @@ import Main from '../components/Main'
 
   componentDidMount(){
      
-    this.props.getProducts(this.props.data.limit,'',this.props.data.sortBy,this.props.data.orderBy,this.props.data.categoryId)
+    this.props.getProducts(this.props.data.limit,'',this.props.data.sortBy,this.props.data.orderBy)
       
   }
 
@@ -40,7 +40,7 @@ import Main from '../components/Main'
         <div className='gallery'>
               <div className='image-small-container'>
                   <img src='https://fw-img-bucket.s3-ap-southeast-1.amazonaws.com/harry-cunningham-7qCeFo19r24-unsplash.jpg' />
-                  <img src='https://fw-img-bucket.s3-ap-southeast-1.amazonaws.com/alexandra-gorn-WF0LSThlRmw-unsplash.jpg' className='image-small-hidden'/>
+                  {/* <img src='https://fw-img-bucket.s3-ap-southeast-1.amazonaws.com/alexandra-gorn-WF0LSThlRmw-unsplash.jpg' className='image-small-hidden'/> */}
                   <img src='https://fw-img-bucket.s3-ap-southeast-1.amazonaws.com/bryan-papazov-P3LVrAYJX1c-unsplash.jpg' className='image-small-hidden'/>
     
                   <img src='https://fw-img-bucket.s3-ap-southeast-1.amazonaws.com/marcus-loke-xXJ6utyoSw0-unsplash.jpg' className='image-small-hidden' />
@@ -80,4 +80,4 @@ const mapStateToProps = (state) => ({
   });
 
 
-export default connect(mapStateToProps, {getProducts,loadMoreProducts,getCategories,setSubcategoriesOpt})(Shop);
+export default connect(mapStateToProps, {getProducts,loadMoreProducts,getCategories,setCategoryOpt})(Shop);

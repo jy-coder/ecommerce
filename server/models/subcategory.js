@@ -12,18 +12,25 @@ const Subcategory= sequelize.define('subcategory', {
   name: {
     type:   Sequelize.STRING,
     allowNull: false,
+  },
+  categoryId: {
+    type: Sequelize.INTEGER,
+    references: {
+      model: 'categories',
+      key: 'id'
   }
+}
 },
 {
     
-indexes: [
-    {
-        unique: true,
-        fields: ['name', 'categoryId'],
-        allowNull: false
+// indexes: [
+//     {
+//         unique: true,
+//         fields: ['name', 'categoryId'],
+//         allowNull: false
         
-    }
-],
+//     }
+// ],
     
   timestamps: false
   

@@ -4,6 +4,7 @@ import { getAdminProducts } from './../redux/actions/productActions'
 import {Spin} from './../components/Spin'
 import ProdCard from '../components/ProdCard' 
 import Wrapper from '../components/Wrapper'
+import Main from '../components/Main'
 import {Button} from '@material-ui/core';
 
  class MyProduct extends Component {
@@ -30,15 +31,15 @@ import {Button} from '@material-ui/core';
 
 
     render() {
-    
+        const renderItem = (  <Fragment>
+          <Button variant="outlined" color="primary" href="/addproduct" fullWidth>Add</Button>
+            <Wrapper>
+              {this.renderProducts()}
+            </Wrapper>
+          </Fragment>)
         return (
-          <Fragment>
-            <Button variant="outlined" color="primary" href="/addproduct" fullWidth>Add</Button>
-              <Wrapper>
-                {this.renderProducts()}
-              </Wrapper>
-            </Fragment>
-            
+          
+          <Main item={renderItem}/>  
         )
     }
 }

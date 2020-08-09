@@ -1,15 +1,15 @@
 import React, {useEffect,useState} from 'react'
 import {updateProduct,getEditProduct, getCategories} from  './../redux/actions/productActions'
 import { connect } from 'react-redux';
-import {Button, Box, Input, TextField,NativeSelect} from '@material-ui/core';
+import {Button, Box, InputLabel, TextField,NativeSelect,Typography} from '@material-ui/core';
 import history from '../utils/history';
 import {Spin} from '../components/Spin'
 
 function UpdateProd({match,data,getEditProduct,getCategories,updateProduct}) {
 
-    const {title,imageUrl,price,description,category} = data.product
+    const {title,imageUrl,price,description,subcategoryId,subcategory} = data.product
     const [image, setImage] = useState("")
-    const [state, setState]= useState({title:"", description:"", price:0,categoryId:""})
+    const [state, setState]= useState({title:"", description:"", price:0,subcategoryId:0})
     const [preview, setPreview] = useState("")
     
 
@@ -30,7 +30,7 @@ function UpdateProd({match,data,getEditProduct,getCategories,updateProduct}) {
     if(state.price)
         form.append('price', state.price);
     if(state.categoryId)
-        form.append('categoryId', state.categoryId)
+        form.append('subcategoryId', state.subcategoryId)
     if(image){
         // console.log(imageUrl)
         form.append('imageUrl', image) // new image
@@ -61,16 +61,6 @@ function UpdateProd({match,data,getEditProduct,getCategories,updateProduct}) {
         setPreview(url)
         }
     }
-
-    const renderCategoriesOpt = () =>{
-      const { categories,loading } = data;
-      let filtered_categories = categories.filter((cat) => cat.id !== category.id)
-      let categoriesLoading = !loading ? (
-        filtered_categories.map((cat) =><option key={cat.id} value={cat.id} >{cat.name}</option>)
-      ) : <Spin />;
-      return categoriesLoading
-  
-    }
     
     const inputChangeHandler  = e  => {
       setState({
@@ -87,7 +77,20 @@ function UpdateProd({match,data,getEditProduct,getCategories,updateProduct}) {
           else
             return <img src={`https://fw-img-bucket.s3-ap-southeast-1.amazonaws.com/${imageUrl}`}  style={{width: "100px", marginTop:"10px", marginBottom:"10px"}}/>
       }
+      
 
+      const renderCategoriesOpt = () =>{
+        const { categories } = data;
+        let categoriesLoading =  (
+          categories.map((cat) =><optgroup key={cat.id} label={cat.name}>
+            {cat.subcategories.filter(_ => _.id !== subcategoryId)
+            .map(subcat =><option key={subcat.id} value={subcat.id}>{subcat.name}</option> )}
+          </optgroup>)
+        ) 
+        return categoriesLoading
+
+    
+      }
 
       if(title)
       return (
@@ -101,8 +104,10 @@ function UpdateProd({match,data,getEditProduct,getCategories,updateProduct}) {
                 <TextField id="price" onChange={inputChangeHandler} label="Price" defaultValue={price} fullWidth/>
             </Box>
             <Box style={{marginTop:'10px'}}>
-            <NativeSelect onChange={inputChangeHandler} id="categoryId" fullWidth required>
-              <option value="" defaultValue>{category.name}</option>
+             
+              <InputLabel><Typography variant="subtitle1" style={{fontSize:'13px'}}> Subcategory Name</Typography></InputLabel>
+          
+            <NativeSelect onChange={inputChangeHandler} id="subcategoryId"  fullWidth required defaultValue={subcategory.name}>
               {renderCategoriesOpt()}
             </NativeSelect>
           </Box>

@@ -5,6 +5,7 @@ const Product = require(path.join(__dirname,'../models/product'))
 const User= require(path.join(__dirname,'../models/user'))
 const Review= require(path.join(__dirname,'../models/review'))
 const Category= require(path.join(__dirname,'../models/category'))
+const Subcategory= require(path.join(__dirname,'../models/subcategory'))
 const Sequelize = require('sequelize')
 const catchAsync = require(path.join(__dirname,'../utils/catchAsync'))
 const AppError = require(path.join(__dirname,'../utils/AppError'))
@@ -101,7 +102,8 @@ exports.addProduct = catchAsync (async (req, res, next)  => {
     //userId in product table must belong to user
     const product =  await req.user.getProducts({
       include: [{
-        model: Category
+        model: Subcategory,
+        include: {model: Category}
       }],
       where: {id: req.params.id}
     
@@ -134,7 +136,7 @@ exports.addProduct = catchAsync (async (req, res, next)  => {
         price: req.body.price,
         imageUrl: req.body.imageUrl,
         description: req.body.description,
-        categoryId: req.body.categoryId
+        subcategoryId: req.body.subcategoryId
 
     };
 

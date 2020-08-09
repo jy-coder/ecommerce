@@ -17,7 +17,7 @@ import {
     LOAD_MORE_PRODUCTS,
     SET_SORT_ORDER,SET_ORDERBY,
     SET_CATEGORIES,
-    SET_SUBCATEGORIES_OPT,
+    SET_CATEGORY_OPT,
     SET_SUBCATEGORIES
 
   } from '../types';
@@ -26,12 +26,12 @@ import {
   
   // Get all screams
   export const getProducts = (limit,search,sortBy,orderBy,categoryId) => (dispatch) => {
-    let query = '';
+    let query = `?limit=${limit}&sortBy=${sortBy}&orderBy=${orderBy}`;
   
-    if( categoryId)
-      query = `?limit=${limit}&sortBy=${sortBy}&orderBy=${orderBy}&category=${categoryId}`
+    if(categoryId)
+      query += `&category=${categoryId}`
     else if(search)
-      query = `?limit=${limit}&search=${search}&orderBy=${orderBy}&category=${categoryId}`
+      query += `&search=${search}`
 
     dispatch({ type: LOADING_PRODUCTS });
     axios
@@ -163,16 +163,16 @@ import {
   };
 
 
-  export const setSubcategoriesOpt = (categoryId) => (dispatch) => {
+  export const setCategoryOpt = (categoryId) => (dispatch) => {
     dispatch({
-      type: SET_SUBCATEGORIES_OPT,
+      type: SET_CATEGORY_OPT,
       payload:categoryId
     
     });
 
   };
 
-  // SET_SUBCATEGORIES_OPT
+
 
 
   export const getCategories = () => (dispatch) => {

@@ -12,58 +12,46 @@ const Subcategory = require(path.join(__dirname,'../models/Subcategory'))
 
 exports.getProducts = catchAsync (async (req, res, next) => {
     
-    let category;
-    let whereQuery;
+ 
     // const page = req.query.page * 1 || 1;
     const sortBy = req.query.sortBy || 'reviewCount'
     const orderBy = req.query.orderBy || 'asc'
     const limit = req.query.limit* 1 || 2; //setted by me
     // const offset = (page - 1) * limit
 
-   if (sortBy === 'reviewCount'){
+    let category =[[sortBy, orderBy]];
+    let whereQuery ={title: {[Op.ne]: null}}
+    let nameQuery ={name: {[Op.ne]: null}}
+
+   if (sortBy === 'reviewCount')
         category = [[Sequelize.col("reviewCount"),'desc']]
-    }
-    else{
-        category =[[sortBy, orderBy]]
-    }
-
-
-    if(req.query.search){
+    if (req.query.search)
         whereQuery = {title: {[Op.iLike]:`%${req.query.search}%`}}
-    }
-    else{
-        whereQuery ={title: {[Op.ne]: null}}
-    }
-
-    if(req.query.category){
-        // whereQuery = req.params
-        whereQuery = {categoryId: req.query.category}
-    }
-
-
-    products  = await Product.findAll({
-        // where: {userId: {[Op.not]: req.params.id}},
-        where: whereQuery,
-        attributes: { 
-            include: [[Sequelize.fn("AVG", Sequelize.col("rating")), "ratingAvg"],
-            [Sequelize.fn("COUNT", Sequelize.col("reviews.id")), "reviewCount"]
-        ] ,
-          
-            group: ['reviews.id']
-        },
-        include: [
-        { model:User },    
-        {
-            model: Review, attributes: [],
-        }],
-        group: ['product.id','user.id'],
-        order:category, //by default [['updatedAt','desc']]
-        limit: limit,
-        // offset:offset,
-        subQuery:false
+    else if(req.query.category)
+        nameQuery ={name: req.query.category}
     
-    })
 
+    products = await Product.findAll({
+        where: whereQuery,
+        include: [
+        {
+            model:Subcategory,
+            where: nameQuery
+        },
+        { model:User },   
+        {model: Review, attributes: []}
+    ],
+    attributes: { 
+                    include: [
+                                [Sequelize.fn("AVG", Sequelize.col("rating")), "ratingAvg"],
+                                [Sequelize.fn("COUNT", Sequelize.col("reviews.id")), "reviewCount"]
+                            ] ,group: ['reviews.id']
+                },
+    group: ['product.id','user.id','subcategory.id'],
+    order: category,
+    limit: limit,
+    subQuery:false
+    })
 
     if(!products)
         return next(new AppError('No products', 404));
@@ -72,6 +60,28 @@ exports.getProducts = catchAsync (async (req, res, next) => {
 
 })
 
+
+exports.test = catchAsync (async (req, res, next)  => {
+
+    subcategories = await Product.findAll({
+        include:[{
+            model:Subcategory,
+            where: {name: req.query.name}
+        
+        }]
+    })
+
+        
+       
+
+
+    if(!subcategories)
+        return next(new AppError('No subcategories', 404));
+
+    return res.status(200).json(subcategories)
+
+
+})
 
 exports.getProduct = catchAsync (async (req, res, next)  => {
     //   console.log(req.params.id)

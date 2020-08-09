@@ -15,7 +15,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import {Button,Grid, MenuItem, Menu}from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import { connect } from 'react-redux';
-import { getProducts, loadMoreProducts, getCategories,setSubcategoriesOpt,getSubcategories} from '../redux/actions/productActions'
+import { getProducts, loadMoreProducts, getCategories,setCategoryOpt,getSubcategories} from '../redux/actions/productActions'
 import {Spin} from './Spin'
 import ProdCard from './ProdCard'
 import NavBar from './Nav'
@@ -98,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-function Main({getProducts, getCategories,setSubcategoriesOpt,item,data}) {
+function Main({getProducts, getCategories,setCategoryOpt,item,data}) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -116,14 +116,14 @@ function Main({getProducts, getCategories,setSubcategoriesOpt,item,data}) {
     setOpen(false);
   };
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleClick = (cat) => {
+    history.push(`/search/CATEGORYNAME${cat.name}`)
   };
   const handleClose = (event) => {
     setAnchorEl(null);
   };
   const handleMouse = (event, cat) =>{
-    setSubcategoriesOpt(cat.id)
+    setCategoryOpt(cat.id)
      setAnchorEl(event.currentTarget);
      
    }
@@ -134,7 +134,7 @@ function Main({getProducts, getCategories,setSubcategoriesOpt,item,data}) {
     if(subcategory.subcategories)
       var subcategoriesLoading = (
         subcategory.subcategories.map((subcat) =>
-              <MenuItem id={`menu-${subcat.id}`}  key={subcat.id}>{subcat.name}</MenuItem>
+              <MenuItem onClick={() => handleClick(subcat)} key={subcat.id}>{subcat.name}</MenuItem>
           )
       )
     return subcategoriesLoading
@@ -153,13 +153,13 @@ function Main({getProducts, getCategories,setSubcategoriesOpt,item,data}) {
     let categoriesLoading = (
       categories.map((cat) => 
         <div>
-          <Button aria-controls="simple-menu" aria-haspopup="true" className={classes.flexContent} 
+          <Button aria-controls={`simple-menu-${cat.id}`} aria-haspopup="true" className={classes.flexContent} 
           onMouseEnter={(e) => handleMouse(e,cat)} key={cat.id}>
             {cat.name}
         </Button>
         
           <Menu
-            id="simple-menu"
+            id={`simple-menu-${cat.id}`} 
             anchorEl={anchorEl}
             keepMounted
             open={Boolean(anchorEl)}
@@ -252,4 +252,4 @@ const mapStateToProps = (state) => ({
     errorData: state.error
   });
 
-export default connect(mapStateToProps, {getProducts, getCategories,setSubcategoriesOpt,getSubcategories})(Main);
+export default connect(mapStateToProps, {getProducts, getCategories,setCategoryOpt,getSubcategories})(Main);

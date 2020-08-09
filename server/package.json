@@ -49,7 +49,7 @@
     "eslint": "^6.8.0",
     "nodemon": "^2.0.2"
   },
-  "engines":{
+  "engines": {
     "node": ">=10.0.0"
   }
 }

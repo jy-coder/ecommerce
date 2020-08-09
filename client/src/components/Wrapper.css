@@ -39,16 +39,18 @@
 
 
 .center-text{
+    position:relative;
     display:flex;
     justify-content:center;
     align-items:center;
-    height:100% 
+    height: 50%
+    /* height:100%  */
 }
 
 
 .single-product-paper{
-    width:70%;
-    height:100%
+    width:80%;
+    /* height:100% */
 
 }
 .single-product-typo{
@@ -60,7 +62,8 @@
     position: relative;
     display:flex;
     justify-content:center;
-    height:50%;
+    height:auto;
+    min-height: 33.33%;
     
 }
 

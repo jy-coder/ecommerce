@@ -6,48 +6,55 @@ import {Spin} from './../components/Spin'
 import ProdCard from '../components/ProdCard'
 import Wrapper from '../components/Wrapper'
 import SelectBox from '../components/SelectBox'
+import Main from '../components/Main'
 
 
 
 function SearchResult({getProducts,match,data}) {
     // console.log(match.params.searchQ)
-    const search = match.params.searchQ
+    let search = match.params.searchQ
+
 
 
     useEffect(() => {
+      if(match.params.searchQ.startsWith("CATEGORYNAME")){
+        search = search.split("CATEGORYNAME")[1]
+        getProducts(data.limit,'',
+          data.sortBy,data.orderBy,search)
+       
+      }
+      else
         getProducts(data.limit,match.params.searchQ,
           data.sortBy,data.orderBy)
         
-    },[]);
+    },[match.params.searchQ]);
 
     const renderProducts =() => {
         const { products, loading } = data;
-    
-    
-        let productLoading = !loading ? (
+        let productLoading = (
           products.map((prod) => <ProdCard key={prod.id} prod={prod} />)
-        ) : <Spin />;
+        )
         return productLoading
     
     
       }
 
+      const renderItem =(
+        <Fragment>
+        <div className='shop-product-section'>
+          <div className='shop-select-option-box'>
+            <SelectBox search={search}/>
+          </div>
+          <Wrapper>
+            {renderProducts()}
+          </Wrapper>
+      </div>
+      </Fragment>
+      )
+
 
     return (
-        <Fragment>
-            <div className='shop-product-section'>
-              <div className='shop-select-option-box'>
-                <SelectBox search={search}/>
-              </div>
-              <hr/>
-              <Wrapper>
-                {renderProducts()}
-              </Wrapper>
-              <div className='shop-loadmore-btn'>
-                <Button onClick={(e) =>loadMoreProducts() }>LOAD MORE</Button>
-              </div>
-          </div>
-          </Fragment>
+      <Main item={renderItem} />
     )
 }
 
