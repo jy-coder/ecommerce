@@ -14,7 +14,8 @@ import {
     SET_SORT_ORDER,
     SET_CATEGORIES,
     SET_CATEGORY_OPT,
-    SET_SUBCATEGORIES
+    SET_SUBCATEGORIES,
+    SET_SUBCATEGORY_OPT
 
   } from '../types';
 
@@ -29,7 +30,8 @@ const initialState = {
     sortBy:'',
     orderBy:'',
     categoryId:0,
-    subcategory:{}
+    subcategory:{},
+    subsubcategory:[]
   };
 
 
@@ -95,6 +97,13 @@ const initialState = {
             return{
               ...state,
               subcategory: state.categories.filter((cat) => cat.id === action.payload)[0],
+              loading: false
+            };
+
+          case SET_SUBCATEGORY_OPT:
+            return{
+              ...state,
+              subsubcategory: state.subcategory.subcategories.filter((subcat) => subcat.id === action.payload),
               loading: false
             };
         

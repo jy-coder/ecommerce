@@ -15,7 +15,9 @@ const adminRoute = require('./routes/adminRoute')
 const shopRoute = require('./routes/shopRoute')
 const userRoute = require('./routes/userRoute')
 const AppError = require('./utils/AppError');
-
+const Subcategory = require('./models/subcategory')
+const Subsubcategory = require('./models/subsubcategory')
+const Category = require('./models/category')
 
 dotenv.config({ path: './config.env' });
 
@@ -58,6 +60,8 @@ app.use(
 
 const port = process.env.PORT || 1337;
 
+
+
 app.options('*',cors())
 app.use('/api/shop', shopRoute)
 app.use('/api/admin', adminRoute)
@@ -82,7 +86,7 @@ app.all('*', (req, res, next) => {
 
 //execute function once to test using create method
 //before seeding database
-// require('./utils/initialize')()
+require('./utils/initialize')()
 
 
 

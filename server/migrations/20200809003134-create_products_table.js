@@ -33,11 +33,11 @@ module.exports = {
           key: 'id'
         }
     },
-    subcategoryId:{
+    subsubcategoryId:{
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
-        model: 'subcategories',
+        model: 'subsubcategories',
         key: 'id'
       }
     },

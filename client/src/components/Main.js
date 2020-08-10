@@ -15,7 +15,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import {Button,Grid, MenuItem, Menu}from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import { connect } from 'react-redux';
-import { getProducts, loadMoreProducts, getCategories,setCategoryOpt,getSubcategories} from '../redux/actions/productActions'
+import { getProducts, loadMoreProducts, getCategories,setCategoryOpt,getSubcategories, setSubcategoryOpt} from '../redux/actions/productActions'
 import {Spin} from './Spin'
 import ProdCard from './ProdCard'
 import NavBar from './Nav'
@@ -98,11 +98,12 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-function Main({getProducts, getCategories,setCategoryOpt,item,data}) {
+function Main({getProducts, getCategories,setCategoryOpt,item,data,setSubcategoryOpt}) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorElSecond, setAnchorElSecond] = React.useState(null);
 
   useEffect(() => {
     getCategories()
@@ -119,6 +120,9 @@ function Main({getProducts, getCategories,setCategoryOpt,item,data}) {
   const handleClick = (cat) => {
     history.push(`/search/CATEGORYNAME${cat.name}`)
   };
+
+
+
   const handleClose = (event) => {
     setAnchorEl(null);
   };
@@ -129,12 +133,56 @@ function Main({getProducts, getCategories,setCategoryOpt,item,data}) {
    }
 
 
+   const handleCloseSecond = (event) => {
+    setAnchorElSecond(null);
+  };
+  const handleMouseSecond = (event, subcat) =>{
+    setSubcategoryOpt(subcat.id)
+     setAnchorElSecond(event.currentTarget);
+     
+   }
+
+   const renderSubsubcategories = () =>{
+    const {subsubcategory} = data
+  if(subsubcategory){
+    var subsubcategoriesLoading = (
+      subsubcategory.map((subsubcat) =>
+              <Button key={subsubcat.id}  className={classes.flexContent}>
+              {subsubcat.name}
+              </Button>
+      ))
+      return subsubcategoriesLoading
+    }
+    
+   }
+
+
   const renderSubcategories = () =>{
-    const {subcategory} = data
+  
+    const {subcategory, subsubcategory} = data
     if(subcategory.subcategories)
       var subcategoriesLoading = (
         subcategory.subcategories.map((subcat) =>
-              <MenuItem onClick={() => handleClick(subcat)} key={subcat.id}>{subcat.name}</MenuItem>
+            <>
+                <Button key={subcat.id} onMouseEnter={(e) => handleMouseSecond(e,subcat)}  aria-controls="simple-menu2"  aria-haspopup="true" className={classes.flexContent}>
+                {subcat.name}
+                </Button>
+
+
+                <Menu
+                id="simple-menu2"
+                anchorEl={anchorElSecond}
+                keepMounted
+                open={Boolean(anchorElSecond)}
+                onClose={handleCloseSecond}
+                className={Boolean(anchorElSecond) ? classes.popover : classes.popoverContent}
+                >
+                <div className={Boolean(anchorElSecond) ? classes.popoverContent : classes.popover} >
+               {renderSubsubcategories()}
+                </div>
+                </Menu>
+              </>
+              
           )
       )
     return subcategoriesLoading
@@ -153,20 +201,20 @@ function Main({getProducts, getCategories,setCategoryOpt,item,data}) {
     let categoriesLoading = (
       categories.map((cat) => 
         <div>
-          <Button aria-controls={`simple-menu-${cat.id}`} aria-haspopup="true" className={classes.flexContent} 
+          <Button aria-controls="simple-menu" aria-haspopup="true" className={classes.flexContent} 
           onMouseEnter={(e) => handleMouse(e,cat)} key={cat.id}>
             {cat.name}
         </Button>
         
           <Menu
-            id={`simple-menu-${cat.id}`} 
+            id="simple-menu"
             anchorEl={anchorEl}
             keepMounted
             open={Boolean(anchorEl)}
             onClose={handleClose}
             className={Boolean(anchorEl) ? classes.popover : classes.popoverContent}
           >
-          <div onMouseLeave={handleClose} className={Boolean(anchorEl) ? classes.popoverContent : classes.popover} >
+          <div  className={Boolean(anchorEl) ? classes.popoverContent : classes.popover} >
           {renderSubcategories()}
           </div>
       </Menu>
@@ -194,6 +242,7 @@ function Main({getProducts, getCategories,setCategoryOpt,item,data}) {
   )
 
   return (
+    console.log(data.subsubcategory),
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
@@ -206,7 +255,7 @@ function Main({getProducts, getCategories,setCategoryOpt,item,data}) {
     <NavBar item={sideBarBtn}/>
      
       </AppBar>
-      <Drawer  onMouseLeave={handleClose}
+      <Drawer 
         className={classes.drawer}
         variant="persistent"
         anchor="left"
@@ -223,7 +272,7 @@ function Main({getProducts, getCategories,setCategoryOpt,item,data}) {
         <Divider />
         <List>
        
-            <Box  onMouseLeave={handleClose}>
+            <Box >
             {renderCategories()}
             </Box>
 
@@ -252,4 +301,4 @@ const mapStateToProps = (state) => ({
     errorData: state.error
   });
 
-export default connect(mapStateToProps, {getProducts, getCategories,setCategoryOpt,getSubcategories})(Main);
+export default connect(mapStateToProps, {getProducts, getCategories,setCategoryOpt,getSubcategories,setSubcategoryOpt})(Main);

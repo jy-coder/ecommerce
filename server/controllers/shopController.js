@@ -7,7 +7,9 @@ const Op = Sequelize.Op
 const catchAsync = require(path.join(__dirname,'../utils/catchAsync'))
 const AppError = require(path.join(__dirname,'../utils/AppError'))
 const Category = require(path.join(__dirname,'../models/category'))
-const Subcategory = require(path.join(__dirname,'../models/Subcategory'))
+const Subcategory = require(path.join(__dirname,'../models/subcategory'))
+const Subsubcategory = require(path.join(__dirname,'../models/subsubcategory'))
+
 
 
 exports.getProducts = catchAsync (async (req, res, next) => {
@@ -19,12 +21,12 @@ exports.getProducts = catchAsync (async (req, res, next) => {
     const limit = req.query.limit* 1 || 2; //setted by me
     // const offset = (page - 1) * limit
 
-    let category =[[sortBy, orderBy]];
+    let orderSort =[[sortBy, orderBy]];
     let whereQuery ={title: {[Op.ne]: null}}
     let nameQuery ={name: {[Op.ne]: null}}
 
    if (sortBy === 'reviewCount')
-        category = [[Sequelize.col("reviewCount"),'desc']]
+        orderSort = [[Sequelize.col("reviewCount"),'desc']]
     if (req.query.search)
         whereQuery = {title: {[Op.iLike]:`%${req.query.search}%`}}
     else if(req.query.category)
@@ -35,7 +37,7 @@ exports.getProducts = catchAsync (async (req, res, next) => {
         where: whereQuery,
         include: [
         {
-            model:Subcategory,
+            model:Subsubcategory,
             where: nameQuery
         },
         { model:User },   
@@ -47,8 +49,8 @@ exports.getProducts = catchAsync (async (req, res, next) => {
                                 [Sequelize.fn("COUNT", Sequelize.col("reviews.id")), "reviewCount"]
                             ] ,group: ['reviews.id']
                 },
-    group: ['product.id','user.id','subcategory.id'],
-    order: category,
+    group: ['product.id','user.id','subsubcategory.id'],
+    order: orderSort,
     limit: limit,
     subQuery:false
     })
@@ -62,23 +64,20 @@ exports.getProducts = catchAsync (async (req, res, next) => {
 
 
 exports.test = catchAsync (async (req, res, next)  => {
-
-    subcategories = await Product.findAll({
+      categories = await Category.findAll({
         include:[{
             model:Subcategory,
-            where: {name: req.query.name}
-        
+            include: [{
+                model:Subsubcategory
+            }]
+    
         }]
     })
 
-        
-       
+    if(!categories)
+        return next(new AppError('No categories', 404));
 
-
-    if(!subcategories)
-        return next(new AppError('No subcategories', 404));
-
-    return res.status(200).json(subcategories)
+    return res.status(200).json(categories)
 
 
 })
@@ -323,10 +322,15 @@ res.status(200).json(review)
 
 
 exports.getCategories = catchAsync (async (req, res, next)  => {
+
+    
     categories  = await Category.findAll({
         include: [{
-          model: Subcategory
-         }]
+            model: Subcategory,
+            include:[{
+                model: Subsubcategory   
+            }]
+        }]
       })
     
     if(!categories )

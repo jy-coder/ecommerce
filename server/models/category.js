@@ -17,8 +17,10 @@ const Category= sequelize.define('category', {
   }
 },
 {
-  timestamps: false
+  timestamps : false
+ 
 }
+
 );
 
 module.exports = Category;

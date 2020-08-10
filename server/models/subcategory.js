@@ -38,4 +38,6 @@ indexes: [
 }
 );
 
+
+
 module.exports = Subcategory;

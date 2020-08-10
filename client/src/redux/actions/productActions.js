@@ -18,7 +18,8 @@ import {
     SET_SORT_ORDER,SET_ORDERBY,
     SET_CATEGORIES,
     SET_CATEGORY_OPT,
-    SET_SUBCATEGORIES
+    SET_SUBCATEGORIES,
+    SET_SUBCATEGORY_OPT
 
   } from '../types';
   import axios from '../../utils/axios-handler';
@@ -167,6 +168,17 @@ import {
     dispatch({
       type: SET_CATEGORY_OPT,
       payload:categoryId
+    
+    });
+
+  };
+
+
+  export const setSubcategoryOpt = (subcategoryId) => (dispatch) => {
+    console.log(subcategoryId)
+    dispatch({
+      type: SET_SUBCATEGORY_OPT,
+      payload:subcategoryId
     
     });
 
