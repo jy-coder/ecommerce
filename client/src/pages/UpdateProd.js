@@ -7,9 +7,9 @@ import {Spin} from '../components/Spin'
 
 function UpdateProd({match,data,getEditProduct,getCategories,updateProduct}) {
 
-    const {title,imageUrl,price,description,subcategoryId,subcategory} = data.product
+    const {title,imageUrl,price,description,subsubcategoryId,subsubcategory} = data.product
     const [image, setImage] = useState("")
-    const [state, setState]= useState({title:"", description:"", price:0,subcategoryId:0})
+    const [state, setState]= useState({title:"", description:"", price:0,subsubcategoryId:0})
     const [preview, setPreview] = useState("")
     
 
@@ -29,8 +29,8 @@ function UpdateProd({match,data,getEditProduct,getCategories,updateProduct}) {
         form.append('description', state.description);
     if(state.price)
         form.append('price', state.price);
-    if(state.categoryId)
-        form.append('subcategoryId', state.subcategoryId)
+    if(state.subsubcategoryId)
+        form.append('subsubcategoryId', state.subsubcategoryId)
     if(image){
         // console.log(imageUrl)
         form.append('imageUrl', image) // new image
@@ -45,10 +45,8 @@ function UpdateProd({match,data,getEditProduct,getCategories,updateProduct}) {
     setTimeout(() => {
         history.push('/manage')
       }, 500);
-       
-        
+           
       }
-    
     
     
       const imageHandler = e =>{
@@ -81,19 +79,32 @@ function UpdateProd({match,data,getEditProduct,getCategories,updateProduct}) {
 
       const renderCategoriesOpt = () =>{
         const { categories } = data;
+  
         let categoriesLoading =  (
-          categories.map((cat) =><optgroup key={cat.id} label={cat.name}>
-            {cat.subcategories.filter(_ => _.id !== subcategoryId)
-            .map(subcat =><option key={subcat.id} value={subcat.id}>{subcat.name}</option> )}
-          </optgroup>)
-        ) 
+          categories.map(cat =>(
+            <div key={cat.id}/>,
+            cat.subcategories
+            .map(
+              subcat =>(
+              <optgroup key={subcat.id} label={subcat.name}>
+                { subcat.subsubcategories?
+                subcat.subsubcategories.filter(_ => _.id !== subsubcategoryId).map(subsub => 
+                (<option key={subsub.id} value={subsub.id}>{subsub.name}</option>)): null}
+               </optgroup>
+              )))
+          )
+        )
+       
         return categoriesLoading
-
+              
+  
     
       }
+    
 
       if(title)
       return (
+        console.log(subsubcategory.name),
         <div className='form-wrapper'>
         <form onSubmit={(e) => submitHandler(e)}  >
         <Box flexDirection="column" p={1}>
@@ -107,7 +118,8 @@ function UpdateProd({match,data,getEditProduct,getCategories,updateProduct}) {
              
               <InputLabel><Typography variant="subtitle1" style={{fontSize:'13px'}}> Subcategory Name</Typography></InputLabel>
           
-            <NativeSelect onChange={inputChangeHandler} id="subcategoryId"  fullWidth required defaultValue={subcategory.name}>
+            <NativeSelect onChange={inputChangeHandler} id="subsubcategoryId" fullWidth>
+              <option defaultValue>{subsubcategory.name}</option>
               {renderCategoriesOpt()}
             </NativeSelect>
           </Box>

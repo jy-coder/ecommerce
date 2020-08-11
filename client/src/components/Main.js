@@ -89,6 +89,16 @@ const useStyles = makeStyles((theme) => ({
     pointerEvents: 'auto',
     left: '180px !important'
   },
+  popoverContentSecond: {
+    pointerEvents: 'auto',
+    left: '130px !important'
+   
+  },
+  popoverSecond: {
+    pointerEvents: 'none',
+    left: '130px !important'
+
+  },
   flexContent:{
     position:'relative',
     width:'100%',
@@ -117,8 +127,8 @@ function Main({getProducts, getCategories,setCategoryOpt,item,data,setSubcategor
     setOpen(false);
   };
 
-  const handleClick = (cat) => {
-    history.push(`/search/CATEGORYNAME${cat.name}`)
+  const handleClick = (subsubcat) => {
+    history.push(`/search/CATEGORYNAME${subsubcat.name}`)
   };
 
 
@@ -144,10 +154,10 @@ function Main({getProducts, getCategories,setCategoryOpt,item,data,setSubcategor
 
    const renderSubsubcategories = () =>{
     const {subsubcategory} = data
-  if(subsubcategory){
+  if(subsubcategory.subsubcategories){
     var subsubcategoriesLoading = (
-      subsubcategory.map((subsubcat) =>
-              <Button key={subsubcat.id}  className={classes.flexContent}>
+      subsubcategory.subsubcategories.map((subsubcat) =>
+              <Button key={subsubcat.id}  className={classes.flexContent} onClick={() => handleClick(subsubcat)}>
               {subsubcat.name}
               </Button>
       ))
@@ -163,8 +173,8 @@ function Main({getProducts, getCategories,setCategoryOpt,item,data,setSubcategor
     if(subcategory.subcategories)
       var subcategoriesLoading = (
         subcategory.subcategories.map((subcat) =>
-            <>
-                <Button key={subcat.id} onMouseEnter={(e) => handleMouseSecond(e,subcat)}  aria-controls="simple-menu2"  aria-haspopup="true" className={classes.flexContent}>
+            <div>
+                <Button key={subcat.id}  onMouseEnter={(e) => handleMouseSecond(e,subcat)}  aria-controls="simple-menu2"  aria-haspopup="true" className={classes.flexContent}>
                 {subcat.name}
                 </Button>
 
@@ -175,13 +185,13 @@ function Main({getProducts, getCategories,setCategoryOpt,item,data,setSubcategor
                 keepMounted
                 open={Boolean(anchorElSecond)}
                 onClose={handleCloseSecond}
-                className={Boolean(anchorElSecond) ? classes.popover : classes.popoverContent}
+                className={Boolean(anchorElSecond) ? classes.popoverSecond : classes.popoverContentSecond}
                 >
-                <div className={Boolean(anchorElSecond) ? classes.popoverContent : classes.popover} >
-               {renderSubsubcategories()}
+                <div onMouseLeave={handleCloseSecond} className={Boolean(anchorElSecond) ? classes.popoverContentSecond : classes.popoverSecond} >
+                  {renderSubsubcategories()}
                 </div>
                 </Menu>
-              </>
+              </div>
               
           )
       )
@@ -195,13 +205,17 @@ function Main({getProducts, getCategories,setCategoryOpt,item,data,setSubcategor
     >ALL </Button>
   )
 
+  const closeAll = () =>{
+    handleCloseSecond()
+    handleClose()
+  }
   
   const renderCategories = () => {
     const { categories } = data;
     let categoriesLoading = (
       categories.map((cat) => 
-        <div>
-          <Button aria-controls="simple-menu" aria-haspopup="true" className={classes.flexContent} 
+        <div key={cat.id}>
+          <Button  onMouseOver={handleCloseSecond}  aria-controls="simple-menu" aria-haspopup="true" className={classes.flexContent} 
           onMouseEnter={(e) => handleMouse(e,cat)} key={cat.id}>
             {cat.name}
         </Button>
@@ -211,7 +225,7 @@ function Main({getProducts, getCategories,setCategoryOpt,item,data,setSubcategor
             anchorEl={anchorEl}
             keepMounted
             open={Boolean(anchorEl)}
-            onClose={handleClose}
+            onClose={handleClose, handleCloseSecond}
             className={Boolean(anchorEl) ? classes.popover : classes.popoverContent}
           >
           <div  className={Boolean(anchorEl) ? classes.popoverContent : classes.popover} >
@@ -242,7 +256,6 @@ function Main({getProducts, getCategories,setCategoryOpt,item,data,setSubcategor
   )
 
   return (
-    console.log(data.subsubcategory),
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
@@ -264,15 +277,15 @@ function Main({getProducts, getCategories,setCategoryOpt,item,data,setSubcategor
           paper: classes.drawerPaper,
         }}
       >
-        <div className={classes.drawerHeader}>
+        <div className={classes.drawerHeader} >
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </div>
         <Divider />
-        <List>
+        <List onMouseLeave={closeAll} >
        
-            <Box >
+            <Box>
             {renderCategories()}
             </Box>
 

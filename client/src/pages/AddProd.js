@@ -10,7 +10,7 @@ import {Spin} from './../components/Spin'
 
 const AddProd = ({addProduct,getCategories,data}) =>{
     const [image, setImage] = useState("")
-    const [state, setState]= useState({title:"", description:"", price:0,subcategoryId:""})
+    const [state, setState]= useState({title:"", description:"", price:0,subsubcategoryId:0})
     const [preview, setPreview] = useState("")
 
   
@@ -22,12 +22,11 @@ const AddProd = ({addProduct,getCategories,data}) =>{
     const submitHandler =(e) =>{
       e.preventDefault();
       const form = new FormData();
-  
       form.append('title', state.title);
       form.append('description', state.description);
       form.append('price', state.price);
       form.append('imageUrl', image)
-      form.append('subcategoryId', state.subcategoryId)
+      form.append('subsubcategoryId', state.subsubcategoryId)
 
       addProduct(form)
 
@@ -57,15 +56,28 @@ const AddProd = ({addProduct,getCategories,data}) =>{
         [e.target.id]: e.target.value
       });
     }
+
+
   
     const renderCategoriesOpt = () =>{
       const { categories } = data;
+
       let categoriesLoading =  (
-        categories.map((cat) =><optgroup key={cat.id} label={cat.name}>
-          {cat.subcategories.map(subcat =><option key={subcat.id} value={subcat.id}>{subcat.name}</option> )}
-        </optgroup>)
-      ) 
+        categories.map(cat =>(
+          <div key={cat.id}/>,
+          cat.subcategories.map(
+            subcat =>(
+            <optgroup key={subcat.id} label={subcat.name}>
+              { subcat.subsubcategories?
+              subcat.subsubcategories.map(subsub => 
+              (<option key={subsub.id} value={subsub.id}>{subsub.name}</option>)): null}
+             </optgroup>
+            )))
+        )
+      )
+     
       return categoriesLoading
+            
 
   
     }
@@ -83,7 +95,7 @@ const AddProd = ({addProduct,getCategories,data}) =>{
             <TextField id="price" onChange={inputChangeHandler} label="Price" fullWidth required/>
           </Box>
           <Box style={{marginTop:'10px'}}>
-            <NativeSelect onChange={inputChangeHandler} id="subcategoryId" fullWidth required>
+            <NativeSelect onChange={inputChangeHandler} id="subsubcategoryId" fullWidth required>
               {renderCategoriesOpt()}
               </NativeSelect>
           </Box>

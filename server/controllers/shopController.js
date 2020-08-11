@@ -39,6 +39,7 @@ exports.getProducts = catchAsync (async (req, res, next) => {
         {
             model:Subsubcategory,
             where: nameQuery
+            
         },
         { model:User },   
         {model: Review, attributes: []}

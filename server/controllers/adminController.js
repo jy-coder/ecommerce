@@ -6,6 +6,7 @@ const User= require(path.join(__dirname,'../models/user'))
 const Review= require(path.join(__dirname,'../models/review'))
 const Category= require(path.join(__dirname,'../models/category'))
 const Subcategory= require(path.join(__dirname,'../models/subcategory'))
+const Subsubcategory= require(path.join(__dirname,'../models/subsubcategory'))
 const Sequelize = require('sequelize')
 const catchAsync = require(path.join(__dirname,'../utils/catchAsync'))
 const AppError = require(path.join(__dirname,'../utils/AppError'))
@@ -32,7 +33,7 @@ exports.uploadToAWS = catchAsync (async (req, res, next)  => {
 exports.addProduct = catchAsync (async (req, res, next)  => {
     req.body.imageUrl= req.file.key
 
-    const {title,imageUrl,price,description,categoryId} = req.body;
+    const {title,imageUrl,price,description,subsubcategoryId} = req.body;
 
 
     const product =await req.user.createProduct({
@@ -40,7 +41,7 @@ exports.addProduct = catchAsync (async (req, res, next)  => {
         price: price,
         imageUrl: imageUrl,
         description: description,
-        categoryId: categoryId
+        subsubcategoryId: subsubcategoryId
     });
 
 
@@ -98,12 +99,13 @@ exports.addProduct = catchAsync (async (req, res, next)  => {
 
   exports.getEditProduct = catchAsync (async (req, res, next)  => {
    
-    // product  = await Product.findOne({where: {id: req.params.id}})
     //userId in product table must belong to user
     const product =  await req.user.getProducts({
       include: [{
-        model: Subcategory,
-        include: {model: Category}
+        model: Subsubcategory,
+        include: {
+          model: Subcategory
+        }
       }],
       where: {id: req.params.id}
     
@@ -136,7 +138,7 @@ exports.addProduct = catchAsync (async (req, res, next)  => {
         price: req.body.price,
         imageUrl: req.body.imageUrl,
         description: req.body.description,
-        subcategoryId: req.body.subcategoryId
+        subsubcategoryId: req.body.subsubcategoryId
 
     };
 

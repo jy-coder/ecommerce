@@ -103,7 +103,7 @@ const initialState = {
           case SET_SUBCATEGORY_OPT:
             return{
               ...state,
-              subsubcategory: state.subcategory.subcategories.filter((subcat) => subcat.id === action.payload),
+              subsubcategory: state.subcategory.subcategories.filter((subcat) => subcat.id === action.payload)[0],
               loading: false
             };
         
