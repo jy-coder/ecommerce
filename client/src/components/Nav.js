@@ -128,9 +128,16 @@ function Nav({user,logoutUser,item}) {
     else{
       routes = (
       <Fragment>
-        <Typography className={classes.title}>
+         <Typography variant="h6" className={classes.toggle}>
+        <MenuBtn/>
+      </Typography>
+      <Typography variant="h6" className={classes.title}>
+        {item ? item: null}
         <Button color="inherit" href="/">Shop</Button>
-        </Typography>
+      </Typography>
+      <Typography variant="h6" className={classes.search}>
+        <SearchBar/>
+      </Typography>
         <Button color="inherit" href="/login">Login</Button>
         <Button color="inherit" href="/signup">Register</Button>
       </Fragment>

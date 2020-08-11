@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {connect} from 'react-redux'
 import {Button, Box,TextField} from '@material-ui/core';
 import {  loginUser,signupUser } from './../redux/actions/userActions';
+import Main from './../components/Main'
 
 
 const Signup = ({signupUser,errorData}) =>{
@@ -23,9 +24,8 @@ const Signup = ({signupUser,errorData}) =>{
       signupUser(state)
    
     }
-  
-    return (
-    <div className="form-wrapper">
+
+    const renderItem = (<div className="form-wrapper">
     <form onSubmit ={(e) => submitHandler(e)}>
     {error ? <span className="error-msg">** {error}</span> : null}
     <Box flexDirection="column" p={1}>
@@ -55,8 +55,13 @@ const Signup = ({signupUser,errorData}) =>{
 </form>
     </div>
       
-    );
+    )
+  
+    return (
+      <Main item = {renderItem} />
+    )
   }
+
 
   const mapStateToProps = (state) => ({
     data: state.data,

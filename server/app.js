@@ -90,12 +90,12 @@ require('./utils/initialize')()
 
 
 
-
 //sequelize migration:create --name create_products_table
 //sequelize db:migrate
 //sequelize db:migrate:undo:all
-
-
+//sequelize seed:create --name seed_products_table
+//sequelize db:seed:all
+//sequelize db:seed:undo:all
 
 
 

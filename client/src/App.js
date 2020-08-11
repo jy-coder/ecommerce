@@ -86,13 +86,12 @@ class App extends Component {
  
      else{
        routes = (
-       
             
             <ErrorBoundary>
               <Switch>
                 <Route exact path="/login" component={Login} />
-                <Route exact path="/signup" component={Signup} />
                 <Route exact path="/" component={Shop} />
+                <Route exact path="/signup" component={Signup} />
                 <Route exact path="/product/:id" component={SingleProd} />
                 <Route component={My404Page} />
               <Redirect to="/" />

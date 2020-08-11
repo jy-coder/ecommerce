@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {  loginUser,signupUser } from './../redux/actions/userActions';
 import {Button, Box, TextField} from '@material-ui/core';
 import { connect } from 'react-redux';
-
+import Main from './../components/Main'
 
 const Login = ({loginUser, errorData}) =>{
 console.log(errorData)
@@ -26,8 +26,8 @@ console.log(errorData)
 
     
     }
-  
-    return (
+
+    const renderItem = (
     <div className="form-wrapper">
     <form onSubmit ={(e) => submitHandler(e)}>
       {error ? <span className="error-msg">** {error}</span> : null}
@@ -47,6 +47,13 @@ console.log(errorData)
   </Box>
 </form>
     </div>
+    )
+
+
+  
+    return (
+      <Main item={renderItem} />
+   
       
     );
   }
