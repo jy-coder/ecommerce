@@ -2,12 +2,15 @@ import React,{useEffect} from 'react'
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText,DialogTitle,Box,Grid} from '@material-ui/core';
 import { connect } from 'react-redux';
 import OrderCard from './OrderCard'
-import{ confirmOrder} from './../redux/actions/orderActions'
+import{ confirmOrder, setPrice} from './../redux/actions/orderActions'
+import{ setPayment } from './../redux/actions/paymentActions'
+import history from '../utils/history';
 
-const OrderModal = ({orderData, confirmOrder}) => {
+const OrderModal = ({orderData, confirmOrder,setPayment,setPrice}) => {
     const [open, setOpen] = React.useState(false);
     const {orders} = orderData;
-    const list = []
+    let list = []
+    let sum = 0
 
 
   const handleClickOpen = () => {
@@ -19,7 +22,9 @@ const OrderModal = ({orderData, confirmOrder}) => {
   };
 
   const handleConfirm = (e) => {
-      confirmOrder(orders,list)
+      setPrice(sum)
+      setPayment()
+      history.push('/payment')
   };
 
 
@@ -30,9 +35,9 @@ const OrderModal = ({orderData, confirmOrder}) => {
   }
 
 const renderSum = () => {
-  let sum = 0;
   orders.map((order) => {sum += order.price * order.quantity})
-  return sum.toFixed(2)
+  sum = sum.toFixed(2)
+  return sum
 
 }
 
@@ -86,9 +91,10 @@ const renderOrders = () =>{
 const mapStateToProps = (state) => ({
     data: state.data,
     cartData: state.cartData,
-    orderData:state.orderData
+    orderData:state.orderData,
+    payment: state.payment
   });
 
 
-export default connect(mapStateToProps,{confirmOrder})(OrderModal);
+export default connect(mapStateToProps,{confirmOrder, setPayment,setPrice})(OrderModal);
 

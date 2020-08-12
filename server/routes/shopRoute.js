@@ -35,7 +35,7 @@ router.post('/addReview',shopController.addReview);
 router.patch('/updateReview/:prodId', shopController.editMyReview)
 router.get('/getMyReview/:prodId', shopController.getMyReview)
 
-
+router.post('/charge', shopController.makePayment)
 router.get('/test', shopController.test)
 
 module.exports = router;

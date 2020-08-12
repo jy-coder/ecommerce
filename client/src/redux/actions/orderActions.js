@@ -6,7 +6,8 @@ import {
     CONFIRM_ORDER,
     UPDATE_ITEM_ORDER,
     SET_ORDERS_HISTORY,
-    LOADING_ORDERS_HISTORY
+    LOADING_ORDERS_HISTORY,
+    SET_PRICE
 
   } from '../types';
 
@@ -56,3 +57,6 @@ export const confirmOrder = (orders,prodIdList) => (dispatch) => {
     
 
   };
+  export const setPrice = (price) =>(dispatch) =>{
+    dispatch({type:SET_PRICE, payload:price})
+  }

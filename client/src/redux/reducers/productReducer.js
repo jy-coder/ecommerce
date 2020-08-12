@@ -15,7 +15,8 @@ import {
     SET_CATEGORIES,
     SET_CATEGORY_OPT,
     SET_SUBCATEGORIES,
-    SET_SUBCATEGORY_OPT
+    SET_SUBCATEGORY_OPT,
+    SET_PAYMENT
 
   } from '../types';
 
@@ -32,7 +33,8 @@ const initialState = {
     orderBy:'asc',
     categoryId:0,
     subcategory:{},
-    subsubcategory:[]
+    subsubcategory:[],
+ 
   };
 
 
@@ -103,6 +105,9 @@ const initialState = {
               subsubcategory: state.subcategory.subcategories.filter((subcat) => subcat.id === action.payload)[0],
               loading: false
             };
+
+
+
         
 
 

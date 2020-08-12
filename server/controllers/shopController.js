@@ -346,4 +346,24 @@ exports.getCategories = catchAsync (async (req, res, next)  => {
      
   })
 
+  const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
+
+  exports.makePayment = catchAsync(async (req, res, next) => {
+    const { id, amount } = req.body
+    const payment = await stripe.paymentIntents.create({
+        amount,
+        currency: "SGD",
+        description: "TEST",
+        payment_method: id,
+        confirm: true
+      });
+
+    if(!payment )
+      return next(new AppError('Payment creation failed', 404));
+
+
+      return res.status(200).json("orderNumber")
+
+  });
 

@@ -5,14 +5,16 @@ import {
     CONFIRM_ORDER,
     UPDATE_ITEM_ORDER,
     SET_ORDERS_HISTORY,
-    LOADING_ORDERS_HISTORY
+    LOADING_ORDERS_HISTORY,
+    SET_PRICE
 
   } from '../types';
 
 const initialState = {
     orders:[],
     loading: false,
-    ordersHistory:[]
+    ordersHistory:[],
+    totalPrice : 0
    };
 
 
@@ -56,6 +58,12 @@ const initialState = {
               : order
           )
       }
+      case SET_PRICE:
+        return{
+          ...state,
+          totalPrice : action.payload
+
+        }
 
 
 

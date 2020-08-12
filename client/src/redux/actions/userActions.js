@@ -49,7 +49,6 @@ import {
     axios
       .get('user/getUser')
       .then((res) => {
-        console.log(res)
         dispatch({
           type: SET_USER,
           payload: res.data

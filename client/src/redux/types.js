@@ -66,5 +66,9 @@ export const GET_REVIEW_EDIT = 'GET_REVIEW_EDIT'
 export const UPDATE_REVIEW = 'UPDATE_REVIEW'
 export const  SET_SUBCATEGORY_OPT = "SET_SUBCATEGORY_OPT"
 
+export const  SET_PAYMENT = "SET_PAYMENT"
+export const  RESET_PAYMENT = "RESET_PAYMENT"
 
-
+export const  SET_PRICE = "SET_PRICE"
+export const  PAYMENT_SUCCESS = "PAYMENT_SUCCESS"
+export const  PAYMENT_FAIL = "PAYMENT_FAIL"

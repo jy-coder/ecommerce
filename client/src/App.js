@@ -23,6 +23,7 @@ import ErrorBoundary from './components/ErrorBoundary'
 import My404Page from './pages/My404Page'
 import OrderHistory from './pages/OrderHistory'
 import MyProduct from './pages/MyProduct'
+import Payment from './pages/Payment'
 
 
 const token = localStorage.FBIdToken;
@@ -63,10 +64,11 @@ axios.interceptors.response.use(res => res, error => {
 class App extends Component {
   render() {
     const {authenticated} = this.props.user
+    const {payment} = this.props.payment
+    console.log(payment)
     let routes;
     if(authenticated){
       routes = (
-    
        <ErrorBoundary>
             <Switch>
             <Route exact path="/" component={Shop} />
@@ -77,6 +79,7 @@ class App extends Component {
             <Route exact path="/orderhistory" component={OrderHistory} />
             <Route exact path="/manage" component={MyProduct} />
             <Route exact path="/search/:searchQ" component={SearchResult} />
+            {payment ? <Route exact path="/payment" component={Payment}/> : <Redirect to="/" />}
             <Route component={My404Page} />
             <Redirect to="/" />
           </Switch>
@@ -123,6 +126,7 @@ const mapStateToProps = (state) => ({
   cartData: state.cartData,
   orderData: state.orderData,
   error:state.error,
-  user : state.user
+  user : state.user,
+  payment: state.payment
 });
 export default connect(mapStateToProps)(App);
