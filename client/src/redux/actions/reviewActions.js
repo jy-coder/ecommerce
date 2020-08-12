@@ -1,7 +1,8 @@
 import {
     CHECK_REVIEW
     ,GET_REVIEW_EDIT,
-    UPDATE_REVIEW
+    UPDATE_REVIEW,
+    ADD_REVIEW
 
   } from '../types';
   import axios from '../../utils/axios-handler';
@@ -44,6 +45,20 @@ import {
       .then((res) => {
         dispatch({
           type: UPDATE_REVIEW
+        });
+      })
+      .catch((err) => {
+        
+      });
+  };
+
+  export const addReview = ({prodId, text, rating}) => (dispatch) => {
+    axios
+      .post('shop/addReview', {prodId, text, rating})
+      .then((res) => {
+        dispatch({
+          type: ADD_REVIEW,
+          payload:res.data
         });
       })
       .catch((err) => {

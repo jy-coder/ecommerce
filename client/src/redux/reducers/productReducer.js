@@ -60,11 +60,7 @@ const initialState = {
           loading: false
         };
 
-      case ADD_REVIEW:
-        return {
-          ...state,
-          product: {...state.product, reviews:[action.payload,...state.product.reviews]}
-        };
+
 
       case LOAD_MORE_PRODUCTS:
         return {

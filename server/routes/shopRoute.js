@@ -17,7 +17,7 @@ router.get('/', shopController.getProducts);
 router.get('/product/:id',shopController.getProduct);
 router.get('/getCategories',shopController.getCategories);
 router.get('/getSubcategories/:categoryId', shopController.getSubcategories)
-router.get('/getMyReview/:prodId', shopController.getMyReview)
+
 
 
 
@@ -33,7 +33,7 @@ router.post('/addReview',shopController.addReview);
 
 
 router.patch('/updateReview/:prodId', shopController.editMyReview)
-
+router.get('/getMyReview/:prodId', shopController.getMyReview)
 
 
 router.get('/test', shopController.test)

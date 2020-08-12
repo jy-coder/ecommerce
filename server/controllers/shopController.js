@@ -9,6 +9,7 @@ const AppError = require(path.join(__dirname,'../utils/AppError'))
 const Category = require(path.join(__dirname,'../models/category'))
 const Subcategory = require(path.join(__dirname,'../models/subcategory'))
 const Subsubcategory = require(path.join(__dirname,'../models/subsubcategory'))
+const OrderItem = require(path.join(__dirname,'../models/order-item'))
 
 
 
@@ -67,18 +68,7 @@ exports.getProducts = catchAsync (async (req, res, next) => {
 })
 
 
-exports.test = catchAsync (async (req, res, next)  => {
-      categories = await Product.findAll({
-        where:{subsubcategoryId : 2}
-    })
 
-    if(!categories)
-        return next(new AppError('No categories', 404));
-
-    return res.status(200).json(categories)
-
-
-})
 
 exports.getProduct = catchAsync (async (req, res, next)  => {
     //   console.log(req.params.id)
@@ -255,6 +245,7 @@ exports.enableReview= catchAsync( async (req, res, next) => {
     const productExist = await Product.findOne({id: req.body.prodId})
     if(!productExist)
         return next(new AppError('No product found', 404));
+
     const orderItemExist = await req.user.getOrders({include: ['products'],where:{'$products.orderItem.productId$':req.body.prodId}})
     const reviewExist = await req.user.getReviews({ where: {productId: req.body.prodId, userId: req.user.id} })
     if(orderItemExist.length === 0)
@@ -295,6 +286,19 @@ exports.editMyReview = catchAsync( async (req, res, next) => {
 })
 
 
+exports.test = catchAsync (async (req, res, next)  => {
+    const orderItemExist  =  await OrderItem.find({where:req.body.prodId})
+    const reviewExist = await req.user.getReviews({productId: req.body.prodId})
+
+  if(!categories)
+      return next(new AppError('No categories', 404));
+
+  return res.status(200).json(categories)
+
+
+})
+
+
 
 exports.addReview = catchAsync( async (req, res, next) => {
 
@@ -302,23 +306,12 @@ const productExist = await Product.findOne({id: req.body.prodId})
 if(!productExist)
     return res.status(400).json("No such product exists")
 
-
-const orderItemExist = await req.user.getOrders({include: ['products'],where:{'$products.orderItem.productId$':req.body.prodId}})
-const reviewExist = await req.user.getReviews({ where: {productId: req.body.prodId, userId: req.user.id} })
-if(orderItemExist.length === 0)
-    return next (new AppError("You must make a purchase to review", 400))
-
-if(reviewExist.length !== 0)
-    return next (new AppError("You have alr reviewed (Edit review?)", 400))
-
-
-
 const reviewAdded = await req.user.createReview({text:req.body.text, productId:req.body.prodId, rating:req.body.rating})
 
    
-const review = await Review.findOne({where: {id:reviewAdded.id}, include:[{model:User, attributes:['name']}]})
+// const review = await Review.findOne({where: {id:reviewAdded.id}, include:[{model:User, attributes:['name']}]})
 
-res.status(200).json(review)
+res.status(200).json()
 });
 
 

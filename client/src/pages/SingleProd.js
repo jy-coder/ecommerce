@@ -1,60 +1,26 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {Grid, Paper, Typography, Button, Divider, TextField, makeStyles,Box} from '@material-ui/core';
 import { connect } from 'react-redux';
 import { Spin } from './../components/Spin'
 import  Msg  from './../components/Msg'
 import ReviewCard from './../components/ReviewCard'
-import { getProduct, addReview} from './../redux/actions/productActions'
-import { getReviewPermission} from './../redux/actions/reviewActions'
-import {Rating} from '@material-ui/lab';
+import { getProduct} from './../redux/actions/productActions'
 import Wrapper from './../components/Wrapper'
-import store from './../redux/store'
-import {CLEAR_PERMISSION} from './../redux/types'
-import EditReviewBtn from './../components/EditReviewBtn'
 import Main from './../components/Main'
+import ReviewInput from './../components/ReviewInput'
 
 
+const SingleProd = ({getProduct,loading, data, match, user,review}) => {
 
-
-
-const SingleProd = ({getProduct,loading, data, match, addReview,user,getReviewPermission,review}) => {
-
-  const [state, setState]= useState({text:'',rating:0,prodId:match.params.id})
   const {product} = data
 
-  
-
-  
     useEffect(() => {
         getProduct(match.params.id)
-        getReviewPermission(match.params.id)
+    
+      },[getProduct]);
 
-      },[getProduct,review.mode]);
+   
 
-      const inputChangeHandler  = e  => {
-        setState({
-          ...state, 
-          [e.target.id]: e.target.value
-        });
-      }
-
-
-      const ratingChangeHandler  = e  => {
-        setState({
-          ...state, 
-          rating: e.target.value
-        });
-      }
-
-
-      const submitHandler = (e) =>{
-        e.preventDefault();
-        store.dispatch({type:'CLEAR_PERMISSION'})
-        addReview(state)
-       
-
-      
-      }
 
       const renderAddToCart = () =>{
         // console.log(product.id)
@@ -76,49 +42,7 @@ const SingleProd = ({getProduct,loading, data, match, addReview,user,getReviewPe
           </Grid>
       </Grid>
       )
-    
-
-
-
-
-      const renderForm = () =>{
-        let form
-
-        if(review.mode === "add"){
-          form  = (
-            <Grid style={{marginTop:'5px', width:'80%',position:'relative'}}>
-              <form onSubmit = {(e)=> submitHandler(e)}>
-              Your Rating: <Rating onChange={ratingChangeHandler} required/>
-              <TextField 
-                id="text"
-                label="Enter review"
-                rows={3}
-                placeholder="Enter review"
-                multiline
-                variant="outlined"
-                fullWidth
-                onChange={inputChangeHandler}
-                required
-              />
-              <Grid item container style={{display:'flex',justifyContent:"flex-end"}}>
-                <Button type="submit" variant="outlined" color="primary">Add review</Button>
-              </Grid>
-              </form>
-            </Grid>
-         )}
-     
-         else if(review.mode === "edit"){
-           form = (
-            <EditReviewBtn prodId={match.params.id}/>
-     
-         )
-     
-       }
-       else
-        return null
-
-      return form
-    }
+  
 
 
       const renderReviews = () =>{
@@ -162,10 +86,8 @@ const SingleProd = ({getProduct,loading, data, match, addReview,user,getReviewPe
                   <Paper className='single-product-paper' >
                     <Typography className='single-product-typo' variant="h5" >Review</Typography>
                     <Divider/>
-                      <div style={{display:'flex', justifyContent:'center'}}>
-                        {renderForm()}
-                      </div>
-                      <div style={{display:'flex', justifyContent:'center'}}>
+                      {user.authenticated ? <ReviewInput productId={match.params.id}/> : null}
+                      <div>
                         {renderReviews()}
                       </div>
                     </Paper>
@@ -196,4 +118,4 @@ const SingleProd = ({getProduct,loading, data, match, addReview,user,getReviewPe
   });
   
   
-  export default connect(mapStateToProps, {getProduct,addReview,getReviewPermission})(SingleProd);
+  export default connect(mapStateToProps, {getProduct})(SingleProd);

@@ -5,17 +5,9 @@ import {
     POST_PRODUCT,
     SET_PRODUCT,
     LOADING_PRODUCT,
-    LOADING_UI,
-    STOP_LOADING_UI,
-    SET_ERRORS,
-    ADD_REVIEW,
-    EDIT_REVIEW,
-    DELETE_REVIEW,
-    CHECK_REVIEW,
     UPDATE_PRODUCT,
     INCREASE_LIMIT,
-    LOAD_MORE_PRODUCTS,
-    SET_SORT_ORDER,SET_ORDERBY,
+    SET_SORT_ORDER,
     SET_CATEGORIES,
     SET_CATEGORY_OPT,
     SET_SUBCATEGORIES,
@@ -128,23 +120,6 @@ import {
        
       });
   };
-
-  export const addReview = ({prodId, text, rating}) => (dispatch) => {
-    axios
-      .post('shop/addReview', {prodId, text, rating})
-      .then((res) => {
-        dispatch({
-          type: ADD_REVIEW,
-          payload:res.data
-        });
-      })
-      .catch((err) => {
-        
-      });
-  };
-
-
-
 
 
 

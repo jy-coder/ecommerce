@@ -2,7 +2,8 @@ import {
    CHECK_REVIEW,
    CLEAR_PERMISSION,
    GET_REVIEW_EDIT,
-    UPDATE_REVIEW
+    UPDATE_REVIEW,
+    ADD_REVIEW
 }from '../types';
 
 
@@ -25,7 +26,9 @@ export default function(state = initialState, action) {
             return{
                 ...state,
                 productInfo: action.payload
-            }
+            };
+
+        case ADD_REVIEW:
         default:
             return state;
     }

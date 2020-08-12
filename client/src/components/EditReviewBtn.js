@@ -6,14 +6,14 @@ import history from '../utils/history';
 
  function EditReviewBtn({prodId,getReviewEdit,review,updateReview}) {
   const [open, setOpen] = React.useState(false);
-  const [state,setState] = React.useState({text:'', rating:0});
+  const [state,setState] = React.useState({text:''});
   const {productInfo} = review
 
   
 
   useEffect(() => {
     getReviewEdit(prodId)
-  },[]);
+  },[prodId]);
 
 
   const handleClickOpen = () => {
@@ -34,16 +34,21 @@ import history from '../utils/history';
 
 const submitHandler  = e  => {
     e.preventDefault()
-    updateReview(prodId , state.text)
-    setTimeout(() => {
-        handleClose()
-        history.go(0)
-        }, 1000);
-}
+  
+    if(state.text){
+        updateReview(prodId , state.text)
+        setTimeout(() => {
+            handleClose()
+            history.go(0)
+            }, 1000);
+    }
+  
+  
+  }
 
   return (
-    <div>
-    <Button variant="contained"fullWidth onClick={handleClickOpen}>
+    <div style={{width:'100%'}}>
+    <Button variant="contained" fullWidth onClick={handleClickOpen}>
         Edit review
     </Button>
  
@@ -54,7 +59,7 @@ const submitHandler  = e  => {
         
         <DialogContent>
           <Box>
-            <TextField rows={5} variant="outlined" multiline id="text" onChange={inputChangeHandler} defaultValue={productInfo.text} label="Update your review" fullWidth required/>
+            <TextField rows={5} variant="outlined" multiline id="text" onChange={inputChangeHandler} placeholder={productInfo.text} label="Update your review" fullWidth required/>
           </Box>
         </DialogContent>
         <DialogActions>
