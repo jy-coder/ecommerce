@@ -19,6 +19,14 @@ import Main from '../components/Main'
       
   }
 
+  componentDidUpdate(prevProps) {
+    if(this.props.data.limit !== prevProps.data.limit)
+    {
+      
+      this.props.getProducts(this.props.data.limit,'',this.props.data.sortBy,this.props.data.orderBy,this.props.data.categoryId)
+    }
+  } 
+
 
   renderProducts (){
     const { products, loading } = this.props.data;

@@ -14,14 +14,23 @@ module.exports = {
         type:Sequelize.INTEGER,
         allowNull:false
       },
-      userId: {
+      productId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'users',
+          model: 'products',
           key: 'id'
         }
       },
+      cartId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'carts',
+          key: 'id'
+        }
+      },
+      
       createdAt: Sequelize.DATE,
       updatedAt: Sequelize.DATE
     });

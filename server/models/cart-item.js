@@ -13,12 +13,19 @@ const CartItem = sequelize.define('cartItem', {
     type:Sequelize.INTEGER,
     allowNull:false
   },
-  
-  userId: {
+  productId: {
     type: Sequelize.INTEGER,
     allowNull: false,
     references: {
-      model: 'users',
+      model: 'products',
+      key: 'id'
+    }
+  },
+  cartId: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'carts',
       key: 'id'
     }
   },

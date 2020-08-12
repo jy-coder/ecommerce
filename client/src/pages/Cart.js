@@ -5,8 +5,10 @@ import { Spin } from './../components/Spin';
 import ItemCard from './../components/ItemCard';
 import { Button, Box, Grid} from '@material-ui/core';
 import OrderModal from './../components/OrderModal';
+import Main from './../components/Main'
 
 const Cart = ({getCart,cartData, orderData}) => {
+  const { cartItems, loading} = cartData;
 
     useEffect(() => {
         getCart()
@@ -18,7 +20,7 @@ const Cart = ({getCart,cartData, orderData}) => {
          return cartItems.map((item) => <ItemCard key={item.id} item={item} />)
         }
         else{
-          return <Box className='center-text'>Your cart is empty</Box>
+          return <Box style={{minHeight:'70vh', display:'flex', justifyContent:'center',alignItems:'center'}}>Your cart is empty</Box>
         }
       }
 
@@ -34,22 +36,24 @@ const Cart = ({getCart,cartData, orderData}) => {
           return null
      }
 
-    //   const { title,price,cartItem } = this.props.cartData;
-    const { cartItems, loading} = cartData;
+    const renderItem = (
+      <div style={{marginTop: '10px'}}>
+      {!loading ?
+        <Fragment>
+        {renderCartItems()}
+        {renderOrderBtn()}
+        </Fragment>:
+      <Spin/>}
+  
+  </div>
+    )
+    
+
+
  
     return (
-      
-        <div style={{marginTop: '10px'}}>
-            {!loading ?
-            <Fragment>
-            {renderCartItems()}
-            {renderOrderBtn()}
-          </Fragment>:
-            
-            
-            <Spin/>}
-        
-        </div>
+      <Main item={renderItem}/>
+       
     )
 }
 

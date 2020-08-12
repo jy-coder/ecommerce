@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Spin } from './../components/Spin';
 import { Button, Box, Grid} from '@material-ui/core';
 import OrderHistoryCard from './../components/OrderHistoryCard'
+import Main from './../components/Main'
 
 
 function OrderHistory({orderData,getOrders}) {
@@ -20,14 +21,20 @@ function OrderHistory({orderData,getOrders}) {
         return ordersHistory.map((item) => <OrderHistoryCard key={item.id} item={item} />)
     }
     else{
-        return "You have no orders yet"
+        return <div style={{minHeight:'100vh', display:'flex', justifyContent:'center',alignItems:'center'}}>You have no orders yet</div>
     }
     }
 
-    return (
+    const renderItem = (
         <div>
             {!loading? renderOrderItems() : <Spin/>}
         </div>
+
+    )
+    
+
+    return (
+        <Main item={renderItem} />
     )
 }
 

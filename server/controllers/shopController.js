@@ -25,22 +25,25 @@ exports.getProducts = catchAsync (async (req, res, next) => {
     let whereQuery ={title: {[Op.ne]: null}}
     let nameQuery ={name: {[Op.ne]: null}}
 
-   if (sortBy === 'reviewCount')
+    if (sortBy === 'reviewCount')
         orderSort = [[Sequelize.col("reviewCount"),'desc']]
     if (req.query.search)
         whereQuery = {title: {[Op.iLike]:`%${req.query.search}%`}}
-    else if(req.query.category)
-        nameQuery ={name: req.query.category}
+    else if(req.query.category){
+        console.log(req.query.category)
+        str = req.query.category
+        subsubId = parseInt(str.charAt(0))
+        categoryName = str.slice(1,str.length)
+        // nameQuery ={name: categoryName}
+        whereQuery = {subsubcategoryId: subsubId}
+        
+
+    }
     
 
     products = await Product.findAll({
-        where: whereQuery,
-        include: [
-        {
-            model:Subsubcategory,
-            where: nameQuery
-            
-        },
+    where: whereQuery,
+    include: [
         { model:User },   
         {model: Review, attributes: []}
     ],
@@ -50,7 +53,7 @@ exports.getProducts = catchAsync (async (req, res, next) => {
                                 [Sequelize.fn("COUNT", Sequelize.col("reviews.id")), "reviewCount"]
                             ] ,group: ['reviews.id']
                 },
-    group: ['product.id','user.id','subsubcategory.id'],
+    group: ['product.id','user.id'],
     order: orderSort,
     limit: limit,
     subQuery:false
@@ -65,14 +68,8 @@ exports.getProducts = catchAsync (async (req, res, next) => {
 
 
 exports.test = catchAsync (async (req, res, next)  => {
-      categories = await Category.findAll({
-        include:[{
-            model:Subcategory,
-            include: [{
-                model:Subsubcategory
-            }]
-    
-        }]
+      categories = await Product.findAll({
+        where:{subsubcategoryId : 2}
     })
 
     if(!categories)
@@ -252,6 +249,9 @@ exports.getOrders = catchAsync( async (req, res, next) => {
 
 //can disable seller from reviewing their own product
 exports.enableReview= catchAsync( async (req, res, next) => { 
+    if(!req.user)
+        return res.status(200).json()
+
     const productExist = await Product.findOne({id: req.body.prodId})
     if(!productExist)
         return next(new AppError('No product found', 404));
@@ -269,7 +269,7 @@ exports.enableReview= catchAsync( async (req, res, next) => {
 exports.getMyReview= catchAsync( async (req, res, next) => {
     const review = await req.user.getReviews({where:{productId: req.params.prodId}})
     if(review.length === 0)
-        return next(new AppError('You have not reviewed this product yet', 401));
+        return next(new AppError('You have not reviewed this product yet', 404));
     
     res.status(200).json(review[0])
 

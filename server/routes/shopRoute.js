@@ -16,6 +16,9 @@ const router = express.Router();
 router.get('/', shopController.getProducts);
 router.get('/product/:id',shopController.getProduct);
 router.get('/getCategories',shopController.getCategories);
+router.get('/getSubcategories/:categoryId', shopController.getSubcategories)
+router.get('/getMyReview/:prodId', shopController.getMyReview)
+
 
 
 router.use(authController.protect)
@@ -24,15 +27,15 @@ router.post('/addcart',shopController.addToCart);
 router.delete('/deleteCartItem/:prodId',shopController.deleteFromCart);
 router.post('/addOrder',shopController.addOrder);
 router.get('/getOrders',shopController.getOrders);
-
 router.post('/checkReview',shopController.enableReview);
+
 router.post('/addReview',shopController.addReview);
-router.get('/getMyReview/:prodId', shopController.getMyReview)
+
 
 router.patch('/updateReview/:prodId', shopController.editMyReview)
 
 
-router.get('/getSubcategories/:categoryId', shopController.getSubcategories)
+
 router.get('/test', shopController.test)
 
 module.exports = router;

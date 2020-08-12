@@ -40,6 +40,7 @@ if (token) {
 
 
 
+
 axios.interceptors.request.use(req => {
   // const errorCode = store.getState().error.code
   // console.log(errorCode)
@@ -93,6 +94,7 @@ class App extends Component {
                 <Route exact path="/" component={Shop} />
                 <Route exact path="/signup" component={Signup} />
                 <Route exact path="/product/:id" component={SingleProd} />
+                <Route exact path="/search/:searchQ" component={SearchResult} />
                 <Route component={My404Page} />
               <Redirect to="/" />
               </Switch>

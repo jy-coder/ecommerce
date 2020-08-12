@@ -19,15 +19,15 @@ function SearchResult({getProducts,match,data}) {
     useEffect(() => {
       if(match.params.searchQ.startsWith("CATEGORYNAME")){
         search = search.split("CATEGORYNAME")[1]
-        getProducts(data.limit,'',
+        getProducts(data.defaultLimit,'',
           data.sortBy,data.orderBy,search)
        
       }
       else
-        getProducts(data.limit,match.params.searchQ,
+        getProducts(data.defaultLimit,match.params.searchQ,
           data.sortBy,data.orderBy)
         
-    },[match.params.searchQ]);
+    },[match.params.searchQ,data.sortBy,data.orderBy]);
 
     const renderProducts =() => {
         const { products, loading } = data;

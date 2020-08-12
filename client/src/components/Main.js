@@ -128,7 +128,7 @@ function Main({getProducts, getCategories,setCategoryOpt,item,data,setSubcategor
   };
 
   const handleClick = (subsubcat) => {
-    history.push(`/search/CATEGORYNAME${subsubcat.name}`)
+    history.push(`/search/CATEGORYNAME${subsubcat.id}${subsubcat.name}`)
   };
 
 

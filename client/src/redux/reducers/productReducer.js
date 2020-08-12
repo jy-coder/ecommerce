@@ -26,9 +26,10 @@ const initialState = {
     products: [],
     product: {},
     loading: false,
+    defaultLimit : 6,
     limit:6,
-    sortBy:'',
-    orderBy:'',
+    sortBy:'reviewCount',
+    orderBy:'asc',
     categoryId:0,
     subcategory:{},
     subsubcategory:[]
@@ -75,7 +76,7 @@ const initialState = {
         case INCREASE_LIMIT:
           return {
             ...state,
-            limit: state.limit * 2
+            limit: state.limit + 6
           };
 
         case SET_SORT_ORDER:

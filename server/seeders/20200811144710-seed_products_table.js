@@ -16,7 +16,7 @@ module.exports = {
         title: "DRESS B",
         price: 20,
         imageUrl: "product-images/DRESSB.PNG",
-        description: "Dress A",
+        description: "Dress B",
         subsubcategoryId: 1,
         userId: 1
 
@@ -35,7 +35,7 @@ module.exports = {
         price: 19.50,
         imageUrl: "product-images/SKIRTB.PNG",
         description: "Skirt A",
-        subsubcategoryId: 3,
+        subsubcategoryId: 2,
         userId: 1
 
     },

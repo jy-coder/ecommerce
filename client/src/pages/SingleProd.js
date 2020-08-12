@@ -86,7 +86,7 @@ const SingleProd = ({getProduct,loading, data, match, addReview,user,getReviewPe
 
         if(review.mode === "add"){
           form  = (
-            <Grid style={{marginTop:'5px'}}>
+            <Grid style={{marginTop:'5px', width:'80%',position:'relative'}}>
               <form onSubmit = {(e)=> submitHandler(e)}>
               Your Rating: <Rating onChange={ratingChangeHandler} required/>
               <TextField 
@@ -158,12 +158,16 @@ const SingleProd = ({getProduct,loading, data, match, addReview,user,getReviewPe
                   </Paper>
                 </Grid>
   
-                <Grid item xs={12} className='single-product-review'>
-                  <Paper className='single-product-paper'>
-                    <Typography className='single-product-typo' variant="h5">Review</Typography>
+                <Grid item xs={12} className='single-product-review' >
+                  <Paper className='single-product-paper' >
+                    <Typography className='single-product-typo' variant="h5" >Review</Typography>
                     <Divider/>
-                      {renderForm()}
-                      {renderReviews()}
+                      <div style={{display:'flex', justifyContent:'center'}}>
+                        {renderForm()}
+                      </div>
+                      <div style={{display:'flex', justifyContent:'center'}}>
+                        {renderReviews()}
+                      </div>
                     </Paper>
                   </Grid>
               
