@@ -6,7 +6,7 @@ import{ confirmOrder, setPrice} from './../redux/actions/orderActions'
 import{ setPayment } from './../redux/actions/paymentActions'
 import history from '../utils/history';
 
-const OrderModal = ({orderData, confirmOrder,setPayment,setPrice}) => {
+const OrderModal = ({orderData,setPayment,setPrice}) => {
     const [open, setOpen] = React.useState(false);
     const {orders} = orderData;
     let list = []
@@ -31,6 +31,7 @@ const OrderModal = ({orderData, confirmOrder,setPayment,setPrice}) => {
   const getProdIdList = (orders, list) =>{
     
     orders.map(order => list.push(order.productId))
+   
 
   }
 

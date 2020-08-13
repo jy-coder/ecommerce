@@ -16,14 +16,20 @@ import { PAYMENT_SUCCESS } from "../redux/types";
 const CheckoutForm = ({ orderData, makePayment }) => {
     const stripe = useStripe();
     const elements = useElements();
-    const {totalPrice} = orderData
+    const {totalPrice,orders} = orderData
     const [state, setState]= useState({email:'',name:'',price:0})
+    let list = []
   
+    const getProdIdList = (orders, list) =>{
   
+      orders.map(order => list.push(order.productId))
+     
+  
+    }
   
     const handleSubmit = async event => {
-        event.preventDefault()
-  
+      event.preventDefault()
+      getProdIdList(orders,list)
       const { error, paymentMethod } = await stripe.createPaymentMethod({
         type: "card",
         card: elements.getElement(CardElement)
@@ -33,7 +39,7 @@ const CheckoutForm = ({ orderData, makePayment }) => {
   
       if (!error) {
         const { id } = paymentMethod;
-        makePayment(id, totalPrice)
+        makePayment(id, totalPrice,orders,list)
       }
     }
      

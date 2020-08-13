@@ -14,7 +14,8 @@ const initialState = {
     orders:[],
     loading: false,
     ordersHistory:[],
-    totalPrice : 0
+    totalPrice : 0,
+    prodIDlist: []
    };
 
 
@@ -64,6 +65,8 @@ const initialState = {
           totalPrice : action.payload
 
         }
+
+
 
 
 

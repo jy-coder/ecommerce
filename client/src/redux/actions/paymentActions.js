@@ -17,9 +17,9 @@ import axios from '../../utils/axios-handler';
   };
 
 
-  export const makePayment= (id, totalPrice) => (dispatch) => {
+  export const makePayment= (id, totalPrice,orders,prodIdList) => (dispatch) => {
     axios
-    .post('shop/charge', { id, amount: totalPrice })
+    .post('shop/charge', { id, amount: totalPrice,orders,prodIdList })
     .then((res) => {
       dispatch({
         type: PAYMENT_SUCCESS,
