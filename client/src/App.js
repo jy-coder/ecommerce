@@ -79,7 +79,8 @@ class App extends Component {
             <Route exact path="/orderhistory" component={OrderHistory} />
             <Route exact path="/manage" component={MyProduct} />
             <Route exact path="/search/:searchQ" component={SearchResult} />
-            {payment ? <Route exact path="/payment" component={Payment}/> : <Redirect to="/" />}
+            <Route exact path="/payment" component={Payment}/>
+            {/* {payment ? <Route exact path="/payment" component={Payment}/> : <Redirect to="/" />} */}
             <Route component={My404Page} />
             <Redirect to="/" />
           </Switch>

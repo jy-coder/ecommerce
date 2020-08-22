@@ -1,6 +1,6 @@
 import React, {useEffect, useState, Fragment} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import {AppBar, Toolbar,Typography,Button,Popper,Paper,MenuList, MenuItem,ClickAwayListener,Grow} from '@material-ui/core';
+import {makeStyles,createMuiTheme,ThemeProvider} from '@material-ui/core/styles';
 import {Link, Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {logoutUser} from './../redux/actions/userActions'
@@ -9,16 +9,24 @@ import {MdShoppingCart} from 'react-icons/md'
 import MenuBtn from './../components/MenuBtn'
 import './Nav.css'
 
-
-
+const theme = createMuiTheme({   
+  overrides: {     
+    MuiAppBar: {       
+      colorPrimary: {         
+        backgroundColor: "black" 
+      }
+    }
+  }
+})
 
 const useStyles = makeStyles((theme) => ({
   container:{
-    width:"100%",
+    width:"100%"
   },
   root: {
     flexGrow: 1,
     width:'100%',
+    backgroundColor:'black'
     
   },
   menuButton: {
@@ -109,7 +117,7 @@ function Nav({user,logoutUser,item}) {
               {...TransitionProps}
               style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
             >
-              <Paper>
+              <Paper >
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
                     <MenuItem onClick={handleClose} className='remove-underline'><Link to ="/manage">Manage My Products</Link></MenuItem>
@@ -150,11 +158,14 @@ function Nav({user,logoutUser,item}) {
 
   return (
     <div className={classes.root} >
+     <ThemeProvider theme={theme}>
       <AppBar position="relative" style={{backgroundColor: 'black'}}>
         <Toolbar>
          {routes}
         </Toolbar>
       </AppBar>
+      </ThemeProvider>
+     
     </div>
   );
 }

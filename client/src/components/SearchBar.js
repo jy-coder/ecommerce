@@ -51,15 +51,12 @@ export default function SearchBar() {
 
   return (
     <Paper component="form" className={classes.root} onSubmit={handleSubmit}>
-      <IconButton className={classes.iconButton} aria-label="menu">
-        <MenuIcon />
-      </IconButton>
-      
         <InputBase
           className={classes.input}
           onChange={handleChange}
           onKeyDown = {handleKeyDown}
           placeholder="Search Product Name"
+    
         />
         <IconButton type="submit" className={classes.iconButton} aria-label="search">
           <SearchIcon />

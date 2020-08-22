@@ -1,10 +1,13 @@
 import React,{useEffect} from 'react'
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText,DialogTitle} from '@material-ui/core';
+import {Button, Dialog, DialogActions, DialogContent, DialogContentText,DialogTitle,makeStyles} from '@material-ui/core';
 import { addToCart } from './../redux/actions/cartActions'
 import { connect } from 'react-redux';
 import { Spin } from './Spin';
 
+
+
 const Msg = ({addToCart, prodId, cartData}) => {
+  
     const [open, setOpen] = React.useState(false);
 
 
@@ -21,7 +24,7 @@ const Msg = ({addToCart, prodId, cartData}) => {
   return (
     
     <div>
-    <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+    <Button variant="outlined"  onClick={handleClickOpen}>
         Add To Cart
       </Button>
       <Dialog
@@ -29,6 +32,7 @@ const Msg = ({addToCart, prodId, cartData}) => {
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
+  
       >
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
@@ -36,7 +40,7 @@ const Msg = ({addToCart, prodId, cartData}) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} >
             Back
           </Button>
         </DialogActions>

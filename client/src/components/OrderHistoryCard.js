@@ -19,7 +19,7 @@ function OrderHistoryCard({item}) {
         <Paper>
           <Grid container spacing={2} style={{margin:'15px'}}>
             <Grid item xs={12} sm container>
-              <Grid item xs container direction="column" spacing={2}>
+              <Grid item xs container direction="column" spacing={2} >
                 <Grid item xs>
                   <Typography variant="caption" display='inline'>
                   orderId: #{item.id}   
@@ -28,8 +28,9 @@ function OrderHistoryCard({item}) {
                   <Typography variant="caption" display='inline' style={{marginLeft: '1rem'}}>
                   {dayjs(item.createdAt).format('YYYY/MM/DD HH:mm:ss')}
                   </Typography>
+                  </Grid>
                     {renderProducts()}
-                </Grid>
+                
               </Grid>
             </Grid>
           </Grid>

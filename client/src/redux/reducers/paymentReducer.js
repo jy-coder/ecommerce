@@ -2,7 +2,8 @@ import {
     SET_PAYMENT,
     RESET_PAYMENT,
     PAYMENT_SUCCESS,
-    PAYMENT_FAIL
+    PAYMENT_FAIL,
+    LOADING_PAYMENT
 
   } from '../types';
 
@@ -11,7 +12,8 @@ import {
 const initialState = {
     payment: false,
     orderNum: '',
-    status: ''
+    status: '',
+    loading:false
   };
 
 
@@ -19,6 +21,10 @@ const initialState = {
 
   export default function(state = initialState, action) {
     switch (action.type) {
+      case LOADING_PAYMENT:
+        return{
+          loading:true
+        }
       case SET_PAYMENT:
         return{
            ...state,
@@ -31,7 +37,8 @@ const initialState = {
         return{
            ...state,
            orderNum: action.payload,
-           status: 'success'
+           status: 'success',
+           loading: false
       }
         
       default:
