@@ -2,7 +2,6 @@ import {
     SET_PAYMENT,
     RESET_PAYMENT,
     PAYMENT_SUCCESS,
-    PAYMENT_FAIL,
     LOADING_PAYMENT
 
   } from '../types';

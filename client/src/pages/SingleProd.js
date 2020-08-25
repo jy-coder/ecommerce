@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import {Grid, Paper, Typography, Button, Divider, TextField, makeStyles,Box} from '@material-ui/core';
+import React, { useEffect } from 'react';
+import {Grid, Paper, Typography,  Divider,Avatar} from '@material-ui/core';
 import { connect } from 'react-redux';
 import { Spin } from './../components/Spin'
 import  Msg  from './../components/Msg'
@@ -10,14 +10,14 @@ import Main from './../components/Main'
 import ReviewInput from './../components/ReviewInput'
 
 
-const SingleProd = ({getProduct,loading, data, match, user,review}) => {
+const SingleProd = ({getProduct,loading, data, match, user}) => {
 
   const {product} = data
 
     useEffect(() => {
         getProduct(match.params.id)
     
-      },[getProduct]);
+      },[getProduct,match.params.id]);
 
    
 
@@ -31,7 +31,7 @@ const SingleProd = ({getProduct,loading, data, match, user,review}) => {
         
         <Grid item xs={12} container>
           <Grid item container direction="column" spacing={2} xs={12} sm={4} style={{marginRight:'auto'}}>
-              <img className='single-product-img' src={`https://fw-img-bucket.s3-ap-southeast-1.amazonaws.com/${product.imageUrl}`} style={{width: '200px', height:'200px'}}/>
+              <Avatar variant="square" style={{width: '200px', height:'200px'}}/>
           </Grid>
           <Grid item xs={12} sm={7} style={{textAlign:'center'}}>
             <Typography gutterBottom variant="h5" className='single-product-typo'>{product.title}</Typography>

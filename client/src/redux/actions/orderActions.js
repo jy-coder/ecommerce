@@ -39,12 +39,16 @@ export const confirmOrder = (orders,prodIdList) => (dispatch) => {
   };
 
 
-  export const getOrders = () => (dispatch) => {
+  export const getOrders = (currentPage) => (dispatch) => {
     dispatch({type: LOADING_ORDERS_HISTORY});
     axios
-      .get('shop/getOrders')
+      .get(`shop/getOrders?page=${currentPage}`)
       .then((res) => {
-        dispatch({type: SET_ORDERS_HISTORY, payload:res.data});
+        dispatch({type: SET_ORDERS_HISTORY, 
+          payload:res.data.orders,
+          count: res.data.totalPage
+        
+        });
         
       })
       .catch((err) => {

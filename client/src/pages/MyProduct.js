@@ -6,6 +6,7 @@ import ProdCard from '../components/ProdCard'
 import Wrapper from '../components/Wrapper'
 import Main from '../components/Main'
 import {Button} from '@material-ui/core';
+import Paginate from './../components/Paginate'
 
  class MyProduct extends Component {
 
@@ -14,6 +15,8 @@ import {Button} from '@material-ui/core';
       this.props.getAdminProducts()
         
     }
+
+
 
 
   renderProducts (){
@@ -31,15 +34,19 @@ import {Button} from '@material-ui/core';
 
 
     render() {
-        const renderItem = (  <Fragment>
+        const renderItem = (  
+        <Fragment>
           <Button variant="outlined" color="primary" href="/addproduct" fullWidth>Add</Button>
             <Wrapper>
               {this.renderProducts()}
             </Wrapper>
-          </Fragment>)
+          </Fragment>
+          )
         return (
-          
-          <Main item={renderItem}/>  
+          <div>
+            <Main item={renderItem}/> 
+            <Paginate count={this.props.data.myProductPage} option={"product"}/>
+          </div>
         )
     }
 }

@@ -1,6 +1,5 @@
 import {
     SET_USER,
-    SET_ERRORS,
     LOADING_UI,
     LOADING_USER,
     SET_UNAUTHENTICATED,

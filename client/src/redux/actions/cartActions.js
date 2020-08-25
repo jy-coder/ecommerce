@@ -1,18 +1,12 @@
 import {
-    SET_ERRORS,
     LOADING_CART ,
     SET_CART,
-    CLEAR_ERRORS,
     ADD_TO_CART,
     ADD_CART_SUCCESS,
     REMOVE_FROM_CART,
-    CLEAR_CART,
-    INCREASE_QUANTITY,
-    CONFIRM_ORDER,
     REMOVE_SUCCESS
 
   } from '../types';
-  import history from './../../utils/history'
   import axios from '../../utils/axios-handler';
 
 

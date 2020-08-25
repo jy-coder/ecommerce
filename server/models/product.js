@@ -17,10 +17,6 @@ const Product = sequelize.define('product',  {
     type: Sequelize.DECIMAL(10,2),
     allowNull: false
   },
-  imageUrl: {
-    type: Sequelize.STRING,
-    allowNull: false
-  },
   description: {
     type: Sequelize.STRING,
     allowNull: false

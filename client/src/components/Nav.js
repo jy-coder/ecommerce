@@ -1,7 +1,7 @@
-import React, {useEffect, useState, Fragment} from 'react';
+import React, { Fragment} from 'react';
 import {AppBar, Toolbar,Typography,Button,Popper,Paper,MenuList, MenuItem,ClickAwayListener,Grow} from '@material-ui/core';
 import {makeStyles,createMuiTheme,ThemeProvider} from '@material-ui/core/styles';
-import {Link, Redirect} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {logoutUser} from './../redux/actions/userActions'
 import SearchBar from './../components/SearchBar'
@@ -120,8 +120,8 @@ function Nav({user,logoutUser,item}) {
               <Paper >
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                    <MenuItem onClick={handleClose} className='remove-underline'><Link to ="/manage">Manage My Products</Link></MenuItem>
-                    <MenuItem onClick={handleClose} className='remove-underline'><Link to ="/orderhistory">Order History</Link></MenuItem>
+                    <MenuItem onClick={handleClose} ><Link to ="/manage" className='remove-underline'>Manage My Products</Link></MenuItem>
+                    <MenuItem onClick={handleClose} ><Link to ="/orderhistory" className='remove-underline'>Order History</Link></MenuItem>
                     <MenuItem onClick={() => logoutUser()}>Logout</MenuItem>
                   </MenuList>
                 </ClickAwayListener>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getReviewPermission, addReview} from './../redux/actions/reviewActions'
 import { connect } from 'react-redux';
 import EditReviewBtn from './../components/EditReviewBtn'
-import {Grid, Paper, Typography, Button, Divider, TextField, makeStyles,Box} from '@material-ui/core';
+import {Grid,Typography, Button, TextField} from '@material-ui/core';
 import {Rating} from '@material-ui/lab';
 import store from './../redux/store'
 import { CLEAR_PERMISSION } from './../redux/types';
@@ -15,7 +15,7 @@ function ReviewInput({productId, review, addReview,getReviewPermission}) {
     useEffect(() => {
         getReviewPermission(productId)
 
-      },[]);
+      },[getReviewPermission,productId]);
 
 
       const inputChangeHandler  = e  => {

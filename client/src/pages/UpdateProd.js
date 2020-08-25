@@ -4,43 +4,38 @@ import { connect } from 'react-redux';
 import {Button, Box, InputLabel, TextField,NativeSelect,Typography} from '@material-ui/core';
 import history from '../utils/history';
 import {Spin} from '../components/Spin'
+import Main from '../components/Main'
 
 function UpdateProd({match,data,getEditProduct,getCategories,updateProduct}) {
 
-    const {title,imageUrl,price,description,subsubcategoryId,subsubcategory} = data.product
-    const [image, setImage] = useState("")
+    const {title,price,description,subsubcategoryId,subsubcategory} = data.product
+   
     const [state, setState]= useState({title:"", description:"", price:0,subsubcategoryId:0})
-    const [preview, setPreview] = useState("")
+
     
 
     useEffect(() => {
         getEditProduct(match.params.id)
         getCategories()
-    },[getEditProduct])
+    },[getEditProduct, getCategories,match.params.id])
 
 
 
     const submitHandler = (e) =>{
         e.preventDefault();
-        const form = new FormData();
+        let newProduct = {}
     if(state.title)
-        form.append('title', state.title);
+        newProduct["title"]=state.title
     if(state.description)
-        form.append('description', state.description);
+      newProduct["description"]=state.description
     if(state.price)
-        form.append('price', state.price);
+      newProduct["price"]=state.price
     if(state.subsubcategoryId)
-        form.append('subsubcategoryId', state.subsubcategoryId)
-    if(image){
-        // console.log(imageUrl)
-        form.append('imageUrl', image) // new image
-        form.append('oldImage',imageUrl) //old image string
+      newProduct["subsubcategoryId"]=state.subsubcategoryId
 
-    }
 
-    // console.log(image, imageUrl)
   
-    updateProduct(match.params.id,form)
+    updateProduct(match.params.id,newProduct)
     
     setTimeout(() => {
         history.push('/manage')
@@ -48,17 +43,7 @@ function UpdateProd({match,data,getEditProduct,getCategories,updateProduct}) {
            
       }
     
-    
-      const imageHandler = e =>{
-        if(e.target.files[0]){
-        let file = e.target.files[0]
-        setImage(file);
-      
-        URL.revokeObjectURL(preview);
-        let url = URL.createObjectURL(file);
-        setPreview(url)
-        }
-    }
+
     
     const inputChangeHandler  = e  => {
       setState({
@@ -68,13 +53,7 @@ function UpdateProd({match,data,getEditProduct,getCategories,updateProduct}) {
       }
 
 
-      const displayPreview = () =>{
-          if(preview){
-            return <img src = {preview}  style={{width: "100px", marginTop:"10px", marginBottom:"10px"}}/>
-          }
-          else
-            return <img src={`https://fw-img-bucket.s3-ap-southeast-1.amazonaws.com/${imageUrl}`}  style={{width: "100px", marginTop:"10px", marginBottom:"10px"}}/>
-      }
+
       
 
       const renderCategoriesOpt = () =>{
@@ -100,11 +79,11 @@ function UpdateProd({match,data,getEditProduct,getCategories,updateProduct}) {
   
     
       }
-    
 
-      if(title)
-      return (
-        console.log(subsubcategory.name),
+      let renderItem;
+
+    if(title)
+     renderItem =  (
         <div className='form-wrapper'>
         <form onSubmit={(e) => submitHandler(e)}  >
         <Box flexDirection="column" p={1}>
@@ -117,19 +96,13 @@ function UpdateProd({match,data,getEditProduct,getCategories,updateProduct}) {
             <Box style={{marginTop:'10px'}}>
              
               <InputLabel><Typography variant="subtitle1" style={{fontSize:'13px'}}> Subcategory Name</Typography></InputLabel>
-          
+
             <NativeSelect onChange={inputChangeHandler} id="subsubcategoryId" fullWidth>
               <option defaultValue>{subsubcategory.name}</option>
               {renderCategoriesOpt()}
             </NativeSelect>
           </Box>
-            <Box style={{marginTop:'10px'}}>
-            <input type="file" accept='photo/*' onChange={imageHandler}/>
-          </Box>
-            <Box>
-                {displayPreview()}
-            </Box>
-            <Box>
+            <Box style={{marginTop: '15px'}}>
             <TextField 
                 id="description"
                 label="Enter Content"
@@ -151,10 +124,19 @@ function UpdateProd({match,data,getEditProduct,getCategories,updateProduct}) {
         </form>
         </div>
       )
-      else
-        return <Spin/>
+    else{
+      renderItem=<Spin/>
+    }
+         
+    
+
+      
+        return (
+          <Main item={renderItem} />
+        )
+
   
-  }
+      }
 
 
 

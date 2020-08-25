@@ -24,6 +24,7 @@ export const SET_PRODUCT = 'SET_PRODUCT';
 export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 export const POST_PRODUCT = 'POST_PRODUCT';
 export const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
+
 // UI reducer types
 
 export const LOADING_UI = 'LOADING_UI';

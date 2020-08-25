@@ -2,7 +2,6 @@ import {
    CHECK_REVIEW,
    CLEAR_PERMISSION,
    GET_REVIEW_EDIT,
-    UPDATE_REVIEW,
     ADD_REVIEW
 }from '../types';
 

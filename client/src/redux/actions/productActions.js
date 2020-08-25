@@ -32,7 +32,8 @@ import {
       .then((res) => {
         dispatch({
           type: SET_PRODUCTS,
-          payload: res.data
+          payload: res.data.products,
+          totalCount: res.data.totalCount
         });
       })
       .catch((err) => {
@@ -73,14 +74,15 @@ import {
 
 
 
-  export const getAdminProducts = () => (dispatch) => {
+  export const getAdminProducts = (page) => (dispatch) => {
     dispatch({ type: LOADING_PRODUCTS });
     axios
-      .get(`admin/edit`)
+      .get(`admin/edit?page=${page}`)
        .then((res) => {
         dispatch({
           type: SET_PRODUCTS,
-          payload: res.data
+          payload: res.data.products,
+          count: res.data.totalPage
         });
       })
       .catch((err) => {
@@ -88,10 +90,10 @@ import {
       });
   };
 
-  export const addProduct = (newProduct) => (dispatch) => {
+  export const addProduct = (title,description,price,subsubcategoryId) => (dispatch) => {
     // dispatch({ type: LOADING_UI });
     axios
-      .post('admin/addproducts', newProduct)
+      .post('admin/addproducts', {title,description,price,subsubcategoryId})
       .then((res) => {
         dispatch({
           type: POST_PRODUCT,
@@ -107,9 +109,9 @@ import {
 
 
 
-  export const updateProduct = (productId,updatedProduct) => (dispatch) => {
+  export const updateProduct = (productId,newProduct) => (dispatch) => {
     axios
-      .patch(`admin/edit/${productId}`, updatedProduct)
+      .patch(`admin/edit/${productId}`, {newProduct})
       .then((res) => {
         dispatch({
           type: UPDATE_PRODUCT,
@@ -150,7 +152,7 @@ import {
 
 
   export const setSubcategoryOpt = (subcategoryId) => (dispatch) => {
-    console.log(subcategoryId)
+  
     dispatch({
       type: SET_SUBCATEGORY_OPT,
       payload:subcategoryId
@@ -180,7 +182,6 @@ import {
 
 
   export const getSubcategories = (categoryId) => (dispatch) => {
-    console.log('dispatch subcategories')
     axios
       .get(`shop/getSubcategories/${categoryId}`)
       .then((res) => {
@@ -209,8 +210,6 @@ import {
   };
 
 
-
-  
 
 
 

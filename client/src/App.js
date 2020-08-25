@@ -1,10 +1,6 @@
 import React, { Component } from 'react'
-// import history from "./utils/history"
-import { Router, Route, Switch, Redirect } from 'react-router-dom';
-// import { Provider } from 'react-redux';
-// import store from './redux/store';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import axios from './utils/axios-handler';
-import Nav from './components/Nav'
 import SingleProd from './pages/SingleProd'
 import UpdateProd from './pages/UpdateProd'
 import Cart from './pages/Cart'
@@ -14,7 +10,7 @@ import Signup from './pages/Signup'
 import jwtDecode from 'jwt-decode';
 import { logoutUser, getUserData } from './redux/actions/userActions';
 import { setError } from './redux/actions/errorActions';
-import { SET_AUTHENTICATED,SET_ERRORS, CLEAR_ERRORS } from './redux/types';
+import { SET_AUTHENTICATED,CLEAR_ERRORS } from './redux/types';
 import {connect} from 'react-redux'
 import AddProd from './pages/AddProd'
 import SearchResult from './pages/SearchResult'
@@ -65,7 +61,7 @@ class App extends Component {
   render() {
     const {authenticated} = this.props.user
     const {payment} = this.props.payment
-    console.log(payment)
+    // console.log(payment)
     let routes;
     if(authenticated){
       routes = (
@@ -80,7 +76,7 @@ class App extends Component {
             <Route exact path="/manage" component={MyProduct} />
             <Route exact path="/search/:searchQ" component={SearchResult} />
             <Route exact path="/payment" component={Payment}/>
-            {/* {payment ? <Route exact path="/payment" component={Payment}/> : <Redirect to="/" />} */}
+            {payment ? <Route exact path="/payment" component={Payment}/> : <Redirect to="/" />}
             <Route component={My404Page} />
             <Redirect to="/" />
           </Switch>

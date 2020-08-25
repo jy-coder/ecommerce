@@ -2,21 +2,14 @@ import {
     SET_PRODUCTS,
     LOADING_PRODUCTS,
     LOADING_PRODUCT,
-    DELETE_PRODUCT,
-    POST_PRODUCT,
     SET_PRODUCT,
-    ADD_REVIEW,
-    EDIT_REVIEW,
-    DELETE_REVIEW,
-    CHECK_REVIEW,
     INCREASE_LIMIT,
     LOAD_MORE_PRODUCTS,
     SET_SORT_ORDER,
     SET_CATEGORIES,
     SET_CATEGORY_OPT,
-    SET_SUBCATEGORIES,
     SET_SUBCATEGORY_OPT,
-    SET_PAYMENT
+  
 
   } from '../types';
 
@@ -34,6 +27,8 @@ const initialState = {
     categoryId:0,
     subcategory:{},
     subsubcategory:[],
+    myProductPage : 0,
+    maxLimit : 0
  
   };
 
@@ -53,7 +48,9 @@ const initialState = {
         return {
           ...state,
           products: action.payload,
-          loading: false
+          loading: false,
+          myProductPage : action.count,
+          maxLimit: action.totalCount
         };
       case SET_PRODUCT:
         return {
@@ -106,33 +103,6 @@ const initialState = {
               loading: false
             };
 
-
-
-        
-
-
-
-        // case POST_PRODUCT:
-        // case DELETE_PRODUCT:
-        //   return{
-        //     loading: false
-        //   }
-          
-
-
-      // case DELETE_PRODUCT:
-      //   index = state.products.findIndex(
-      //     (product) => product.productId === action.payload
-      //   );
-      //   state.products.splice(index, 1);
-      //   return {
-      //     ...state
-      //   };
-      // case POST_PRODUCT:
-      //   return {
-      //     ...state,
-      //     products: [action.payload, ...state.products]
-      //   };
 
       default:
         return state;

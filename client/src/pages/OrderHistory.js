@@ -1,10 +1,10 @@
-import React, {useEffect,useState,Fragment} from 'react'
+import React, {useEffect} from 'react'
 import { getOrders } from './../redux/actions/orderActions'
 import { connect } from 'react-redux';
 import { Spin } from './../components/Spin';
-import { Button, Box, Grid} from '@material-ui/core';
 import OrderHistoryCard from './../components/OrderHistoryCard'
 import Main from './../components/Main'
+import Paginate from './../components/Paginate'
 
 
 function OrderHistory({orderData,getOrders}) {
@@ -34,7 +34,10 @@ function OrderHistory({orderData,getOrders}) {
     
 
     return (
-        <Main item={renderItem} />
+        <div>
+            <Main item={renderItem} />
+            <Paginate count={orderData.myProductPage} option={"order"}/>
+        </div>
     )
 }
 

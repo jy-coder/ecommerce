@@ -1,6 +1,7 @@
 const path = require('path');
 const Product = require(path.join(__dirname,'../models/product'))
 const Review= require(path.join(__dirname,'../models/review'))
+const Order= require(path.join(__dirname,'../models/order'))
 const User= require(path.join(__dirname,'../models/user'))
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
@@ -20,19 +21,19 @@ exports.getProducts = catchAsync (async (req, res, next) => {
     // const page = req.query.page * 1 || 1;
     const sortBy = req.query.sortBy || 'reviewCount'
     const orderBy = req.query.orderBy || 'asc'
-    const limit = req.query.limit* 1 || 2; //setted by me
+    const limit = req.query.limit* 1 || 6; //setted by me
     // const offset = (page - 1) * limit
 
     let orderSort =[[sortBy, orderBy]];
     let whereQuery ={title: {[Op.ne]: null}}
-    let nameQuery ={name: {[Op.ne]: null}}
+    // let nameQuery ={name: {[Op.ne]: null}}
 
     if (sortBy === 'reviewCount')
         orderSort = [[Sequelize.col("reviewCount"),'desc']]
     if (req.query.search)
         whereQuery = {title: {[Op.iLike]:`%${req.query.search}%`}}
     else if(req.query.category){
-        console.log(req.query.category)
+        // console.log(req.query.category)
         str = req.query.category
         subsubId = parseInt(str.charAt(0))
         categoryName = str.slice(1,str.length)
@@ -61,10 +62,17 @@ exports.getProducts = catchAsync (async (req, res, next) => {
     subQuery:false
     })
 
+
+    const pagesQuery = await Product.findAndCountAll({
+        where:whereQuery
+      })
+  
+    const totalCount =pagesQuery.count
+
     if(!products)
         return next(new AppError('No products', 404));
 
-    return res.status(200).json(products)
+    return res.status(200).json({products,totalCount})
 
 })
 
@@ -232,9 +240,28 @@ exports.addOrder =catchAsync( async (req, res, next) => {
 
 
 exports.getOrders = catchAsync( async (req, res, next) => {
-    const orders = await req.user.getOrders({include: ['products']})
+    const page = req.query.page * 1 || 1;
+    const limit =  6;
+    const offset = (page - 1) * limit
+
+    const orders = await req.user.getOrders({
+        include: ['products'],
+        order: [[Sequelize.col("createdAt"),'desc']],
+        limit,
+        offset,
+        subQuery: false
+    })
+
+
+    const pagesQuery = await Order.findAndCountAll({
+        where:{userId: req.user.id}
+      })
+
+    //   console.log(pagesQuery.count)
+      const totalPage = Math.round(pagesQuery.count / limit)
+      console.log(totalPage)
       
-    res.status(200).json(orders)
+    res.status(200).json({orders, totalPage})
   });
 
 

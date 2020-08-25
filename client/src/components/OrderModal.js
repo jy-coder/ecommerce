@@ -1,5 +1,5 @@
-import React,{useEffect} from 'react'
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText,DialogTitle,Box,Grid} from '@material-ui/core';
+import React from 'react'
+import {Button, Dialog, DialogActions, DialogContent,Grid} from '@material-ui/core';
 import { connect } from 'react-redux';
 import OrderCard from './OrderCard'
 import{ confirmOrder, setPrice} from './../redux/actions/orderActions'
@@ -67,7 +67,7 @@ const renderOrders = () =>{
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogContent className='test'>
+        <DialogContent style={{display:'relative',minHeight:'50vh', maxHeight:'50vh', minWidth:'50vh'}}>
           
              {renderOrders()}
          

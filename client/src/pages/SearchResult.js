@@ -1,12 +1,12 @@
-import React,{useEffect, useState,useRef,Fragment} from 'react'
-import {Grid, Paper, Typography, Button, ButtonBase} from '@material-ui/core';
+import React,{useEffect,Fragment} from 'react'
 import { connect } from 'react-redux';
-import { getProducts, loadMoreProducts } from './../redux/actions/productActions'
-import {Spin} from './../components/Spin'
+import { getProducts } from './../redux/actions/productActions'
 import ProdCard from '../components/ProdCard'
 import Wrapper from '../components/Wrapper'
 import SelectBox from '../components/SelectBox'
 import Main from '../components/Main'
+import LoadMore from '../components/LoadMore'
+import {Spin} from '../components/Spin'
 
 
 
@@ -19,21 +19,25 @@ function SearchResult({getProducts,match,data}) {
     useEffect(() => {
       if(match.params.searchQ.startsWith("CATEGORYNAME")){
         search = search.split("CATEGORYNAME")[1]
-        getProducts(data.defaultLimit,'',
+        getProducts('','',
           data.sortBy,data.orderBy,search)
        
       }
       else
-        getProducts(data.defaultLimit,match.params.searchQ,
+        getProducts('',match.params.searchQ,
           data.sortBy,data.orderBy)
         
     },[match.params.searchQ,data.sortBy,data.orderBy]);
 
     const renderProducts =() => {
+      let productLoading ;
         const { products, loading } = data;
-        let productLoading = (
+        if(!loading)
+       productLoading = (
           products.map((prod) => <ProdCard key={prod.id} prod={prod} />)
         )
+        else
+          productLoading = (<Spin/>)
         return productLoading
     
     
@@ -54,7 +58,10 @@ function SearchResult({getProducts,match,data}) {
 
 
     return (
-      <Main item={renderItem} />
+      <div>
+        <Main item={renderItem} />
+        <LoadMore/>
+      </div>
     )
 }
 

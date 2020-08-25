@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import store from './redux/store';
 import history from "./utils/history"
 import { Provider } from 'react-redux';
-import { Router, Route, Switch } from 'react-router-dom';
+import { Router} from 'react-router-dom';
 
 ReactDOM.render(
   <Provider store={store}>

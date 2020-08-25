@@ -94,10 +94,17 @@
         width:100%;
     }
 
+    .image-medium-hidden{
+        display:none
+    }
+
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
+    .image-medium-hidden{
+        display:block
+    }
 
 }
 
@@ -109,11 +116,3 @@
 
 }
 
-.test{
-    position:relative;
-    min-height: 50vh;
-    max-height: 50vh;
-    min-width: 50vh;
-     /* overflow:auto;
-     height:auto; */
-}

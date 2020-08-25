@@ -1,5 +1,5 @@
-import React,{useEffect, useState,useRef} from 'react'
-import {Grid, Paper, Typography, Button, ButtonBase} from '@material-ui/core';
+import React,{useEffect,useRef} from 'react'
+import {Grid, Paper, Typography, Button,  Avatar} from '@material-ui/core';
 import { connect } from 'react-redux';
 import { removeFromCart } from './../redux/actions/cartActions'
 import { addToOrder, removeFromOrder,updateItemQuantity } from './../redux/actions/orderActions'
@@ -54,9 +54,9 @@ const updateQuantity = (e) =>{
             <input type="checkbox" id={item.cartItem.productId} onChange={handleChange} ref={checkRef}/>
           </Grid>
 
-          <Grid container spacing={2} xs={11}>
+          <Grid container item spacing={2} xs={11}>
             <Grid item xs={3} >
-                <img className='item-card-img'src={`https://fw-img-bucket.s3-ap-southeast-1.amazonaws.com/${item.imageUrl}`} />
+                <Avatar variant="square" style={{height:"100px", width:"100px"}}/>
             </Grid>
             <Grid item xs={7} container >
                 <Grid item xs={8}>
@@ -71,7 +71,7 @@ const updateQuantity = (e) =>{
                     onClick={() =>removeFromCart(item.cartItem.productId) }>Remove</Button>
                   </Typography>
                 </Grid>
-                <Grid item xs={4} direction='row' >
+                <Grid item container xs={4} direction='row' >
                   <Typography variant="subtitle1">${item.price}</Typography>
                 </Grid>
              

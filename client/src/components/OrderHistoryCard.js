@@ -1,12 +1,12 @@
 import React from 'react'
-import {Grid, Paper, Typography, Button, ButtonBase} from '@material-ui/core';
+import {Grid, Paper, Typography} from '@material-ui/core';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { connect } from 'react-redux'
 import HistoryCard from './HistoryCard'
 
 function OrderHistoryCard({item}) {
-
+    dayjs.extend(relativeTime);
     const renderProducts = () =>{
       return item.products.map((item) =><HistoryCard key={item.id} item={item}/>)
 

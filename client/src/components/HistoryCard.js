@@ -1,13 +1,13 @@
 import React from 'react'
-import {Grid,Typography} from '@material-ui/core';
+import {Grid,Typography,Avatar} from '@material-ui/core';
 
 function HistoryCard({item}) {
     // console.log(item)
     return (
-        <div>
+      
             <Grid container item xs={12} >
                     <Grid item xs={2}>
-                        <img src={`https://fw-img-bucket.s3-ap-southeast-1.amazonaws.com/${item.imageUrl}`} style={{height:'50px', width:'50px'}}/>
+                        <Avatar variant="square" style={{height:'50px', width:'50px'}}/>
                     </Grid>
                     <Grid item xs={10} container>
                         <Grid item xs container direction="column" spacing={2}>
@@ -24,7 +24,7 @@ function HistoryCard({item}) {
                 </Grid>
             </Grid>
        
-      </div>
+      
     )
 }
 

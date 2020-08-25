@@ -15,7 +15,8 @@ const initialState = {
     loading: false,
     ordersHistory:[],
     totalPrice : 0,
-    prodIDlist: []
+    prodIDlist: [],
+    myProductPage : 0
    };
 
 
@@ -25,6 +26,7 @@ const initialState = {
         return{
           ...state,
           loading: true
+          
         };
 
 
@@ -32,6 +34,7 @@ const initialState = {
         return{
           ...state,
           ordersHistory: action.payload,
+          myProductPage: action.count,
           loading: false
         };
 

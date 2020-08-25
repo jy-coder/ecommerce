@@ -1,5 +1,5 @@
 import React,{useEffect} from 'react';
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText,DialogTitle, Box, Input, TextField,NativeSelect} from '@material-ui/core';
+import {Button, Dialog, DialogActions, DialogContent, Box,TextField} from '@material-ui/core';
 import { connect } from 'react-redux';
 import {getReviewEdit, updateReview} from './../redux/actions/reviewActions'
 import history from '../utils/history';
@@ -13,7 +13,7 @@ import history from '../utils/history';
 
   useEffect(() => {
     getReviewEdit(prodId)
-  },[prodId]);
+  },[prodId, getReviewEdit]);
 
 
   const handleClickOpen = () => {

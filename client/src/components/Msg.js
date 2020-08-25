@@ -1,8 +1,7 @@
-import React,{useEffect} from 'react'
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText,DialogTitle,makeStyles} from '@material-ui/core';
+import React from 'react'
+import {Button, Dialog, DialogActions, DialogContent, DialogContentText} from '@material-ui/core';
 import { addToCart } from './../redux/actions/cartActions'
 import { connect } from 'react-redux';
-import { Spin } from './Spin';
 
 
 

@@ -1,6 +1,6 @@
-import React,{useEffect, useState,useRef} from 'react'
-import {Grid, Paper, Typography, Button, ButtonBase} from '@material-ui/core';
-import { connect } from 'react-redux';
+import React from 'react'
+import {Grid, Typography,Avatar} from '@material-ui/core';
+
 
 
 
@@ -11,7 +11,7 @@ const OrderCard = ({item}) => {
   
         <Grid container spacing={4}>
           <Grid item xs={3}>
-              <img className='order-modal-img' src={`https://fw-img-bucket.s3-ap-southeast-1.amazonaws.com/${item.imageUrl}`} style={{height:'50px', width:'50px'}}/>
+              <Avatar style={{height:'50px', width:'50px'}}/>
           </Grid>
           <Grid item xs={9} container>
             <Grid item xs container direction="row">

@@ -1,7 +1,5 @@
 import React,{useState} from "react";
-import { loadStripe } from "@stripe/stripe-js";
 import {
-  Elements,
   CardElement,
   useStripe,
   useElements
@@ -10,7 +8,6 @@ import {Button, Box, TextField, Typography} from '@material-ui/core';
 import{ confirmOrder} from './../redux/actions/orderActions'
 import{ makePayment } from './../redux/actions/paymentActions'
 import { connect } from 'react-redux';
-import { PAYMENT_SUCCESS } from "../redux/types";
 import { makeStyles } from '@material-ui/core/styles';
 
 

@@ -15,31 +15,18 @@ const s3 = require(path.join(__dirname,'./../utils/aws-handler'))
 
 
 
-exports.uploadAWSPhoto = uploadAWS.single('imageUrl')
-
-exports.uploadToAWS = catchAsync (async (req, res, next)  => {
-  // if (!req.file.key)
-  //   return next(new AppError('You must upload an image file', 404));
-
-  next()
-    //.key name of file
-    //.location = actual path in location
-  // return res.status(200).json({'imageUrl': req.file.key});
-})
-  
-
 
 
 exports.addProduct = catchAsync (async (req, res, next)  => {
-    req.body.imageUrl= req.file.key
 
-    const {title,imageUrl,price,description,subsubcategoryId} = req.body;
+  console.log(req.body)
+
+    const {title,price,description,subsubcategoryId} = req.body;
 
 
     const product =await req.user.createProduct({
         title: title,
         price: price,
-        imageUrl: imageUrl,
         description: description,
         subsubcategoryId: subsubcategoryId
     });
@@ -71,28 +58,42 @@ exports.addProduct = catchAsync (async (req, res, next)  => {
 
 
   exports.getAdminProducts = catchAsync (async (req, res, next)  => {
+    // console.log(req.user.id)
+    const page = req.query.page * 1 || 1;
+    const limit =  6;
+    const offset = (page - 1) * limit
+
+  
     const products =  await req.user.getProducts({
       attributes: { 
-        include: [[Sequelize.fn("AVG", Sequelize.col("rating")), "ratingAvg"],
-        [Sequelize.fn("COUNT", Sequelize.col("reviews.id")), "reviewCount"]
-    ] ,
-      
-        group: ['reviews.id']
-    },
+            include: [[Sequelize.fn("AVG", Sequelize.col("rating")), "ratingAvg"],
+                      [Sequelize.fn("COUNT", Sequelize.col("reviews.id")), "reviewCount"]
+                    ] ,group: ['reviews.id']
+                  },
     include: [
     { model:User },    
     {
         model: Review, attributes: [],
     }],
-    group: ['product.id','user.id']
+    group: ['product.id','user.id'],
+    order: [[Sequelize.col("createdAt"),'asc']],
+    limit: limit,
+    offset: offset,
+    subQuery:false
 
     })
 
+    const pagesQuery = await Product.findAndCountAll({
+      where:{userId: req.user.id}
+    })
+
+    const totalPage = Math.round(pagesQuery.count / limit)
+    // console.log(totalPage)
 
     if(!products)
         return next(new AppError('No product found', 404));
 
-    return res.status(200).json(products)
+    return res.status(200).json({products,totalPage})
      
   })
 
@@ -124,25 +125,17 @@ exports.addProduct = catchAsync (async (req, res, next)  => {
 
   //not using req.user because have to get -> edit
   exports.postEditProduct = catchAsync (async (req, res, next)  => {
+    // console.log(req.body.newProduct)
     // console.log(req.params.id)
     let checkUser =  req.user.getProducts({ where: { id: req.params.id}})
 
     if(!checkUser)
       return next(new AppError('You do not have permission to edit this product', 401));
 
-    if(req.file)
-      req.body.imageUrl= req.file.key
 
-    let updateValues = { 
-        title: req.body.title,
-        price: req.body.price,
-        imageUrl: req.body.imageUrl,
-        description: req.body.description,
-        subsubcategoryId: req.body.subsubcategoryId
+  
 
-    };
-
-    product = await Product.update(updateValues, { where: { id: req.params.id}})
+    product = await Product.update(req.body.newProduct, { where: { id: req.params.id}})
 
   //   console.log(req.body)
   //  const [count, product] = await Product.update(updateValues, { where: { id: req.params.id}, returning:'true'})

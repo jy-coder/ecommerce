@@ -1,17 +1,14 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {Button,Popper,Paper,MenuList, MenuItem,ClickAwayListener,Grow} from '@material-ui/core';
-import {Link, Redirect} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import {logoutUser} from './../redux/actions/userActions'
 import {MdMenu} from 'react-icons/md'
 
 const useStyles = makeStyles((theme) => ({
   container:{
     width:"100%",
-    // display: 'flex',
-    // justifyContent:'flex-start',
     position:'relative',
-    // marginLeft: '-15px'
     left: '-15px'
    
   },

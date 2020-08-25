@@ -4,20 +4,16 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import {Button,Grid, MenuItem, Menu}from '@material-ui/core';
+import {Button, Menu}from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import { connect } from 'react-redux';
-import { getProducts, loadMoreProducts, getCategories,setCategoryOpt,getSubcategories, setSubcategoryOpt} from '../redux/actions/productActions'
-import {Spin} from './Spin'
-import ProdCard from './ProdCard'
+import { getProducts,  getCategories,setCategoryOpt,getSubcategories, setSubcategoryOpt} from '../redux/actions/productActions'
 import NavBar from './Nav'
 import history from '../utils/history';
 
@@ -169,12 +165,12 @@ function Main({getProducts, getCategories,setCategoryOpt,item,data,setSubcategor
 
   const renderSubcategories = () =>{
   
-    const {subcategory, subsubcategory} = data
+    const {subcategory} = data
     if(subcategory.subcategories)
       var subcategoriesLoading = (
         subcategory.subcategories.map((subcat) =>
-            <div>
-                <Button key={subcat.id}  onMouseEnter={(e) => handleMouseSecond(e,subcat)}  aria-controls="simple-menu2"  aria-haspopup="true" className={classes.flexContent}>
+            <div  key={subcat.id}>
+                <Button  onMouseEnter={(e) => handleMouseSecond(e,subcat)}  aria-controls="simple-menu2"  aria-haspopup="true" className={classes.flexContent}>
                 {subcat.name}
                 </Button>
 
@@ -198,12 +194,6 @@ function Main({getProducts, getCategories,setCategoryOpt,item,data,setSubcategor
     return subcategoriesLoading
 }
 
-
-  const renderAllBtn = () =>(
-    <Button style={{padding:'0', position:'relative',left: '-10px'}}
-    onClick={()=> getProducts(data.limit,'',data.sortBy,data.orderBy)}
-    >ALL </Button>
-  )
 
   const closeAll = () =>{
     handleCloseSecond()

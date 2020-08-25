@@ -1,22 +1,17 @@
 import React, {useEffect} from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import {
-  Elements,
-  CardElement,
-  useStripe,
-  useElements
+  Elements
 } from "@stripe/react-stripe-js";
-import axios from "axios";
-import {Button, Box, TextField,Typography} from '@material-ui/core';
+import {Button, Typography} from '@material-ui/core';
 import{ confirmOrder} from './../redux/actions/orderActions'
 import { connect } from 'react-redux';
 import CheckoutForm from './../pages/CheckoutForm'
 import OrderCard from './../components/OrderCard'
 import {Spin} from './../components/Spin'
-import { makeStyles } from '@material-ui/core/styles';
 import history from './../utils/history'
 
-const useStyles = makeStyles((theme) => ({}))
+
 
 // you should use env variables here to not commit this
 // but it is a public key anyway, so not as sensitive
@@ -25,12 +20,11 @@ const stripePromise = loadStripe("pk_test_ESsbkBeGyyBXZIDneeiEoXGv00U6TfqHOR");
 const Payment = ({payment,orderData}) => {
   const {status,orderNum,loading} = payment
   const {orders} = orderData
-  const classes = useStyles();
 
 
   useEffect(() => {
 
-  },[status === "success" && orders, loading]);
+  },[status, orders, loading]);
 
 
   const renderOrders = () =>{
