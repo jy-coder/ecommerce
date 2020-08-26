@@ -25,7 +25,7 @@ const app = express();
 
 app.use(morgan('dev'));
 app.use(helmet());
-app.use(cors())
+app.use(cors({ origin: true }))
 
 
 // app.use(compression())
@@ -62,7 +62,7 @@ const port = process.env.PORT || 1337;
 
 
 
-// app.options('*',cors())
+app.options('*',cors({ origin: true }))
 app.use('/api/shop', shopRoute)
 app.use('/api/admin', adminRoute)
 app.use('/api/user', userRoute)
@@ -109,7 +109,6 @@ app.listen(port,() =>{
       console.log(`App running on port ${port}`)
     });
 app.use(globalErrorHandler)
-
 
 
 
