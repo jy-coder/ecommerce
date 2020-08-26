@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useRef} from "react";
 import {
   CardElement,
   useStripe,
@@ -59,6 +59,7 @@ const CheckoutForm = ({ orderData, makePayment }) => {
     const {totalPrice,orders} = orderData
     const [state, setState]= useState({email:'',name:'',price:0})
     let list = []
+    let btnRef = useRef();
   
     const getProdIdList = (orders, list) =>{
   
@@ -69,13 +70,17 @@ const CheckoutForm = ({ orderData, makePayment }) => {
   
     const handleSubmit = async event => {
       event.preventDefault()
+      if(btnRef.current){
+        btnRef.current.setAttribute("disabled", "disabled");
+      }
+      
       getProdIdList(orders,list)
       const { error, paymentMethod } = await stripe.createPaymentMethod({
         type: "card",
         card: elements.getElement(CardElement)
       });
 
-      console.log(error, paymentMethod)
+      // console.log(error, paymentMethod)
   
       if (!error) {
         const { id } = paymentMethod;
@@ -94,7 +99,7 @@ const CheckoutForm = ({ orderData, makePayment }) => {
     return (
       
     <div  className={classes.container}>
-      <form onSubmit={handleSubmit} className={classes.container}>
+      <form className={classes.container}>
       <Box className={classes.boxes}>
       <Typography variant="h6" component="div">
           Payment
@@ -114,7 +119,7 @@ const CheckoutForm = ({ orderData, makePayment }) => {
         <Box className={classes.payment} fontWeight="fontWeightBold">Total Payment: {totalPrice}</Box>
         
         <Box className={classes.btn}>
-            <Button type="submit" disabled={!stripe} onClick={handleSubmit}  variant="outlined">Pay</Button>
+            <Button type="submit" ref={btnRef}  disabled={!stripe || !totalPrice} onClick={handleSubmit}  variant="outlined">Pay</Button>
         </Box>
     </Box>
       </form>

@@ -15,11 +15,9 @@ const adminRoute = require('./routes/adminRoute')
 const shopRoute = require('./routes/shopRoute')
 const userRoute = require('./routes/userRoute')
 const AppError = require('./utils/AppError');
-const Subcategory = require('./models/subcategory')
-const Subsubcategory = require('./models/subsubcategory')
-const Category = require('./models/category')
 
-// dotenv.config({ path: './config.env' });
+
+dotenv.config({ path: './config.env' });
 
 const app = express();
 

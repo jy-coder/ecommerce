@@ -60,8 +60,10 @@ axios.interceptors.response.use(res => res, error => {
 class App extends Component {
   render() {
     const {authenticated} = this.props.user
-    const {payment} = this.props.payment
+    const {payment,loading,status} = this.props.payment
     // console.log(payment)
+
+    // console.log(status)
     let routes;
     if(authenticated){
       routes = (
@@ -75,7 +77,7 @@ class App extends Component {
             <Route exact path="/orderhistory" component={OrderHistory} />
             <Route exact path="/manage" component={MyProduct} />
             <Route exact path="/search/:searchQ" component={SearchResult} />
-            {payment ? <Route exact path="/payment" component={Payment}/> : <Redirect to="/" />}
+            {payment || status || loading ? <Route exact path="/payment" component={Payment}/> : <Redirect to="/" />}
             <Route component={My404Page} />
             <Redirect to="/" />
           </Switch>
