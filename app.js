@@ -22,10 +22,10 @@ const Category = require('./models/category')
 // dotenv.config({ path: './config.env' });
 
 const app = express();
-app.use(cors())
+
 app.use(morgan('dev'));
 app.use(helmet());
-
+app.use(cors({origin: '*'}))
 
 
 // app.use(compression())
@@ -62,7 +62,7 @@ const port = process.env.PORT || 1337;
 
 
 
-app.options('*',cors())
+app.options('*',cors({origin: '*'}))
 app.use('/api/shop', shopRoute)
 app.use('/api/admin', adminRoute)
 app.use('/api/user', userRoute)
