@@ -17,7 +17,7 @@ const userRoute = require('./routes/userRoute')
 const AppError = require('./utils/AppError');
 
 
-dotenv.config({ path: './config.env' });
+// dotenv.config({ path: './config.env' });
 
 const app = express();
 
