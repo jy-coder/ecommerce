@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 
 
-sequelize = new Sequelize(process.env.DATABASE_URL, {
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: 'postgres',
   protocol: 'postgres',
   dialectOptions: {
@@ -11,6 +11,17 @@ sequelize = new Sequelize(process.env.DATABASE_URL, {
     }
     }
 });
+
+
+// const sequelize = new Sequelize( 
+//   'ecommerce',
+//   'postgres',
+//   123456,
+//   {
+//     dialect: 'postgres',
+//   },
+// );
+
 
 
 
