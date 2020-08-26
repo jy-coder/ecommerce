@@ -61,7 +61,6 @@ const Payment = ({payment,orderData}) => {
  
 
   return (
-    console.log(loading),
     <Elements stripe={stripePromise}>
       <CheckoutForm/>
     </Elements>
