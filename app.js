@@ -96,7 +96,9 @@ require('./utils/initialize')()
 //sequelize seed:create --name seed_products_table
 //sequelize db:seed:all
 //sequelize db:seed:undo:all
-
+//find . ! -name '20200811144710-seed_products_table.js' -type f -exec rm -f {} +
+// [] client axios
+// [] server database
 
 
 
