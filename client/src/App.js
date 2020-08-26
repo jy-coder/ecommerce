@@ -109,7 +109,6 @@ class App extends Component {
     return (
  
         <div style={{height:'100%'}}>
-            {/* <Nav /> */}
             {routes}
           </div>
 
