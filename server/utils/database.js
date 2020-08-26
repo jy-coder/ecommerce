@@ -11,14 +11,6 @@ sequelize = new Sequelize(process.env.DATABASE_URL, {
     }
     }
 });
-// const sequelize = new Sequelize( 
-//     'ecommerce',
-//     'postgres',
-//     123456,
-//     {
-//       dialect: 'postgres',
-//     },
-// );
 
 
 
