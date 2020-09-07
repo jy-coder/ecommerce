@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import Main from './../components/Main'
 
 const Login = ({loginUser, errorData}) =>{
-// console.log(errorData)
     const [state, setState]= useState({email:'',password:''})
     const {error} = errorData
 

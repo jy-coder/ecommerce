@@ -1,43 +1,36 @@
-const path = require('path');
-const Product = require(path.join(__dirname,'../models/product'))
-const Review= require(path.join(__dirname,'../models/review'))
-const Order= require(path.join(__dirname,'../models/order'))
-const User= require(path.join(__dirname,'../models/user'))
+const Product = require('../models/product')
+const Review= require('../models/review')
+const Order= require('../models/order')
+const User= require('../models/user')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
-const catchAsync = require(path.join(__dirname,'../utils/catchAsync'))
-const AppError = require(path.join(__dirname,'../utils/AppError'))
-const Category = require(path.join(__dirname,'../models/category'))
-const Subcategory = require(path.join(__dirname,'../models/subcategory'))
-const Subsubcategory = require(path.join(__dirname,'../models/subsubcategory'))
-const OrderItem = require(path.join(__dirname,'../models/order-item'))
-const db = require('../utils/database');
+const catchAsync = require('../utils/catchAsync')
+const AppError = require('../utils/AppError')
+const Category = require('../models/category')
+const Subcategory = require('../models/subcategory')
+const Subsubcategory = require('../models/subsubcategory')
+const OrderItem = require('../models/order-item')
+
 
 
 
 exports.getProducts = catchAsync (async (req, res, next) => {
-    
- 
-    // const page = req.query.page * 1 || 1;
     const sortBy = req.query.sortBy || 'reviewCount'
     const orderBy = req.query.orderBy || 'asc'
-    const limit = req.query.limit* 1 || 6; //setted by me
-    // const offset = (page - 1) * limit
+    const limit = req.query.limit* 1 || 6; 
+
 
     let orderSort =[[sortBy, orderBy]];
     let whereQuery ={title: {[Op.ne]: null}}
-    // let nameQuery ={name: {[Op.ne]: null}}
 
     if (sortBy === 'reviewCount')
         orderSort = [[Sequelize.col("reviewCount"),'desc']]
     if (req.query.search)
         whereQuery = {title: {[Op.iLike]:`%${req.query.search}%`}}
     else if(req.query.category){
-        // console.log(req.query.category)
         str = req.query.category
         subsubId = parseInt(str.charAt(0))
         categoryName = str.slice(1,str.length)
-        // nameQuery ={name: categoryName}
         whereQuery = {subsubcategoryId: subsubId}
         
 
@@ -80,7 +73,6 @@ exports.getProducts = catchAsync (async (req, res, next) => {
 
 
 exports.getProduct = catchAsync (async (req, res, next)  => {
-    //   console.log(req.params.id)
     product  = await Product.findOne({
         where: {id: req.params.id},
         attributes: { 
@@ -120,7 +112,7 @@ exports.getCart =catchAsync( async (req, res, next) => {
         return next(new AppError('No cart found', 404));
 
     products = await cart.getProducts()
-    // console.log(products)
+ 
     res.status(200).json(products)
 })
 
@@ -157,10 +149,6 @@ exports.addToCart =catchAsync( async (req, res, next) => {
         returning:true
     
     })
-
-    // updatedCart = await req.user.getCart()
-    // updatedProducts = await updatedCart.getProducts()
-
     
     res.status(200).json('Sucessfully added to cart')
 })
@@ -181,8 +169,6 @@ exports.deleteFromCart =catchAsync( async (req, res, next) => {
         await product.cartItem.destroy()
 
     }
-    // const newCart = await req.user.getCart()
-    // const newCartWithProduct = await newCart.getProducts()
 
     const newCartWithProduct = await cart.getProducts()
     res.status(200).json(newCartWithProduct)
@@ -215,7 +201,6 @@ exports.addOrder =catchAsync( async (req, res, next) => {
         const order = await req.user.createOrder()
         await order.addProduct( 
             products.map(product => {
-            // console.log(product.cartItem.quantity)
             product.orderItem = { quantity: product.cartItem.quantity };
             return product
         }))
@@ -223,14 +208,6 @@ exports.addOrder =catchAsync( async (req, res, next) => {
 
   
       await cart.setProducts(cartItemsNotSelected,{through:{quantity:1}})
-
-
-
-    //   await cart.setProducts([])
-  
-
-
-
 
 
     res.status(200).json('Order Successfully added')
@@ -257,9 +234,7 @@ exports.getOrders = catchAsync( async (req, res, next) => {
         where:{userId: req.user.id}
       })
 
-    //   console.log(pagesQuery.count)
       const totalPage = Math.round(pagesQuery.count / limit)
-      console.log(totalPage)
       
     res.status(200).json({orders, totalPage})
   });
@@ -336,8 +311,7 @@ if(!productExist)
 
 const reviewAdded = await req.user.createReview({text:req.body.text, productId:req.body.prodId, rating:req.body.rating})
 
-   
-// const review = await Review.findOne({where: {id:reviewAdded.id}, include:[{model:User, attributes:['name']}]})
+
 
 res.status(200).json()
 });
@@ -377,64 +351,5 @@ exports.getCategories = catchAsync (async (req, res, next)  => {
  
 
 
-  exports.makePayment = catchAsync(async (req, res, next) => {
-    let transaction
-    let order
-    try{
-        transaction =  await db.transaction({ autocommit: false });
-        order = await req.user.createOrder({},{transaction})
-        
-        await transaction.commit();
 
-        const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
-        const { id, amount } = req.body
-        let finalamount = amount * 100
-        const payment = await stripe.paymentIntents.create({
-            amount : finalamount ,
-            currency: "SGD",
-            description: `Order ${order.id}` ,
-            payment_method: id,
-            confirm: true
-        });
-    }catch(err){
-        console.log(err)
-        await transaction.rollback();
-        res.status(404).json('Something went wrong')
-    }
-
-        
-
-        const cart = await req.user.getCart()
-        const cartItemsNotSelected = await cart.getProducts({ where: { id:  {[Op.notIn] : req.body.prodIdList} }});
-        const itemToBeAddedToOrder = req.body.orders
-
-        //empty the cart such that cart only contains the selected products
-        await cart.setProducts([])
-    
-        //add selected products
-      const addedSelected = await Promise.all(itemToBeAddedToOrder.map(async(item) => {
-        const newProduct = await Product.findByPk(item.productId)
-        await cart.addProduct(newProduct,{
-            through:{quantity: item.quantity}     
-        })
-    }));
-    
-    //get cart which now only contain selected items
-    const products = await cart.getProducts() 
-    //              ___________________        
-    //              |    Products     |
-    //transfer cart items -> order items 
-    const addedToOrder = await order.addProduct(products.map(product => {
-        product.orderItem = { quantity: product.cartItem.quantity };
-        return product
-    }))
-    //set cart to unselected items
-    const newCart = await cart.setProducts(cartItemsNotSelected,{through:{quantity:1}})
-
-    return res.status(200).json({orderId: `${order.id}`})
-    
-
-   
-
-  });
 

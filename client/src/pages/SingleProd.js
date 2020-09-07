@@ -23,7 +23,6 @@ const SingleProd = ({getProduct,loading, data, match, user}) => {
 
 
       const renderAddToCart = () =>{
-        // console.log(product.id)
         return <Msg prodId={product.id}/>
       }
 

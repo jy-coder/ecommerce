@@ -80,7 +80,6 @@ const CheckoutForm = ({ orderData, makePayment }) => {
         card: elements.getElement(CardElement)
       });
 
-      // console.log(error, paymentMethod)
   
       if (!error) {
         const { id } = paymentMethod;

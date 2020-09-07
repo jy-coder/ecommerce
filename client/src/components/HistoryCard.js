@@ -2,7 +2,7 @@ import React from 'react'
 import {Grid,Typography,Avatar} from '@material-ui/core';
 
 function HistoryCard({item}) {
-    // console.log(item)
+   
     return (
       
             <Grid container item xs={12} >

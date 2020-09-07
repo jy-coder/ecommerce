@@ -53,7 +53,6 @@ const initialState = {
             };
 
       case UPDATE_ITEM_ORDER:
-        // console.log(action.id,action.quantity)
         return {
           ...state,
           orders: state.orders.map(order =>

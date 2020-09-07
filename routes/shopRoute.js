@@ -1,7 +1,6 @@
 const express = require('express');
-const path = require('path');
-const shopController = require(path.join(__dirname,'../controllers/shopController'))
-const authController = require(path.join(__dirname,'../controllers/authController'))
+const shopController = require('../controllers/shopController')
+const authController = require('../controllers/authController')
 
 const router = express.Router();
 
@@ -35,7 +34,7 @@ router.post('/addReview',shopController.addReview);
 router.patch('/updateReview/:prodId', shopController.editMyReview)
 router.get('/getMyReview/:prodId', shopController.getMyReview)
 
-router.post('/charge', shopController.makePayment)
+
 router.get('/test', shopController.test)
 
 module.exports = router;

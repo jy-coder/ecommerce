@@ -30,15 +30,12 @@ import { addToOrder, removeFromOrder,updateItemQuantity } from './../redux/actio
 
 
 const updateQuantity = (e) =>{
-  // console.log(quantityRef.current.value)
-  // console.log(item.cartItem.productId)
+
   if(checkRef.current.checked === true){
     updateItemQuantity(item.cartItem.productId,quantityRef.current.value)
   }
 
-//   removeFromOrder(item.cartItem.productId)
-//  checkRef.current.checked = false
-  // checkRef.current.value.checked = false
+
 }
 
 

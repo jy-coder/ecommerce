@@ -21,13 +21,12 @@ import {
         });
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       });
   };
 
 
   export const addToCart = (prodId) => (dispatch) => {
-    console.log(prodId)
     dispatch({type: ADD_TO_CART})
     axios
       .post('shop/addcart', {prodId})
@@ -38,7 +37,7 @@ import {
         });
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       });
   };
 
@@ -58,7 +57,7 @@ import {
      
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       });
   };
 

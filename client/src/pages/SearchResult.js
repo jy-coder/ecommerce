@@ -11,7 +11,6 @@ import {Spin} from '../components/Spin'
 
 
 function SearchResult({getProducts,match,data}) {
-    // console.log(match.params.searchQ)
     let search = match.params.searchQ
 
 
