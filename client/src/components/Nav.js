@@ -49,14 +49,23 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     justifyContent:"center",
     
+    
   },
   toggle: {
     [theme.breakpoints.up("sm")]: {
       display: "none"
     },
+  },
+  shopBtn: {
+    [theme.breakpoints.up("sm")]: {
+      position:'relative',
+      left: '-600px'
+    }
   }
 }));
 
+
+//can add functionality => more responsive for category portion & search bar
 function Nav({user,logoutUser,item}) {
   const {authenticated} = user
   const classes = useStyles();
@@ -93,7 +102,11 @@ function Nav({user,logoutUser,item}) {
       </Typography>
       <Typography variant="h6" className={classes.title}>
         {item ? item: null}
-        <Button color="inherit" href="/">Shop</Button>
+    
+      </Typography>
+
+      <Typography variant="h6">
+          <Button color="inherit" href="/" className={classes.shopBtn}>Shop</Button>
       </Typography>
       <Typography variant="h6" className={classes.search}>
         <SearchBar/>
@@ -123,6 +136,10 @@ function Nav({user,logoutUser,item}) {
                     <MenuItem onClick={handleClose} ><Link to ="/manage" className='remove-underline'>Manage My Products</Link></MenuItem>
                     <MenuItem onClick={handleClose} ><Link to ="/orderhistory" className='remove-underline'>Order History</Link></MenuItem>
                     <MenuItem onClick={() => logoutUser()}>Logout</MenuItem>
+                    <div>
+
+
+                    </div>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

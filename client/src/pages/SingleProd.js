@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import {Grid, Paper, Typography,  Divider,Avatar} from '@material-ui/core';
+import {Grid, Paper, Typography,  Divider,Avatar,makeStyles} from '@material-ui/core';
 import { connect } from 'react-redux';
 import { Spin } from './../components/Spin'
 import  Msg  from './../components/Msg'
@@ -9,9 +9,22 @@ import Wrapper from './../components/Wrapper'
 import Main from './../components/Main'
 import ReviewInput from './../components/ReviewInput'
 
+const useStyles = makeStyles((theme) => ({
+ pic: {
+  [theme.breakpoints.down("xs")]: {
+    display: "none"
+  },
+  width: '200px',
+  height: '200px'
+  }
+}))
+
+
+
+
 
 const SingleProd = ({getProduct,loading, data, match, user}) => {
-
+  const classes = useStyles();
   const {product} = data
 
     useEffect(() => {
@@ -30,7 +43,7 @@ const SingleProd = ({getProduct,loading, data, match, user}) => {
         
         <Grid item xs={12} container>
           <Grid item container direction="column" spacing={2} xs={12} sm={4} style={{marginRight:'auto'}}>
-              <Avatar variant="square" style={{width: '200px', height:'200px'}}/>
+              <Avatar variant="square" className={classes.pic}/>
           </Grid>
           <Grid item xs={12} sm={7} style={{textAlign:'center'}}>
             <Typography gutterBottom variant="h5" className='single-product-typo'>{product.title}</Typography>

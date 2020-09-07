@@ -13,14 +13,13 @@ import history from './../utils/history'
 
 
 
-// you should use env variables here to not commit this
-// but it is a public key anyway, so not as sensitive
-const stripePromise = loadStripe("pk_test_ESsbkBeGyyBXZIDneeiEoXGv00U6TfqHOR");
+
+
 
 const Payment = ({payment,orderData}) => {
+  const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
   const {status,orderNum,loading} = payment
   const {orders} = orderData
-
 
   useEffect(() => {
 

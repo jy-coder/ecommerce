@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
-
+//can add functionality => enable pay button only if all  text field are filled 
 const CheckoutForm = ({ orderData, makePayment }) => {
   const classes = useStyles();
     const stripe = useStripe();
@@ -105,11 +105,11 @@ const CheckoutForm = ({ orderData, makePayment }) => {
         </Typography>
         
         <Box>
-            <TextField type="email" required  id="email"  onChange={inputChangeHandler} label='Email' fullWidth/>
+            <TextField type="email" required={true}  id="email"  onChange={inputChangeHandler} label='Email' fullWidth/>
         </Box>
 
         <Box>
-            <TextField   id="name" required onChange={inputChangeHandler}  label='Name' fullWidth/>
+            <TextField   id="name" required={true} onChange={inputChangeHandler}  label='Name' fullWidth/>
         </Box>
 
         
