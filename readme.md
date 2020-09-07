@@ -14,7 +14,8 @@ Run the client server only
 npm install<br/>
 npm run start<br/>
 
-
+## Heroku deployment
+https://pern-shop-ecommerce.herokuapp.com/
 
 
 Server runs on http://localhost:1337 and client on http://localhost:3000
