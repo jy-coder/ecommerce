@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
   shopBtn: {
     [theme.breakpoints.up("sm")]: {
       position:'relative',
-      left: '-600px'
+      left: '-200px'
     }
   }
 }));
